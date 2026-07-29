@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cadastro - Organizador Acadêmico</title>
+
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <main class="container">
+    <section class="card">
+      <div class="logo">OA</div>
+
+      <h1>Criar conta</h1>
+      <p>Cadastre-se para começar a organizar sua rotina acadêmica.</p>
+
+      <form id="formCadastro">
+        <input type="text" id="nome" placeholder="Nome completo" required>
+        <input type="email" id="email" placeholder="E-mail" required>
+        <input type="password" id="senha" placeholder="Senha" required>
+
+        <button type="submit">Cadastrar</button>
+      </form>
+
+      <div id="mensagemCadastro" class="resultado">
+        Preencha os dados para criar sua conta.
+      </div>
+    </section>
+  </main>
+
+  <script src="js/config.js"></script>
+  <script src="js/cadastro.js"></script>
+</body>
+</html>
