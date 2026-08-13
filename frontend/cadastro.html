@@ -10,23 +10,29 @@
 <body>
 
   <main class="container">
-    <section class="card">
-      <div class="logo">OA</div>
-
-      <h1>Criar conta</h1>
-      <p>Cadastre-se para começar a organizar sua rotina acadêmica.</p>
+    <section class="cadastro">
+      <h1 id="tituloCadastro">Criar conta</h1>
 
       <form id="formCadastro">
         <input type="text" id="nome" placeholder="Nome completo" required>
         <input type="email" id="email" placeholder="E-mail" required>
-        <input type="password" id="senha" placeholder="Senha" required>
+    
+        <div class="campo-senha">
+         <input type="password" id="senha" placeholder="Senha" required>
+        
+        </div>
+         <input type="password" id="ConfirmarSenha" placeholder="Confirmar Senha" required>
 
-        <button type="submit">Cadastrar</button>
+        <button id="botaoCadastrar" type="submit">Cadastrar</button>
       </form>
 
-      <div id="mensagemCadastro" class="resultado">
-        Preencha os dados para criar sua conta.
-      </div>
+
+          <div class="resultado">
+                    <label class="confirmacao">
+                        <input type="checkbox" href="check.html" id="confirmacao" required>
+                        <span>Leia os termos e marque a caixa para <a href="check.html">confirmar.</a></span>
+                    </label>
+                </div>      
     </section>
   </main>
 

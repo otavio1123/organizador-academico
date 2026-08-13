@@ -24,3 +24,120 @@ input:focus {
 input::placeholder {
   color: #94a3b8;
 }
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f2f2f2;
+}
+
+main {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.caixa-login {
+    width: 400px;
+    padding: 30px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+}
+
+.caixa-login h1 {
+    text-align: center;
+    margin-top: 0;
+    margin-bottom: 25px;
+}
+
+#formConfirmar {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+#formConfirmar input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+#botaoConfirmar {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #00b1ff;
+}
+
+.resultado {
+    margin-top: 15px;
+    text-align: center;
+}
+
+/*parte do cadastro*/
+.cadastro{
+    width: 400px;
+    padding: 30px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);    
+}
+#tituloCadastro{
+    text-align: center;
+    margin: 0;
+    margin-bottom: 25px;    
+}
+#botaoCadastrar{
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #00b1ff;
+}
+
+
+/*parte dos tremos*/
+
+.Termos{
+    width: 400px;
+    padding: 30px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);    
+}
+
+.confirmacao {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+}
+
+.confirmacao input {
+    width: auto;
+    margin: 0;
+}
+
+/*olho senha*/
+#senha {
+    position: relative;
+    width: 100%;
+}
+
+.campo-senha input {
+    width: 100%;
+    box-sizing: border-box;
+    padding-right: 40px;
+}

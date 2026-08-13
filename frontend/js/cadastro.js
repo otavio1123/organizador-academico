@@ -1,6 +1,26 @@
 const formCadastro = document.getElementById("formCadastro");
 const mensagemCadastro = document.getElementById("mensagemCadastro");
 
+  const senha = document.getElementById("senha");
+
+  senha.style.paddingRight = "40px";
+
+  const olho = document.createElement("span");
+  olho.innerHTML = "👁";
+  olho.style.position = "absolute";
+  olho.style.right = "12px";
+  olho.style.cursor = "pointer";
+  olho.style.top = "50%";
+  olho.style.transform = "translateY(-50%)";
+  
+  senha.parentElement.style.position = "relative";
+  senha.parentElement.appendChild(olho);
+
+  olho.onclick = function () {
+      senha.type = senha.type === "password" ? "text" : "password";
+  };
+
+
 formCadastro.addEventListener("submit", async (event) => {
   event.preventDefault();
 
@@ -38,4 +58,6 @@ formCadastro.addEventListener("submit", async (event) => {
     mensagemCadastro.textContent = "Erro ao cadastrar. Verifique o backend e o banco.";
     console.error("Erro:", erro);
   }
+
+
 });

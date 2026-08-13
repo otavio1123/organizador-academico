@@ -7,24 +7,32 @@
 
   <link rel="stylesheet" href="css/style.css">
 </head>
+
 <body>
 
-  <main class="container">
-    <section class="card">
-      <div class="logo">OA</div>
+  <main>
+    <section class="caixa-login">
 
-      <h1>Organizador Acadêmico</h1>
-      <p>Painel para controle de semestres, disciplinas, atividades, notas e horas acadêmicas.</p>
+      <h1>Login</h1>
 
-      <button id="btnTestarApi">Testar conexão com API</button>
+      <form id="formConfirmar">
 
-      <div id="resultadoApi" class="resultado">
-        Aguardando teste...
+        <input type="email" id="email" placeholder="E-mail" required>
+        <input type="password" id="senha" placeholder="Senha" required>
+
+        <button id="botaoConfirmar" type="submit">Confirmar</button>
+
+      </form>
+
+      <div id="mensagemCadastro" class="resultado">
+       <p>Deseja criar um <a href="cadastro.html">cadastro?</a></p>
       </div>
+
     </section>
   </main>
 
   <script src="js/config.js"></script>
   <script src="js/teste-api.js"></script>
+
 </body>
 </html>
