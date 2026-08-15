@@ -1,3 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Serif+Display:ital@0;1&display=swap');
+
+
 form {
   display: flex;
   flex-direction: column;
@@ -35,7 +38,9 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #f2f2f2;
+    background: linear-gradient(135deg, #f1f0ff, #dddafe);
+    font-family: 'DM Sans', sans-serif;
+    color: #111;
 }
 
 main {
@@ -81,34 +86,51 @@ main {
 }
 
 .resultado {
-    margin-top: 15px;
-    text-align: center;
+    margin-top: 22px;
+    width: 100%;
+    background-color: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 14px 16px;
 }
+
 
 /*parte do cadastro*/
-.cadastro{
-    width: 400px;
-    padding: 30px;
+.cadastro {
+    width: 520px;
+    padding: 45px;
     background-color: white;
-    border-radius: 10px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);    
+    border-radius: 18px;
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.12);
 }
-#tituloCadastro{
+
+#tituloCadastro {
     text-align: center;
     margin: 0;
-    margin-bottom: 25px;    
+    margin-bottom: 32px;
+    font-family: 'DM Serif Display', serif;
+    font-size: 34px;
+    color: #111;
 }
-#botaoCadastrar{
+
+#botaoCadastrar {
     width: 100%;
-    padding: 12px;
+    padding: 16px;
     border: none;
-    border-radius: 5px;
+    border-radius: 10px;
     cursor: pointer;
-    background-color: #00b1ff;
+    background-color: #0057FF;
+    color: white;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
 }
 
+#botaoCadastrar:hover {
+    background-color: #0047cc;
+}
 
-/*parte dos tremos*/
+/*parte dos termos*/
 
 .Termos{
     width: 400px;
@@ -121,14 +143,38 @@ main {
 .confirmacao {
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 12px;
     cursor: pointer;
+    font-size: 15px;
+    line-height: 1.4;
+    color: #111;
 }
 
-.confirmacao input {
-    width: auto;
-    margin: 0;
+.confirmacao span {
+    display: inline-block;
 }
+
+.confirmacao a {
+    color: #0057FF;
+    font-weight: 700;
+    text-decoration: none;
+    transition: color 0.3s ease, text-decoration 0.3s ease;
+}
+
+.confirmacao a:hover {
+    color: #003bb3;
+    text-decoration: underline;
+}
+
+
+.confirmacao input {
+    width: 16px;
+    height: 16px;
+    margin: 0;
+    flex-shrink: 0;
+    accent-color: #0057FF;
+}
+
 
 /*olho senha*/
 #senha {
