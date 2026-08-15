@@ -6,12 +6,13 @@
   <title>Cadastro - Organizador Acadêmico</title>
 
   <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 </head>
 <body>
 
   <main class="container">
     <section class="cadastro">
-      <h1 id="tituloCadastro">Criar conta</h1>
+      <h1 id="tituloCadastro">Criar Conta</h1>
 
       <form id="formCadastro">
         <input type="text" id="nome" placeholder="Nome completo" required>
@@ -19,13 +20,14 @@
     
         <div class="campo-senha">
          <input type="password" id="senha" placeholder="Senha" required>
-        
         </div>
-         <input type="password" id="ConfirmarSenha" placeholder="Confirmar Senha" required>
+
+          <div class="campo-senha">
+           <input type="password" id="ConfirmarSenha" placeholder="Confirmar Senha" required>
+          </div>
 
 <button id="botaoCadastrar" type="submit">Cadastrar</button>
 
-<p id="mensagemCadastro"></p>
 </form>
 
           <div class="resultado">
@@ -36,7 +38,7 @@
                 </div>      
     </section>
   </main>
-
+ <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script src="js/config.js"></script>
   <script src="js/cadastro.js"></script>
 </body>
