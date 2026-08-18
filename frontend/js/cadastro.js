@@ -82,37 +82,42 @@ formCadastro.addEventListener("submit", async (event) => {
 
   try {
 
-    const resposta = await fetch(`${API_URL}/usuarios`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(usuario)
+  const resposta = await fetch(`${API_URL}/usuarios`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(usuario)
+  });
+
+  const dados = await resposta.json();
+
+  if (!resposta.ok) {
+    Swal.fire({
+      icon: "error",
+      title: "Cadastro inválido",
+      text: dados.mensagem || "Por favor, verifique os campos acima."
     });
 
-    if (!resposta.ok) {
-      throw new Error("Erro ao cadastrar usuário.");
-    }
-
-    const usuarioCadastrado = await resposta.json();
-
-    Swal.fire({
-      icon: "success",
-      title: "Sucesso!",
-      text: "Cadastro realizado com sucesso",
-      confirmButtonText: "Continuar"
-   }).then(() => {
-      formCadastro.reset();
-      window.location.href = "index.html";
-   })
-
-  } catch (erro) {
-    Swal.fire({
-        icon: "error",
-        title: "Cadastro inválido",
-        text: "Por favor, verifique os campos acima"
-      });
+    return;
   }
 
+  Swal.fire({
+    icon: "success",
+    title: "Sucesso!",
+    text: "Cadastro realizado com sucesso",
+    confirmButtonText: "Continuar"
+  }).then(() => {
+    formCadastro.reset();
+    window.location.href = "index.html";
+  });
+
+} catch (erro) {
+  Swal.fire({
+    icon: "error",
+    title: "Erro de conexão",
+    text: "Não foi possível conectar ao servidor."
+  });
+}
 
 });
