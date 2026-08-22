@@ -15,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 @RestController
+
 @CrossOrigin(origins = "*")
 public class UsuarioController {
 
@@ -43,6 +44,52 @@ public ResponseEntity<?> cadastrar(@RequestBody Usuario usuario) {
             .status(HttpStatus.CREATED)
             .body(usuarioSalvo);
 }
+
+
+@PostMapping("/usuarios/login")
+public ResponseEntity<?> login(@RequestBody Usuario usuario) {
+
+    System.out.println("===== LOGIN =====");
+    System.out.println("E-mail recebido: " + usuario.getEmail());
+    System.out.println("Senha recebida: " + usuario.getSenha());
+
+    var usuarioEncontrado = usuarioRepository.findByEmail(usuario.getEmail());
+
+    System.out.println("Usuário encontrado: " + usuarioEncontrado.isPresent());
+
+    if (usuarioEncontrado.isEmpty()) {
+        System.out.println("ERRO: E-mail não encontrado.");
+
+        return ResponseEntity
+                .status(HttpStatus.UNAUTHORIZED)
+                .body(Map.of("mensagem", "E-mail ou senha inválidos."));
+    }
+
+    Usuario usuarioBanco = usuarioEncontrado.get();
+
+    System.out.println("E-mail no banco: " + usuarioBanco.getEmail());
+    System.out.println("Hash da senha no banco: " + usuarioBanco.getSenha());
+
+    boolean senhaCorreta = passwordEncoder.matches(
+            usuario.getSenha(),
+            usuarioBanco.getSenha()
+    );
+
+    System.out.println("Senha confere: " + senhaCorreta);
+
+    if (!senhaCorreta) {
+        System.out.println("ERRO: Senha incorreta.");
+
+        return ResponseEntity
+                .status(HttpStatus.UNAUTHORIZED)
+                .body(Map.of("mensagem", "E-mail ou senha inválidos."));
+    }
+
+    System.out.println("LOGIN REALIZADO COM SUCESSO!");
+
+    return ResponseEntity.ok(usuarioBanco);
+}
+
 
     @GetMapping("/usuarios")
     public List<Usuario> listar() {
