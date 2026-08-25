@@ -9,13 +9,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
 import com.organizador.api.model.Usuario;
 import com.organizador.api.repository.UsuarioRepository;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 @RestController
-
 @CrossOrigin(origins = "*")
 public class UsuarioController {
 
@@ -26,70 +27,51 @@ public class UsuarioController {
         this.usuarioRepository = usuarioRepository;
     }
 
-@PostMapping("/usuarios")
-public ResponseEntity<?> cadastrar(@RequestBody Usuario usuario) {
+    @PostMapping("/usuarios")
+    public ResponseEntity<?> cadastrar(@RequestBody Usuario usuario) {
 
-    if (usuarioRepository.existsByEmail(usuario.getEmail())) {
-        return ResponseEntity
-                .status(HttpStatus.CONFLICT)
-                .body(Map.of("mensagem", "E-mail já cadastrado."));
-    }
+        if (usuarioRepository.existsByEmail(usuario.getEmail())) {
+            return ResponseEntity
+                    .status(HttpStatus.CONFLICT)
+                    .body(Map.of("mensagem", "E-mail já cadastrado."));
+        }
 
-    String senhaCriptografada = passwordEncoder.encode(usuario.getSenha());
-    usuario.setSenha(senhaCriptografada);
+        String senhaCriptografada = passwordEncoder.encode(usuario.getSenha());
+        usuario.setSenha(senhaCriptografada);
 
-    Usuario usuarioSalvo = usuarioRepository.save(usuario);
-
-    return ResponseEntity
-            .status(HttpStatus.CREATED)
-            .body(usuarioSalvo);
-}
-
-
-@PostMapping("/usuarios/login")
-public ResponseEntity<?> login(@RequestBody Usuario usuario) {
-
-    System.out.println("===== LOGIN =====");
-    System.out.println("E-mail recebido: " + usuario.getEmail());
-    System.out.println("Senha recebida: " + usuario.getSenha());
-
-    var usuarioEncontrado = usuarioRepository.findByEmail(usuario.getEmail());
-
-    System.out.println("Usuário encontrado: " + usuarioEncontrado.isPresent());
-
-    if (usuarioEncontrado.isEmpty()) {
-        System.out.println("ERRO: E-mail não encontrado.");
+        Usuario usuarioSalvo = usuarioRepository.save(usuario);
 
         return ResponseEntity
-                .status(HttpStatus.UNAUTHORIZED)
-                .body(Map.of("mensagem", "E-mail ou senha inválidos."));
+                .status(HttpStatus.CREATED)
+                .body(usuarioSalvo);
     }
 
-    Usuario usuarioBanco = usuarioEncontrado.get();
+    @PostMapping("/usuarios/login")
+    public ResponseEntity<?> login(@RequestBody Usuario usuario) {
 
-    System.out.println("E-mail no banco: " + usuarioBanco.getEmail());
-    System.out.println("Hash da senha no banco: " + usuarioBanco.getSenha());
+        var usuarioEncontrado = usuarioRepository.findByEmail(usuario.getEmail());
 
-    boolean senhaCorreta = passwordEncoder.matches(
-            usuario.getSenha(),
-            usuarioBanco.getSenha()
-    );
+        if (usuarioEncontrado.isEmpty()) {
+            return ResponseEntity
+                    .status(HttpStatus.UNAUTHORIZED)
+                    .body(Map.of("mensagem", "E-mail ou senha inválidos."));
+        }
 
-    System.out.println("Senha confere: " + senhaCorreta);
+        Usuario usuarioBanco = usuarioEncontrado.get();
 
-    if (!senhaCorreta) {
-        System.out.println("ERRO: Senha incorreta.");
+        boolean senhaCorreta = passwordEncoder.matches(
+                usuario.getSenha(),
+                usuarioBanco.getSenha()
+        );
 
-        return ResponseEntity
-                .status(HttpStatus.UNAUTHORIZED)
-                .body(Map.of("mensagem", "E-mail ou senha inválidos."));
+        if (!senhaCorreta) {
+            return ResponseEntity
+                    .status(HttpStatus.UNAUTHORIZED)
+                    .body(Map.of("mensagem", "E-mail ou senha inválidos."));
+        }
+
+        return ResponseEntity.ok(usuarioBanco);
     }
-
-    System.out.println("LOGIN REALIZADO COM SUCESSO!");
-
-    return ResponseEntity.ok(usuarioBanco);
-}
-
 
     @GetMapping("/usuarios")
     public List<Usuario> listar() {

@@ -1,42 +1,77 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Organizador Acadêmico</title>
+
+  <title>Login | Organizador Acadêmico</title>
 
   <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+  >
 </head>
 
 <body>
 
-  <main>
+  <main class="pagina-login">
+
     <section class="caixa-login">
 
       <h1>Login</h1>
 
-      <form id="formConfirmar">
+      <form id="formConfirmar" class="form-login">
 
-        <input type="email" id="email" placeholder="E-mail" required>
-        <input type="password" id="senha" placeholder="Senha" required>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          placeholder="E-mail"
+          autocomplete="email"
+          required
+        >
 
-        <button id="botaoConfirmar" type="submit">Confirmar</button>
+        <input
+          type="password"
+          id="senha"
+          name="senha"
+          placeholder="Senha"
+          autocomplete="current-password"
+          required
+        >
+
+        <button id="botaoConfirmar" type="submit">
+          Entrar
+        </button>
 
       </form>
 
-      <div id="mensagemCadastro" class="resultado">
-       <p>Deseja criar um <a href="cadastro.html">cadastro?</a></p>
-       <p>Esqueceu a senha?<a href="Recuperar.html"> Recupere o acesso.</a></p>
+      <div class="opcoes-login">
+
+        <p>
+          Não possui uma conta?
+          <a href="cadastro.html">Cadastre-se</a>
+        </p>
+
+        <p>
+          Esqueceu a senha?
+          <a href="Recuperar.html">Recupere o acesso</a>
+        </p>
+
       </div>
 
     </section>
-  </main>
-  
- <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+  <script src="js/config.js"></script>
   <script src="js/login.js"></script>
-<script src="js/config.js"></script>
+
 </body>
+
 </html>

@@ -1,47 +1,99 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <title>Cadastro - Organizador Acadêmico</title>
 
   <link rel="stylesheet" href="css/style.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+  >
 </head>
+
 <body>
 
   <main class="container">
+
     <section class="cadastro">
+
       <h1 id="tituloCadastro">Criar Conta</h1>
 
       <form id="formCadastro">
-        <input type="text" id="nome" placeholder="Nome completo" required>
-        <input type="email" id="email" placeholder="E-mail" required>
-    
+
+        <input
+          type="text"
+          id="nome"
+          placeholder="Nome completo"
+          required
+        >
+
+        <input
+          type="email"
+          id="email"
+          placeholder="E-mail"
+          required
+        >
+
         <div class="campo-senha">
-         <input type="password" id="senha" placeholder="Senha" required>
+          <input
+            type="password"
+            id="senha"
+            placeholder="Senha"
+            required
+          >
         </div>
 
-          <div class="campo-senha">
-           <input type="password" id="ConfirmarSenha" placeholder="Confirmar Senha" required>
-          </div>
+        <div class="campo-senha">
+          <input
+            type="password"
+            id="ConfirmarSenha"
+            placeholder="Confirmar Senha"
+            required
+          >
+        </div>
 
-<button id="botaoCadastrar" type="submit">Cadastrar</button>
+        <button id="botaoCadastrar" type="submit">
+          Cadastrar
+        </button>
 
-</form>
+        <div class="resultado">
+          <label class="confirmacao">
 
-          <div class="resultado">
-<label class="confirmacao">
-  <input type="checkbox" id="confirmacao" required>
-  <span>
-    Li e aceito os <a href="check.html">termos de uso</a> do sistema.
-  </span>
-</label>
-                </div>      
+            <input
+              type="checkbox"
+              id="confirmacao"
+              required
+            >
+<span>
+  Li e aceito os
+  <a href="termos.html">Termos de Uso</a>
+  e estou ciente da
+  <a href="privacidade.html">Política de Privacidade</a>.
+</span>
+          </label>
+        </div>
+
+      </form>
+
+      <div class="acesso-login">
+        <p>
+          Já possui uma conta?
+          <a href="index.html">Entrar</a>
+        </p>
+      </div>
+
     </section>
+
   </main>
- <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script src="js/config.js"></script>
   <script src="js/cadastro.js"></script>
+
 </body>
+
 </html>

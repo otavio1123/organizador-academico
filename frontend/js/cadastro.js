@@ -1,6 +1,4 @@
 const formCadastro = document.getElementById("formCadastro");
-const mensagemCadastro = document.getElementById("mensagemCadastro");
-
   const senha = document.getElementById("senha");
   const ConfirmarSenha = document.getElementById("ConfirmarSenha");
 
@@ -8,7 +6,7 @@ const mensagemCadastro = document.getElementById("mensagemCadastro");
 
  const olho = document.createElement("i");
 
-olho.className = "fa-solid fa-eye";
+olho.className = "fa-solid fa-eye-slash";
 
 olho.style.position = "absolute";
 olho.style.right = "12px";
@@ -20,20 +18,24 @@ senha.parentElement.style.position = "relative";
 senha.parentElement.appendChild(olho);
 
 olho.onclick = function () {
+
     if (senha.type === "password") {
+
         senha.type = "text";
-        olho.className = "fa-solid fa-eye-slash";
-    } else {
-        senha.type = "password";
         olho.className = "fa-solid fa-eye";
+
+    } else {
+
+        senha.type = "password";
+        olho.className = "fa-solid fa-eye-slash";
+
     }
 };
-
 ConfirmarSenha.style.paddingRight = "40px";
 
- const olhoConfirmar = document.createElement("i");
+const olhoConfirmar = document.createElement("i");
 
-olhoConfirmar.className = "fa-solid fa-eye";
+olhoConfirmar.className = "fa-solid fa-eye-slash";
 
 olhoConfirmar.style.position = "absolute";
 olhoConfirmar.style.right = "12px";
@@ -45,16 +47,19 @@ ConfirmarSenha.parentElement.style.position = "relative";
 ConfirmarSenha.parentElement.appendChild(olhoConfirmar);
 
 olhoConfirmar.onclick = function () {
+
     if (ConfirmarSenha.type === "password") {
+
         ConfirmarSenha.type = "text";
-        olhoConfirmar.className = "fa-solid fa-eye-slash";
-    } else {
-        ConfirmarSenha.type = "password";
         olhoConfirmar.className = "fa-solid fa-eye";
+
+    } else {
+
+        ConfirmarSenha.type = "password";
+        olhoConfirmar.className = "fa-solid fa-eye-slash";
+
     }
 };
-
-
 
 formCadastro.addEventListener("submit", async (event) => {
   event.preventDefault();
