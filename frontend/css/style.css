@@ -1,5 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Serif+Display:ital@0;1&display=swap');
 
+
+
 * {
     box-sizing: border-box;
 }
@@ -421,4 +423,101 @@ input::placeholder {
 
 .botao-voltar-cadastro:hover {
     background-color: #0047cc;
+}
+
+/**RECUPERAR SENHA**/
+.pagina-recuperacao {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 30px;
+}
+
+.caixa-recuperacao {
+    width: 100%;
+    max-width: 520px;
+    padding: 45px;
+    background-color: #ffffff;
+    border-radius: 18px;
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.12);
+}
+
+.caixa-recuperacao h1 {
+    margin: 0 0 18px;
+    text-align: center;
+    font-family: 'DM Serif Display', serif;
+    font-size: 34px;
+    color: #111;
+}
+
+.texto-recuperacao {
+    margin: 0 0 28px;
+    text-align: center;
+    font-size: 15px;
+    line-height: 1.6;
+    color: #475569;
+}
+
+.form-recuperacao {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin: 0;
+}
+
+.form-recuperacao input {
+    width: 100%;
+    padding: 16px;
+    border: 1px solid #cbd5e1;
+    border-radius: 10px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 16px;
+    color: #1e293b;
+    background-color: #ffffff;
+    outline: none;
+}
+
+.form-recuperacao input:focus {
+    border-color: #0057ff;
+    box-shadow: 0 0 0 3px rgba(0, 87, 255, 0.12);
+}
+
+#botaoRecuperar {
+    width: 100%;
+    padding: 16px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    background-color: #0057ff;
+    color: #ffffff;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    transition: background-color 0.3s ease;
+}
+
+#botaoRecuperar:hover {
+    background-color: #0047cc;
+}
+
+.voltar-login {
+    margin-top: 26px;
+    padding-top: 20px;
+    border-top: 1px solid #e2e8f0;
+    text-align: center;
+}
+
+.voltar-login a,
+.voltar-login a:visited {
+    color: #0057ff;
+    font-size: 15px;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.voltar-login a:hover {
+    color: #003bb3;
+    text-decoration: underline;
 }
