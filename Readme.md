@@ -112,5 +112,5 @@ Banco de dados: PostgreSQL com Supabase.
 
 Versionamento: Git e GitHub.
 
-link Figuima https://www.figma.com/design/CndvloRCXKUTNUcvnWiNIo/ORGANIZAR-ACAD%C3%8AMICO?node-id=0-1&p=f&t=MljgUBvIpUjUbDbi-0
+link Figma https://www.figma.com/design/CndvloRCXKUTNUcvnWiNIo/ORGANIZAR-ACAD%C3%8AMICO?node-id=0-1&p=f&t=MljgUBvIpUjUbDbi-0
 link Git Pages  
