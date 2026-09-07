@@ -425,7 +425,6 @@ input::placeholder {
     background-color: #0047cc;
 }
 
-/**RECUPERAR SENHA**/
 .pagina-recuperacao {
     width: 100%;
     min-height: 100vh;
@@ -519,5 +518,109 @@ input::placeholder {
 
 .voltar-login a:hover {
     color: #003bb3;
+    text-decoration: underline;
+}
+
+
+
+.pagina-redefinicao {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 30px;
+}
+
+.caixa-redefinicao {
+    width: 100%;
+    max-width: 520px;
+    padding: 45px;
+    background: #ffffff;
+    border-radius: 18px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+.caixa-redefinicao h1 {
+    margin: 0 0 12px;
+    text-align: center;
+    font-family: "DM Serif Display", serif;
+    font-size: 34px;
+    color: #111111;
+}
+
+.texto-redefinicao {
+    margin: 0 0 28px;
+    text-align: center;
+    font-size: 15px;
+    line-height: 1.6;
+    color: #475569;
+}
+
+.form-redefinicao {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.campo-redefinicao {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.campo-redefinicao label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #111111;
+}
+
+.campo-redefinicao input {
+    width: 100%;
+    padding: 16px;
+    border: 1px solid #d1d5db;
+    border-radius: 10px;
+    font-size: 15px;
+    outline: none;
+    transition: 0.2s;
+}
+
+.campo-redefinicao input:focus {
+    border-color: #0057ff;
+    box-shadow: 0 0 0 3px rgba(0, 87, 255, 0.1);
+}
+
+#botaoRedefinir {
+    margin-top: 4px;
+    padding: 16px;
+    border: none;
+    border-radius: 10px;
+    background: #0057ff;
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+#botaoRedefinir:hover {
+    background: #0047cc;
+}
+
+.voltar-login-redefinicao {
+    margin-top: 26px;
+    padding-top: 20px;
+    border-top: 1px solid #e5e7eb;
+    text-align: center;
+}
+
+.voltar-login-redefinicao a {
+    color: #0057ff;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.voltar-login-redefinicao a:hover {
     text-decoration: underline;
 }

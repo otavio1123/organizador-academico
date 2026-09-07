@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Redefinir senha | Organizador Acadêmico</title>
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+    <main class="pagina-redefinicao">
+
+        <section class="caixa-redefinicao">
+
+            <h1>Redefinir senha</h1>
+
+            <p class="texto-redefinicao">
+                Crie uma nova senha para acessar sua conta.
+            </p>
+
+            <form
+                id="formRedefinirSenha"
+                class="form-redefinicao"
+            >
+
+                <div class="campo-redefinicao">
+
+                    <label for="novaSenha">
+                        Nova senha
+                    </label>
+
+                    <input
+                        type="password"
+                        id="novaSenha"
+                        name="novaSenha"
+                        placeholder="Digite sua nova senha"
+                        autocomplete="new-password"
+                        required
+                    >
+
+                </div>
+
+                <div class="campo-redefinicao">
+
+                    <label for="confirmarSenha">
+                        Confirmar nova senha
+                    </label>
+
+                    <input
+                        type="password"
+                        id="confirmarSenha"
+                        name="confirmarSenha"
+                        placeholder="Digite novamente sua nova senha"
+                        autocomplete="new-password"
+                        required
+                    >
+
+                </div>
+
+                <button
+                    type="submit"
+                    id="botaoRedefinir"
+                >
+                    Redefinir senha
+                </button>
+
+            </form>
+
+            <div class="voltar-login-redefinicao">
+
+                <a href="index.html">
+                    Voltar para o login
+                </a>
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="js/config.js"></script>
+    <script src="js/redefinir-senha.js"></script>
+
+</body>
+
+</html>

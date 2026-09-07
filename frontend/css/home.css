@@ -1,0 +1,82 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Serif+Display:ital@0;1&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    background-color: #f0efff;
+    font-family: "DM Sans", sans-serif;
+    color: #111;
+}
+
+.cabecalho-home {
+    height: 90px;
+    padding: 0 60px;
+    background-color: white;
+    border-bottom: 1px solid #ddd;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.logo-home {
+    font-family: "DM Serif Display", serif;
+    font-size: 30px;
+    font-weight: normal;
+}
+
+.menu-home {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+
+.item-menu {
+    color: #111;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.item-menu:hover {
+    color: #0057ff;
+}
+
+.botao-sair {
+    background-color: #111;
+    color: white;
+    padding: 10px 18px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.botao-sair:hover {
+    background-color: #0057ff;
+}
+
+.conteudo-home {
+    min-height: calc(100vh - 90px);
+    padding: 40px 60px;
+}
+
+@media (max-width: 700px) {
+    .cabecalho-home {
+        height: auto;
+        padding: 20px;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .menu-home {
+        gap: 20px;
+    }
+
+    .conteudo-home {
+        padding: 30px 20px;
+    }
+}
