@@ -1,4 +1,4 @@
-Projeto desenvolvido como Trabalho de Conclusão de Curso.
+Projeto desenvolvido como Trabalho de Conclusão de Curso
 
 O Organizador Acadêmico é um sistema web desenvolvido para auxiliar estudantes de graduação na organização e no acompanhamento da rotina acadêmica.
 
