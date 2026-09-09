@@ -1,0 +1,10 @@
+[33m478e058[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m Atualização do código
+[33m14f2ecd[m Atualização do código
+[33m14440d0[m Atualização  readme.md
+[33m9b634b5[m adiciona recuperacao de senha e politica de privacidade
+[33m0c66805[m ajusta login cadastro termos privacidade
+[33m52370e4[m Atualização do código V4 login
+[33ma706111[m Atualização do código v4 login
+[33m1cd7f91[m cadastro com BCrypt e validação de e-mail
+[33m64250cb[m Adiciona criptografia de senha com BCrypt
+[33ma09df54[m Atualização V3 cadastro concluido
