@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/semestres.css">
+    <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+>
+    <title>Semestres</title>
+</head>
+<body>
+    <div id="Menu">
+        <div id="PrimeiroMenu">
+
+            <div class="logo">
+                <img src="img/ca" alt="Organizador-Academico">
+                 <h1>Organizador-Academico</h1>
+            </div>
+
+             <div class="perfil">
+
+            <div class="info-perfil">
+                <span>Danilo</span>
+                <small>RA: 1222101103</small>
+            </div>
+           
+           </div>
+        </div>
+        <div class="menu-links">
+
+        <div>DASH</div>
+
+        <div>PERFIL</div>
+
+        <div>SEMESTRES</div>
+
+        <div>DISCIPLINAS</div>
+
+        <div>ATIV.</div>
+
+        <div>NOTAS</div>
+
+        <div>CONFIG</div>
+
+        </div>
+
+    </div>
+
+    <div id="DivTitulo">
+
+        <div id="Titulo">
+         <H1>Semestres</H1>
+         <p>Gerencie os semestres letivos e suas disciplinas</p>   
+        </div>
+
+        <select id="filtroStatusSemestre">
+        <option value="S">Ativo</option>
+        <option value="N">Inativo</option>
+       </select>
+
+        <div id="Divbotao-criarSmestres">
+            <button id="botao-criarSemestres">Criar Semestres</button>
+        </div>
+    </div>
+    
+
+    <div id="listaSemestres"></div>
+    
+    <template id="modeloSemestre">
+        <div class="card-semestre">
+            <div class="cabecalhoSemestre">
+                <h2 class="nome-semestre"></h2>
+
+                <button class="botaoOpcoesSemestre" type="button">
+                    <i class="fa-solid fa-ellipsis-vertical"></i>
+                </button>
+            </div>
+
+            <p>
+                <strong>Ano:</strong>
+                <span class="ano-semestre"></span>
+            </p>
+             <p>
+                 <strong>Início:</strong>
+                 <span class="inicio-semestre"></span>
+             </p>
+         
+             <p>
+                 <strong>Fim:</strong>
+                 <span class="fim-semestre"></span>
+             </p>
+
+             <a href="diciplina.html" id="DisciplinasIr">Disciplinas</a>
+             <button class="botao-excluir-semestre"> Excluir</button>
+        </div>
+    </template>   
+    
+
+ <div id="modalCriarSemestre">
+
+    <div id="conteudoModal">
+
+        <div id="cabecalhoModal">
+            <h2>Criar Semestre</h2>
+
+            <button id="fecharModal">&times;</button>
+        </div>
+
+        <div id="corpoModal">
+
+            <label for="nomeSemestre">Nome do semestre</label>
+            <input 
+                type="text" 
+                id="nomeSemestre" 
+                placeholder="Ex: Semestre 2026.1"
+            >
+
+            <label for="anoSemestre">Ano</label>
+            <input 
+                type="number" 
+                id="anoSemestre" 
+                placeholder="Ex: 2026"
+            >
+
+            <div id="datasSemestre">
+
+                <div>
+                    <label for="inicioSemestre">Início</label>
+                    <input 
+                        type="date" 
+                        id="inicioSemestre"
+                    >
+                </div>
+
+                <div>
+                    <label for="fimSemestre">Fim</label>
+                    <input 
+                        type="date" 
+                        id="fimSemestre"
+                    >
+                </div>
+
+            </div>
+              <label for="ativoSemestre">Status</label>
+
+                <select id="ativoSemestre">
+                     <option value="S">Ativo</option>
+                     <option value="N">Inativo</option>
+                  </select>
+
+            <button id="salvarSemestre">
+                SALVAR
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div id="modalStatus">
+
+    <h2>Editar semestre</h2>
+
+    <button id="fecharModalStatus">&times;</button>
+    <p id="nomeSemestreOpcoes"></p>
+
+     <label for="nomeSemestreEditar">Nome</label>
+    <input type="text" id="nomeSemestreEditar">
+
+    <div id="linhaAnoStatus">
+        <div>
+            <label for="anoSemestreEditar">Ano</label>
+            <input type="number" id="anoSemestreEditar">
+        </div>
+
+        <div>
+            <label for="statusSemestre">Status</label>
+            <select id="statusSemestre">
+                <option value="S">Ativo</option>
+                <option value="N">Inativo</option>
+            </select>
+        </div>
+    </div>
+
+   <div id="linhaDatasEditar">
+        <div>
+            <label for="inicioSemestreEditar">Início</label>
+            <input type="date" id="inicioSemestreEditar">
+        </div>
+
+        <div>
+            <label for="fimSemestreEditar">Fim</label>
+            <input type="date" id="fimSemestreEditar">
+        </div>
+    </div>
+
+    <button id="salvarStatusSemestre"> Salvar</button>
+</div>
+
+    <script src="js/semestres.js"></script>
+</body>
+</html>
