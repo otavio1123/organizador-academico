@@ -1,10 +1,10 @@
 const formCadastro = document.getElementById("formCadastro");
-  const senha = document.getElementById("senha");
-  const ConfirmarSenha = document.getElementById("ConfirmarSenha");
+const senha = document.getElementById("senha");
+const ConfirmarSenha = document.getElementById("ConfirmarSenha");
 
-  senha.style.paddingRight = "40px";
+senha.style.paddingRight = "40px";
 
- const olho = document.createElement("i");
+const olho = document.createElement("i");
 
 olho.className = "fa-solid fa-eye-slash";
 
@@ -19,18 +19,19 @@ senha.parentElement.appendChild(olho);
 
 olho.onclick = function () {
 
-    if (senha.type === "password") {
+  if (senha.type === "password") {
 
-        senha.type = "text";
-        olho.className = "fa-solid fa-eye";
+    senha.type = "text";
+    olho.className = "fa-solid fa-eye";
 
-    } else {
+  } else {
 
-        senha.type = "password";
-        olho.className = "fa-solid fa-eye-slash";
+    senha.type = "password";
+    olho.className = "fa-solid fa-eye-slash";
 
-    }
+  }
 };
+
 ConfirmarSenha.style.paddingRight = "40px";
 
 const olhoConfirmar = document.createElement("i");
@@ -48,19 +49,18 @@ ConfirmarSenha.parentElement.appendChild(olhoConfirmar);
 
 olhoConfirmar.onclick = function () {
 
-    if (ConfirmarSenha.type === "password") {
+  if (ConfirmarSenha.type === "password") {
 
-        ConfirmarSenha.type = "text";
-        olhoConfirmar.className = "fa-solid fa-eye";
+    ConfirmarSenha.type = "text";
+    olhoConfirmar.className = "fa-solid fa-eye";
 
-    } else {
+  } else {
 
-        ConfirmarSenha.type = "password";
-        olhoConfirmar.className = "fa-solid fa-eye-slash";
+    ConfirmarSenha.type = "password";
+    olhoConfirmar.className = "fa-solid fa-eye-slash";
 
-    }
+  }
 };
-
 formCadastro.addEventListener("submit", async (event) => {
   event.preventDefault();
 
@@ -68,61 +68,75 @@ formCadastro.addEventListener("submit", async (event) => {
   const email = document.getElementById("email").value;
   const senha = document.getElementById("senha").value;
   const confirmarSenha = document.getElementById("ConfirmarSenha").value;
+  const aceitouTermos = document.getElementById("confirmacao").checked ? "S" : "N";
 
-  if (senha !== confirmarSenha) {
+  if (senha.length < 8) {
     Swal.fire({
-        icon: "error",
-        title: "Senhas diferentes",
-        text: "A senha e a confirmação de senha precisam ser iguais."
-    });
-
-    return;
-}
-
-  const usuario = {
-    nome: nome,
-    email: email,
-    senha: senha
-  };
-
-  try {
-
-  const resposta = await fetch(`${API_URL}/usuarios`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify(usuario)
-  });
-
-  const dados = await resposta.json();
-
-  if (!resposta.ok) {
-    Swal.fire({
-      icon: "error",
-      title: "Cadastro inválido",
-      text: dados.mensagem || "Por favor, verifique os campos acima."
+      icon: "warning",
+      title: "Senha muito curta",
+      text: "A senha deve ter pelo menos 8 caracteres."
     });
 
     return;
   }
 
-  Swal.fire({
-    icon: "success",
-    title: "Sucesso!",
-    text: "Cadastro realizado com sucesso",
-    confirmButtonText: "Continuar"
-  }).then(() => {
-    formCadastro.reset();
-    window.location.href = "index.html";
-  });
+  if (senha !== confirmarSenha) {
+    Swal.fire({
+      icon: "error",
+      title: "Senhas diferentes",
+      text: "A senha e a confirmação de senha precisam ser iguais."
+    });
 
-} catch (erro) {
-  Swal.fire({
-    icon: "error",
-    title: "Erro de conexão",
-    text: "Não foi possível conectar ao servidor."
-  });
-}
+    return;
+  }
+
+  const usuario = {
+    nome: nome,
+    email: email,
+    senha: senha,
+    aceitouTermos: aceitouTermos
+  };
+
+  try {
+
+    const resposta = await fetch(`${API_URL}/usuarios`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(usuario)
+    });
+
+    const dados = await resposta.json();
+
+    if (!resposta.ok) {
+      Swal.fire({
+        icon: "error",
+        title: "Cadastro inválido",
+        text: dados.mensagem || "Por favor, verifique os campos acima."
+      });
+
+      return;
+    }
+
+    Swal.fire({
+      icon: "success",
+      title: "Sucesso!",
+      text: "Cadastro realizado com sucesso",
+      confirmButtonText: "Continuar"
+    }).then(() => {
+      formCadastro.reset();
+      window.location.href = "index.html";
+    });
+
+  } catch (erro) {
+
+    Swal.fire({
+      icon: "error",
+      title: "Erro de conexão",
+      text: "Não foi possível conectar ao servidor."
+    });
+
+  }
 
 });
