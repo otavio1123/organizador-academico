@@ -15,9 +15,10 @@ public class Semestre {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "IDSemestre")
+    @Column(name = "\"IDSemestre\"")
     private Integer idSemestre;
-  @Column(name = "idusuario")
+
+  @Column(name = "\"idusuario\"")
     private Integer idusuario;
    @Column(name = "\"Nome\"")
     private String nome;
@@ -31,7 +32,7 @@ public class Semestre {
     @Column(name = "\"Ano\"")
     private Integer ano;
 
-  @Column(name = "ativo")
+  @Column(name = "\"ativo\"")
 private String ativo;
 
     public Semestre() {
