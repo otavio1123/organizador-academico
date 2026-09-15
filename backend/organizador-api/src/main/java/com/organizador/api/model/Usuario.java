@@ -2,6 +2,7 @@ package com.organizador.api.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -23,14 +24,18 @@ public class Usuario {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String senha;
 
+    @Column(name = "aceitou_termos", length = 1)
+    private String aceitouTermos;
+
     public Usuario() {
     }
 
-    public Usuario(Integer id, String nome, String email, String senha) {
+    public Usuario(Integer id, String nome, String email, String senha, String aceitouTermos) {
         this.id = id;
         this.nome = nome;
         this.email = email;
         this.senha = senha;
+        this.aceitouTermos = aceitouTermos;
     }
 
     public Integer getId() {
@@ -63,5 +68,13 @@ public class Usuario {
 
     public void setSenha(String senha) {
         this.senha = senha;
+    }
+
+    public String getAceitouTermos() {
+        return aceitouTermos;
+    }
+
+    public void setAceitouTermos(String aceitouTermos) {
+        this.aceitouTermos = aceitouTermos;
     }
 }

@@ -26,27 +26,55 @@ public class UsuarioController {
         this.usuarioRepository = usuarioRepository;
     }
 
-    @PostMapping("/usuarios")
-    public ResponseEntity<?> cadastrar(@RequestBody Usuario usuario) {
+   @PostMapping("/usuarios")
+   public ResponseEntity<?> cadastrar(@RequestBody Usuario usuario) {
 
-        String email = usuario.getEmail().trim().toLowerCase();
-        usuario.setEmail(email);
-
-        if (usuarioRepository.existsByEmail(email)) {
-            return ResponseEntity
-                    .status(HttpStatus.CONFLICT)
-                    .body(Map.of("mensagem", "E-mail já cadastrado."));
-        }
-
-        String senhaCriptografada = passwordEncoder.encode(usuario.getSenha());
-        usuario.setSenha(senhaCriptografada);
-
-        Usuario usuarioSalvo = usuarioRepository.save(usuario);
-
+    if (usuario.getNome() == null || usuario.getNome().trim().isEmpty()) {
         return ResponseEntity
-                .status(HttpStatus.CREATED)
-                .body(usuarioSalvo);
+                .status(HttpStatus.BAD_REQUEST)
+                .body(Map.of("mensagem", "Informe o nome."));
     }
+
+    if (usuario.getEmail() == null || usuario.getEmail().trim().isEmpty()) {
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(Map.of("mensagem", "Informe o e-mail."));
+    }
+
+    usuario.setNome(usuario.getNome().trim());
+
+    String email = usuario.getEmail().trim().toLowerCase();
+    usuario.setEmail(email);
+
+    if (usuarioRepository.existsByEmail(email)) {
+        return ResponseEntity
+                .status(HttpStatus.CONFLICT)
+                .body(Map.of("mensagem", "E-mail já cadastrado."));
+    }
+
+    if (usuario.getSenha() == null || usuario.getSenha().length() < 8) {
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(Map.of("mensagem", "A senha deve ter pelo menos 8 caracteres."));
+    }
+
+    if (!"S".equalsIgnoreCase(usuario.getAceitouTermos())) {
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(Map.of("mensagem", "É necessário aceitar os Termos de Uso."));
+    }
+
+    usuario.setAceitouTermos("S");
+
+    String senhaCriptografada = passwordEncoder.encode(usuario.getSenha());
+    usuario.setSenha(senhaCriptografada);
+
+    Usuario usuarioSalvo = usuarioRepository.save(usuario);
+
+    return ResponseEntity
+            .status(HttpStatus.CREATED)
+            .body(usuarioSalvo);
+}
 
     @PostMapping("/usuarios/login")
     public ResponseEntity<?> login(@RequestBody Usuario usuario) {
@@ -58,7 +86,10 @@ public class UsuarioController {
         if (usuarioEncontrado.isEmpty()) {
             return ResponseEntity
                     .status(HttpStatus.UNAUTHORIZED)
-                    .body(Map.of("mensagem", "E-mail ou senha inválidos."));
+                    .body(Map.of(
+                            "mensagem",
+                            "E-mail ou senha inválidos."
+                    ));
         }
 
         Usuario usuarioBanco = usuarioEncontrado.get();
@@ -71,7 +102,10 @@ public class UsuarioController {
         if (!senhaCorreta) {
             return ResponseEntity
                     .status(HttpStatus.UNAUTHORIZED)
-                    .body(Map.of("mensagem", "E-mail ou senha inválidos."));
+                    .body(Map.of(
+                            "mensagem",
+                            "E-mail ou senha inválidos."
+                    ));
         }
 
         return ResponseEntity.ok(usuarioBanco);
