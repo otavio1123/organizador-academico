@@ -1,4 +1,31 @@
 const formConfirmar = document.getElementById("formConfirmar");
+const campoSenha = document.getElementById("senha");
+
+campoSenha.style.paddingRight = "40px";
+
+const olho = document.createElement("i");
+
+olho.className = "fa-solid fa-eye-slash";
+
+olho.style.position = "absolute";
+olho.style.right = "12px";
+olho.style.cursor = "pointer";
+olho.style.top = "50%";
+olho.style.transform = "translateY(-50%)";
+
+campoSenha.parentElement.style.position = "relative";
+campoSenha.parentElement.appendChild(olho);
+
+olho.onclick = function () {
+
+    if (campoSenha.type === "password") {
+        campoSenha.type = "text";
+        olho.className = "fa-solid fa-eye";
+    } else {
+        campoSenha.type = "password";
+        olho.className = "fa-solid fa-eye-slash";
+    }
+};
 
 formConfirmar.addEventListener("submit", async (event) => {
     event.preventDefault();
