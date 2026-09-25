@@ -1,245 +1,528 @@
-const filtroStatusSemestre = document.getElementById("filtroStatusSemestre");
-const botaoCriarSemestres = document.getElementById("botao-criarSemestres");
-const modalCriarSemestre = document.getElementById("modalCriarSemestre");
-const salvarSemestre = document.getElementById("salvarSemestre");
-const tituloModalSemestre = document.getElementById("tituloModalSemestre");
+const filtroStatusSemestre =
+    document.getElementById("filtroStatusSemestre");
+
+const botaoCriarSemestres =
+    document.getElementById("botao-criarSemestres");
+
+const modalCriarSemestre =
+    document.getElementById("modalCriarSemestre");
+
+const salvarSemestre =
+    document.getElementById("salvarSemestre");
+
+const tituloModalSemestre =
+    document.getElementById("tituloModalSemestre");
+
+const token =
+    localStorage.getItem("token");
+
+const usuarioLogado =
+    JSON.parse(localStorage.getItem("usuarioLogado"));
+
+if (!token || !usuarioLogado) {
+    localStorage.removeItem("token");
+    localStorage.removeItem("usuarioLogado");
+    window.location.href = "index.html";
+}
 
 let idSemestreSelecionado = null;
 
+
 filtroStatusSemestre.addEventListener("change", () => {
     carregarSemestres();
-
 });
+
 
 botaoCriarSemestres.addEventListener("click", () => {
+
     idSemestreSelecionado = null;
-    tituloModalSemestre.textContent = "Criar novo semestre";
+
+    tituloModalSemestre.textContent =
+        "Criar novo semestre";
+
+    document.getElementById("nomeSemestre").value = "";
+    document.getElementById("anoSemestre").value = "";
+    document.getElementById("inicioSemestre").value = "";
+    document.getElementById("fimSemestre").value = "";
+    document.getElementById("ativoSemestre").value = "S";
 });
+
 
 salvarSemestre.addEventListener("click", async () => {
 
-    const nome = document.getElementById("nomeSemestre").value;
-    const ano = Number(document.getElementById("anoSemestre").value);
-    const dataInicio = document.getElementById("inicioSemestre").value;
-    const dataFim = document.getElementById("fimSemestre").value;
-    const ativo = document.getElementById("ativoSemestre").value;
+    const nome =
+        document.getElementById("nomeSemestre").value;
+
+    const ano =
+        Number(
+            document.getElementById("anoSemestre").value
+        );
+
+    const dataInicio =
+        document.getElementById("inicioSemestre").value;
+
+    const dataFim =
+        document.getElementById("fimSemestre").value;
+
+    const ativo =
+        document.getElementById("ativoSemestre").value;
+
 
     if (!nome || !ano || !dataInicio || !dataFim) {
+
         alert("Preencha todos os campos.");
         return;
     }
 
-    if (dataFim < dataInicio) {
-        alert("A data de fim deve ser maior que a data de início.");
+
+    if (dataFim <= dataInicio) {
+
+        alert(
+            "A data de fim deve ser maior que a data de início."
+        );
+
         return;
     }
 
-    const usuarioLogado = JSON.parse(localStorage.getItem("usuarioLogado"));
 
     const semestre = {
         nome: nome,
         ano: ano,
         dataInicio: dataInicio,
         dataFim: dataFim,
-        ativo: ativo,
-        idusuario: usuarioLogado.id
+        ativo: ativo
     };
+
 
     try {
 
         let resposta;
 
+
         if (idSemestreSelecionado === null) {
 
-            resposta = await fetch("http://localhost:8080/Semestres", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(semestre)
-            });
+            resposta = await fetch(
+                "http://localhost:8080/Semestres",
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json",
+
+                        "Authorization":
+                            "Bearer " + token
+                    },
+
+                    body:
+                        JSON.stringify(semestre)
+                }
+            );
 
         } else {
 
-            resposta = await fetch(`http://localhost:8080/Semestres/${idSemestreSelecionado}`,{
+            resposta = await fetch(
+                `http://localhost:8080/Semestres/${idSemestreSelecionado}`,
+                {
                     method: "PUT",
+
                     headers: {
-                        "Content-Type": "application/json"
+                        "Content-Type":
+                            "application/json",
+
+                        "Authorization":
+                            "Bearer " + token
                     },
-                    body: JSON.stringify(semestre)
+
+                    body:
+                        JSON.stringify(semestre)
                 }
             );
 
         }
 
+
         if (!resposta.ok) {
-            const mensagem = await resposta.text();
+
+            const mensagem =
+                await resposta.text();
+
             alert(mensagem);
             return;
         }
 
-        const semestreSalvo = await resposta.json();
-        
-        if (idSemestreSelecionado === null) {
-            await fetch("http://localhost:8080/LogAuditoria", {
-                method: "POST",
-                headers: {"Content-Type": "application/json"},
-                body: JSON.stringify({
-                    idUsuario: usuarioLogado.id,
-                    nomeUsuario: usuarioLogado.nome,
-                    acao: "O " + usuarioLogado.nome + " Criou o semestre: " + semestreSalvo.nome,
 
-                })
-            });
-        }else{
-             await fetch("http://localhost:8080/LogAuditoria", {
-                   method: "POST",
-                   headers: {
-                       "Content-Type": "application/json"
-                   },
-                   body: JSON.stringify({
-                       idUsuario: usuarioLogado.id,
-                       nomeUsuario: usuarioLogado.nome,
-                       acao: "O " + usuarioLogado.nome + " Alterou o semestre: " + semestreSalvo.nome
-                   })
-               });
-        }    
+        const semestreSalvo =
+            await resposta.json();
 
-        console.log("Semestre salvo:", semestreSalvo);
 
         if (idSemestreSelecionado === null) {
-            alert("Semestre criado com sucesso!");
+
+            await fetch(
+                "http://localhost:8080/LogAuditoria",
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json",
+
+                        "Authorization":
+                            "Bearer " + token
+                    },
+
+                    body: JSON.stringify({
+                        acao:
+                            "Criou o semestre: " +
+                            semestreSalvo.nome
+                    })
+                }
+            );
+
         } else {
-            alert("Semestre alterado com sucesso!");
+
+            await fetch(
+                "http://localhost:8080/LogAuditoria",
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json",
+
+                        "Authorization":
+                            "Bearer " + token
+                    },
+
+                    body: JSON.stringify({
+                        acao:
+                            "Alterou o semestre: " +
+                            semestreSalvo.nome
+                    })
+                }
+            );
+
         }
 
-        const modal = bootstrap.Modal.getInstance(modalCriarSemestre);
+
+        if (idSemestreSelecionado === null) {
+
+            alert(
+                "Semestre criado com sucesso!"
+            );
+
+        } else {
+
+            alert(
+                "Semestre alterado com sucesso!"
+            );
+
+        }
+
+
+        const modal =
+            bootstrap.Modal.getInstance(
+                modalCriarSemestre
+            );
+
         modal.hide();
 
-        document.getElementById("nomeSemestre").value = "";
-        document.getElementById("anoSemestre").value = "";
-        document.getElementById("inicioSemestre").value = "";
-        document.getElementById("fimSemestre").value = "";
+
+        document.getElementById(
+            "nomeSemestre"
+        ).value = "";
+
+        document.getElementById(
+            "anoSemestre"
+        ).value = "";
+
+        document.getElementById(
+            "inicioSemestre"
+        ).value = "";
+
+        document.getElementById(
+            "fimSemestre"
+        ).value = "";
+
+        document.getElementById(
+            "ativoSemestre"
+        ).value = "S";
+
 
         idSemestreSelecionado = null;
 
-        tituloModalSemestre.textContent = "Criar novo semestre";
+        tituloModalSemestre.textContent =
+            "Criar novo semestre";
 
         carregarSemestres();
+
 
     } catch (erro) {
 
         console.error(erro);
-        alert("Não foi possível salvar o semestre.");
 
+        alert(
+            "Não foi possível salvar o semestre."
+        );
     }
 
 });
 
+
 async function carregarSemestres() {
-    const usuarioLogado = JSON.parse(localStorage.getItem("usuarioLogado"));
-
-
-    if (!usuarioLogado) {
-        console.error("Nenhum usuário está logado.");
-        return;
-    }
 
     try {
+
         const resposta = await fetch(
-            `http://localhost:8080/Semestres?idusuario=${usuarioLogado.id}`
+            "http://localhost:8080/Semestres",
+            {
+                method: "GET",
+
+                headers: {
+                    "Authorization":
+                        "Bearer " + token
+                }
+            }
         );
 
+
         if (!resposta.ok) {
-             const mensagem = await resposta.text();
+
+            const mensagem =
+                await resposta.text();
+
             alert(mensagem);
             return;
         }
 
-        const semestres = await resposta.json();
-        console.log("Semestres recebidos:", semestres);
 
-        const listaSemestres = document.getElementById("listaSemestres");
+        const semestres =
+            await resposta.json();
+
+
+        const listaSemestres =
+            document.getElementById(
+                "listaSemestres"
+            );
+
         listaSemestres.innerHTML = "";
 
-        const statusEscolhido = filtroStatusSemestre.value;
 
-        const semestresFiltrados = semestres.filter(semestre => {
-            return semestre.ativo === statusEscolhido;
-        });
+        const statusEscolhido =
+            filtroStatusSemestre.value;
 
-        semestresFiltrados.forEach(semestre => {
-            const modelo = document.getElementById("modeloSemestre");
-            const card = modelo.content.cloneNode(true);
 
-            card.querySelector(".nome-semestre").textContent = semestre.nome;
-            card.querySelector(".ano-semestre").textContent = semestre.ano;
-            card.querySelector(".inicio-semestre").textContent = semestre.dataInicio;
-            card.querySelector(".fim-semestre").textContent = semestre.dataFim;
+        const semestresFiltrados =
+            semestres.filter(semestre => {
 
-            const botaoExcluir = card.querySelector(".botao-excluir-semestre");
-            const botaoOpcoes = card.querySelector(".botaoOpcoesSemestre");
-
-            botaoOpcoes.addEventListener("click", () => {
-                idSemestreSelecionado = semestre.idSemestre;
-
-                document.getElementById("nomeSemestre").value = semestre.nome;
-                document.getElementById("anoSemestre").value = semestre.ano;
-                document.getElementById("ativoSemestre").value = semestre.ativo;
-                document.getElementById("inicioSemestre").value = semestre.dataInicio;
-                document.getElementById("fimSemestre").value = semestre.dataFim;
-
-                tituloModalSemestre.textContent = "Editar semestre";
-
-                const modal = new bootstrap.Modal(modalCriarSemestre);
-                modal.show();
+                return semestre.ativo ===
+                    statusEscolhido;
             });
 
-            botaoExcluir.addEventListener("click", async () => {
-                const confirmar = confirm(
-                    `Deseja realmente excluir o semestre "${semestre.nome}"?`
-                );
 
-                if (!confirmar) {
-                    return;
-                }
+        semestresFiltrados.forEach(
+            semestre => {
 
-                try {
-                    const resposta = await fetch(
-                        `http://localhost:8080/Semestres/${semestre.idSemestre}`,
-                        {
-                            method: "DELETE"
-                        }
+                const modelo =
+                    document.getElementById(
+                        "modeloSemestre"
                     );
 
-                   if (!resposta.ok) {
-                        const mensagem = await resposta.text();
-                        alert(mensagem);
-                        return;
+                const card =
+                    modelo.content.cloneNode(true);
+
+
+                card.querySelector(
+                    ".nome-semestre"
+                ).textContent =
+                    semestre.nome;
+
+
+                card.querySelector(
+                    ".ano-semestre"
+                ).textContent =
+                    semestre.ano;
+
+
+                card.querySelector(
+                    ".inicio-semestre"
+                ).textContent =
+                    semestre.dataInicio;
+
+
+                card.querySelector(
+                    ".fim-semestre"
+                ).textContent =
+                    semestre.dataFim;
+
+
+                const botaoExcluir =
+                    card.querySelector(
+                        ".botao-excluir-semestre"
+                    );
+
+
+                const botaoOpcoes =
+                    card.querySelector(
+                        ".botaoOpcoesSemestre"
+                    );
+
+
+                botaoOpcoes.addEventListener(
+                    "click",
+                    () => {
+
+                        idSemestreSelecionado =
+                            semestre.idSemestre;
+
+
+                        document.getElementById(
+                            "nomeSemestre"
+                        ).value =
+                            semestre.nome;
+
+
+                        document.getElementById(
+                            "anoSemestre"
+                        ).value =
+                            semestre.ano;
+
+
+                        document.getElementById(
+                            "ativoSemestre"
+                        ).value =
+                            semestre.ativo;
+
+
+                        document.getElementById(
+                            "inicioSemestre"
+                        ).value =
+                            semestre.dataInicio;
+
+
+                        document.getElementById(
+                            "fimSemestre"
+                        ).value =
+                            semestre.dataFim;
+
+
+                        tituloModalSemestre.textContent =
+                            "Editar semestre";
+
+
+                        const modal =
+                            new bootstrap.Modal(
+                                modalCriarSemestre
+                            );
+
+                        modal.show();
                     }
-                     await fetch("http://localhost:8080/LogAuditoria", {
-                        method: "POST",
-                        headers: {"Content-Type": "application/json"},
-                        body: JSON.stringify({
-                            idUsuario: usuarioLogado.id,
-                            nomeUsuario: usuarioLogado.nome,
-                            acao: "O " + usuarioLogado.nome + " Excluiu o semestre: " + semestre.nome
-                        })
-                    });
+                );
 
-                    alert("Semestre excluído com sucesso!");
-                    carregarSemestres();
-                } catch (erro) {
-                    console.error("Erro:", erro);
-                    alert("Não foi possível excluir o semestre.");
-                }
-            });
 
-            listaSemestres.appendChild(card);
-        });
+                botaoExcluir.addEventListener(
+                    "click",
+                    async () => {
+
+                        const confirmar =
+                            confirm(
+                                `Deseja realmente excluir o semestre "${semestre.nome}"?`
+                            );
+
+
+                        if (!confirmar) {
+                            return;
+                        }
+
+
+                        try {
+
+                            const resposta =
+                                await fetch(
+                                    `http://localhost:8080/Semestres/${semestre.idSemestre}`,
+                                    {
+                                        method:
+                                            "DELETE",
+
+                                        headers: {
+                                            "Authorization":
+                                                "Bearer " +
+                                                token
+                                        }
+                                    }
+                                );
+
+
+                            if (!resposta.ok) {
+
+                                const mensagem =
+                                    await resposta.text();
+
+                                alert(mensagem);
+                                return;
+                            }
+
+
+                            await fetch(
+                                "http://localhost:8080/LogAuditoria",
+                                {
+                                    method: "POST",
+
+                                    headers: {
+                                        "Content-Type":
+                                            "application/json",
+
+                                        "Authorization":
+                                            "Bearer " + token
+                                    },
+
+                                    body:
+                                        JSON.stringify({
+                                            acao:
+                                                "Excluiu o semestre: " +
+                                                semestre.nome
+                                        })
+                                }
+                            );
+
+
+                            alert(
+                                "Semestre excluído com sucesso!"
+                            );
+
+                            carregarSemestres();
+
+
+                        } catch (erro) {
+
+                            console.error(
+                                "Erro:",
+                                erro
+                            );
+
+                            alert(
+                                "Não foi possível excluir o semestre."
+                            );
+                        }
+                    }
+                );
+
+
+                listaSemestres.appendChild(
+                    card
+                );
+            }
+        );
+
+
     } catch (erro) {
-        console.error("Erro:", erro);
+
+        console.error(
+            "Erro:",
+            erro
+        );
     }
 }
+
 
 carregarSemestres();
