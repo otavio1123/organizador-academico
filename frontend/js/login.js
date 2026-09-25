@@ -1,4 +1,31 @@
 const formConfirmar = document.getElementById("formConfirmar");
+const campoSenha = document.getElementById("senha");
+
+campoSenha.style.paddingRight = "40px";
+
+const olho = document.createElement("i");
+
+olho.className = "fa-solid fa-eye-slash";
+
+olho.style.position = "absolute";
+olho.style.right = "12px";
+olho.style.cursor = "pointer";
+olho.style.top = "50%";
+olho.style.transform = "translateY(-50%)";
+
+campoSenha.parentElement.style.position = "relative";
+campoSenha.parentElement.appendChild(olho);
+
+olho.onclick = function () {
+
+    if (campoSenha.type === "password") {
+        campoSenha.type = "text";
+        olho.className = "fa-solid fa-eye";
+    } else {
+        campoSenha.type = "password";
+        olho.className = "fa-solid fa-eye-slash";
+    }
+};
 
 formConfirmar.addEventListener("submit", async (event) => {
     event.preventDefault();
@@ -25,17 +52,6 @@ formConfirmar.addEventListener("submit", async (event) => {
 
         if (!resposta.ok) {
 
-            await fetch(`${API_URL}/LogAuditoria`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    nomeUsuario: "NULL",
-                    acao: "Tentativa de login inválida" 
-                })
-            });
-
             Swal.fire({
                 icon: "error",
                 title: "Login inválido",
@@ -45,19 +61,16 @@ formConfirmar.addEventListener("submit", async (event) => {
             return;
         }
 
-        await fetch(`${API_URL}/LogAuditoria`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                idUsuario: dados.id,
-                nomeUsuario: dados.nome,
-                acao: "O " + dados.nome + " realizou login no sistema"
-            })
-        })
+        localStorage.setItem(
+            "usuarioLogado",
+            JSON.stringify(dados.usuario)
+        );
 
-        localStorage.setItem("usuarioLogado", JSON.stringify(dados));
+        localStorage.setItem(
+            "token",
+            dados.token
+        );
+
         Swal.fire({
             icon: "success",
             title: "Login realizado!",

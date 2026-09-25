@@ -23,117 +23,253 @@
             <p>
                 Esta Política de Privacidade tem como objetivo informar como o
                 Organizador Acadêmico coleta, utiliza, armazena e protege os dados
-                fornecidos pelos usuários durante a utilização do sistema.
+                pessoais fornecidos pelos usuários durante a utilização do sistema.
+            </p>
+
+            <p>
+                O tratamento dos dados pessoais busca garantir o funcionamento das
+                funcionalidades da aplicação, a segurança das contas e a organização
+                das informações acadêmicas cadastradas pelos próprios usuários.
             </p>
 
             <h2>2. Dados coletados</h2>
 
             <p>
-                O Organizador Acadêmico poderá coletar informações necessárias para
-                a criação da conta e para o funcionamento de suas funcionalidades,
-                como nome, e-mail, senha, instituição de ensino, curso, CEP da
-                instituição, cidade e estado.
+                Para criação e utilização da conta, o Organizador Acadêmico coleta
+                informações como nome e endereço de e-mail.
             </p>
 
             <p>
-                Também poderão ser armazenadas informações acadêmicas cadastradas
-                pelo próprio usuário, como semestres, disciplinas, atividades,
-                avaliações, notas, prazos e status das atividades.
+                A senha cadastrada pelo usuário também é utilizada para autenticação,
+                porém não é armazenada em texto puro. O sistema mantém apenas o hash
+                da senha gerado por meio do BCrypt.
+            </p>
+
+            <p>
+                Também são armazenadas informações relacionadas ao aceite dos Termos
+                de Uso, incluindo a confirmação do aceite, a data e hora em que ele
+                ocorreu e a versão dos Termos aceita pelo usuário.
+            </p>
+
+            <p>
+                Durante a utilização do sistema, poderão ser armazenados dados
+                acadêmicos cadastrados pelo próprio usuário, como semestres,
+                disciplinas, atividades, avaliações, notas, prazos e demais
+                informações necessárias à organização da rotina acadêmica.
+            </p>
+
+            <p>
+                Para o processo de recuperação de senha, o sistema também poderá
+                armazenar temporariamente informações necessárias à validação do
+                código de recuperação, como o identificador do usuário, o hash do
+                código, a data de criação, a data de expiração, o número de tentativas
+                e a informação de utilização do código.
             </p>
 
             <h2>3. Finalidade do tratamento dos dados</h2>
 
             <p>
-                Os dados coletados serão utilizados para possibilitar o funcionamento
-                do Organizador Acadêmico, incluindo a criação e identificação da conta,
-                autenticação do usuário, preenchimento do perfil acadêmico e organização
-                de semestres, disciplinas, atividades, avaliações, notas e prazos.
+                Os dados pessoais são utilizados para permitir a criação e
+                identificação da conta, autenticação do usuário, recuperação e
+                alteração de senha e utilização das funcionalidades do Organizador
+                Acadêmico.
             </p>
 
             <p>
-                As informações também poderão ser utilizadas para manter o sistema
-                funcionando de forma adequada, realizar validações e oferecer ao usuário
-                uma visualização organizada de sua rotina acadêmica.
+                Os dados acadêmicos cadastrados pelo usuário são utilizados para
+                possibilitar a organização de semestres, disciplinas, atividades,
+                avaliações, notas, prazos e demais informações relacionadas à sua
+                rotina acadêmica.
+            </p>
+
+            <p>
+                As informações relacionadas ao aceite dos Termos de Uso são
+                armazenadas para registrar quando o aceite ocorreu e qual versão
+                dos Termos estava disponível naquele momento.
+            </p>
+
+            <p>
+                Os dados relacionados à recuperação de senha são utilizados somente
+                para validar a solicitação e permitir a redefinição segura da senha
+                da conta.
             </p>
 
             <h2>4. Armazenamento e segurança</h2>
 
             <p>
-                Os dados do Organizador Acadêmico serão armazenados em banco de dados
-                PostgreSQL, utilizando o Supabase como serviço de hospedagem e gerenciamento
-                dessas informações.
+                Os dados do Organizador Acadêmico são armazenados em banco de dados
+                PostgreSQL utilizando o Supabase como serviço de banco de dados.
             </p>
 
             <p>
-                As senhas dos usuários não serão armazenadas em texto puro. O sistema utiliza
-                BCrypt para gerar o hash das senhas, além de aplicar validações e mecanismos
-                de controle de acesso para aumentar a segurança das informações.
-            </p>
-
-            <h2>5. Serviços de terceiros</h2>
-
-            <p>
-                O Organizador Acadêmico utiliza serviços de terceiros para viabilizar
-                algumas de suas funcionalidades e sua infraestrutura, como Supabase
-                para banco de dados, Render para hospedagem do backend, GitHub Pages
-                para publicação do frontend e ViaCEP para consulta de informações
-                relacionadas ao CEP da instituição de ensino.
+                As senhas dos usuários não são armazenadas em texto puro. O sistema
+                utiliza BCrypt para gerar hashes seguros das senhas antes de seu
+                armazenamento.
             </p>
 
             <p>
-                A utilização desses serviços ocorre apenas quando necessária para o
-                funcionamento do sistema, de acordo com a finalidade de cada recurso.
-            </p>
-
-            <h2>6. Compartilhamento de dados</h2>
-
-            <p>
-                O Organizador Acadêmico não tem como finalidade vender ou comercializar
-                os dados pessoais dos usuários. As informações poderão ser tratadas por
-                serviços utilizados na infraestrutura do sistema somente quando isso for
-                necessário para o funcionamento das funcionalidades oferecidas.
+                Após a autenticação, o sistema utiliza token JWT para identificar o
+                usuário nas funcionalidades protegidas. As requisições privadas
+                devem apresentar autenticação válida para serem processadas.
             </p>
 
             <p>
-                O acesso às informações deverá ocorrer de forma limitada às finalidades
-                do sistema e respeitando as medidas de segurança e privacidade adotadas
-                pelo projeto.
-            </p>
-
-            <h2>7. Tempo de armazenamento</h2>
-
-            <p>
-                Os dados dos usuários serão mantidos enquanto forem necessários para
-                a manutenção da conta e para o funcionamento das funcionalidades do
-                Organizador Acadêmico.
+                O backend realiza verificações para que o usuário tenha acesso
+                apenas às informações relacionadas à própria conta. Identificadores
+                enviados pelo frontend não são utilizados como única forma de
+                determinar a propriedade dos dados.
             </p>
 
             <p>
-                Quando os dados deixarem de ser necessários, poderão ser removidos
-                de acordo com as funcionalidades disponibilizadas pelo sistema e com
-                as regras aplicáveis ao tratamento de dados pessoais.
+                As credenciais de banco de dados, chaves de APIs externas e demais
+                segredos utilizados pelo sistema são mantidos em variáveis de
+                ambiente e não devem ser armazenados diretamente no código-fonte
+                ou disponibilizados publicamente no repositório do projeto.
             </p>
 
-            <h2>8. Direitos do usuário</h2>
+            <h2>5. Recuperação de senha</h2>
 
             <p>
-                O usuário poderá solicitar acesso às informações relacionadas à sua
-                conta, bem como a correção ou atualização de dados incorretos ou
-                desatualizados.
+                O Organizador Acadêmico disponibiliza uma funcionalidade de
+                recuperação de senha por meio de código de verificação enviado ao
+                endereço de e-mail cadastrado.
             </p>
 
             <p>
-                Também poderá solicitar a exclusão de seus dados pessoais, observadas
-                as condições necessárias para o funcionamento do sistema e as regras
-                aplicáveis de proteção de dados.
+                O código possui validade limitada e não é armazenado em texto puro.
+                O sistema armazena somente o hash utilizado para sua validação.
             </p>
 
-            <h2>9. Alterações da Política de Privacidade</h2>
+            <p>
+                Também são aplicados controles de tentativas e de solicitações para
+                reduzir o risco de uso indevido da funcionalidade de recuperação
+                de senha.
+            </p>
+
+            <p>
+                Após a utilização válida do código, ele não poderá ser reutilizado.
+            </p>
+
+            <h2>6. Serviços de terceiros</h2>
+
+            <p>
+                O Organizador Acadêmico utiliza serviços de terceiros necessários
+                ao funcionamento de determinadas funcionalidades.
+            </p>
+
+            <p>
+                O Supabase é utilizado para hospedagem e gerenciamento do banco de
+                dados PostgreSQL do sistema.
+            </p>
+
+            <p>
+                A Resend é utilizada para o envio de e-mails relacionados à
+                recuperação de senha. Nesse processo, o endereço de e-mail do
+                usuário e o conteúdo necessário ao envio da mensagem poderão ser
+                tratados pelo serviço.
+            </p>
+
+            <p>
+                A integração com esses serviços ocorre somente quando necessária
+                para o funcionamento das funcionalidades correspondentes.
+            </p>
+
+            <h2>7. Compartilhamento de dados</h2>
+
+            <p>
+                O Organizador Acadêmico não tem como finalidade vender ou
+                comercializar os dados pessoais de seus usuários.
+            </p>
+
+            <p>
+                Alguns dados poderão ser tratados por serviços utilizados na
+                infraestrutura da aplicação, como Supabase e Resend, quando isso
+                for necessário para fornecer as funcionalidades do sistema.
+            </p>
+
+            <p>
+                O tratamento dessas informações deve ocorrer de forma limitada às
+                finalidades apresentadas nesta Política de Privacidade.
+            </p>
+
+            <h2>8. Tempo de armazenamento</h2>
+
+            <p>
+                Os dados relacionados à conta e às informações acadêmicas serão
+                mantidos enquanto forem necessários para a utilização e o
+                funcionamento do Organizador Acadêmico.
+            </p>
+
+            <p>
+                Informações temporárias utilizadas para recuperação de senha serão
+                mantidas somente pelo período necessário para controle e validação
+                da solicitação, conforme as regras de segurança definidas pelo
+                sistema.
+            </p>
+
+            <p>
+                Quando uma conta for excluída, os dados vinculados serão tratados
+                de acordo com as regras de exclusão e retenção adotadas pelo
+                projeto e com as necessidades técnicas aplicáveis.
+            </p>
+
+            <h2>9. Direitos do usuário</h2>
+
+            <p>
+                O usuário poderá acessar informações relacionadas à própria conta
+                e solicitar a correção de dados pessoais que estejam incorretos ou
+                desatualizados, conforme as funcionalidades disponibilizadas pelo
+                sistema.
+            </p>
+
+            <p>
+                O usuário também poderá alterar sua senha e solicitar a exclusão
+                da própria conta.
+            </p>
+
+            <p>
+                A exclusão da conta será realizada após a confirmação da identidade
+                do usuário, por meio de autenticação e confirmação da senha atual.
+            </p>
+
+            <p>
+                O usuário poderá consultar a Política de Privacidade e os Termos de
+                Uso disponibilizados pelo Organizador Acadêmico a qualquer momento
+                por meio das páginas acessíveis dentro do sistema.
+            </p>
+
+            <h2>10. Controle de acesso aos dados</h2>
+
+            <p>
+                As funcionalidades privadas do Organizador Acadêmico exigem
+                autenticação válida.
+            </p>
+
+            <p>
+                O sistema utiliza o token de autenticação para identificar o usuário
+                responsável pela requisição e verificar o acesso às informações
+                vinculadas à sua conta.
+            </p>
+
+            <p>
+                Um usuário não deverá conseguir consultar, alterar ou excluir dados
+                pertencentes a outro usuário por meio da alteração de identificadores
+                enviados na URL, no corpo da requisição ou pelo frontend.
+            </p>
+
+            <h2>11. Alterações desta Política de Privacidade</h2>
 
             <p>
                 Esta Política de Privacidade poderá ser atualizada sempre que houver
                 mudanças relevantes nas funcionalidades do Organizador Acadêmico,
-                no tratamento dos dados pessoais ou nos serviços utilizados pelo sistema.
+                no tratamento dos dados pessoais ou nos serviços utilizados pelo
+                sistema.
+            </p>
+
+            <p>
+                Quando houver alterações relevantes, a versão da Política poderá
+                ser atualizada para representar as novas condições de tratamento
+                dos dados.
             </p>
 
             <p>
@@ -142,18 +278,32 @@
             </p>
 
             <p class="data-atualizacao">
-                Última atualização: 24 de agosto de 2026.
+                Última atualização: 24 de setembro de 2026.
             </p>
 
             <div class="acoes-privacidade">
-                <a href="cadastro.html" class="botao-voltar-cadastro">
-                    Voltar para o cadastro
-                </a>
+                <button
+                    type="button"
+                    class="botao-voltar-cadastro"
+                    onclick="voltarPagina()">
+                    Voltar
+                </button>
             </div>
 
         </section>
 
     </main>
+
+    <script>
+        function voltarPagina() {
+
+            if (document.referrer) {
+                history.back();
+            } else {
+                window.location.href = "index.html";
+            }
+        }
+    </script>
 
 </body>
 
