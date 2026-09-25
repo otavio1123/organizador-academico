@@ -11,7 +11,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.organizador.api.model.LogAuditoria;
 import com.organizador.api.model.RecuperacaoSenha;
+import com.organizador.api.repository.LogAuditoriaRepository;
 import com.organizador.api.repository.RecuperacaoSenhaRepository;
 import com.organizador.api.repository.UsuarioRepository;
 
@@ -26,35 +28,44 @@ public class AuthService {
     private final UsuarioRepository usuarioRepository;
     private final RecuperacaoSenhaRepository recuperacaoSenhaRepository;
     private final EmailService emailService;
+    private final LogAuditoriaRepository logAuditoriaRepository;
 
     private final SecureRandom secureRandom = new SecureRandom();
+
     private final BCryptPasswordEncoder passwordEncoder =
             new BCryptPasswordEncoder();
 
     public AuthService(
             UsuarioRepository usuarioRepository,
             RecuperacaoSenhaRepository recuperacaoSenhaRepository,
-            EmailService emailService) {
+            EmailService emailService,
+            LogAuditoriaRepository logAuditoriaRepository) {
 
         this.usuarioRepository = usuarioRepository;
         this.recuperacaoSenhaRepository = recuperacaoSenhaRepository;
         this.emailService = emailService;
+        this.logAuditoriaRepository = logAuditoriaRepository;
     }
 
     public void solicitarRecuperacao(String email) {
 
-        var usuarioEncontrado = usuarioRepository.findByEmail(email);
+        var usuarioEncontrado =
+                usuarioRepository.findByEmail(email);
 
         if (usuarioEncontrado.isEmpty()) {
             return;
         }
 
-        var usuario = usuarioEncontrado.get();
+        var usuario =
+                usuarioEncontrado.get();
 
-        LocalDateTime agora = LocalDateTime.now();
+        LocalDateTime agora =
+                LocalDateTime.now();
 
         LocalDateTime inicioLimite =
-                agora.minusMinutes(TEMPO_LIMITE_MINUTOS);
+                agora.minusMinutes(
+                        TEMPO_LIMITE_MINUTOS
+                );
 
         long quantidadeSolicitacoes =
                 recuperacaoSenhaRepository
@@ -63,36 +74,80 @@ public class AuthService {
                                 inicioLimite
                         );
 
-        if (quantidadeSolicitacoes >= LIMITE_SOLICITACOES) {
+        if (quantidadeSolicitacoes >=
+                LIMITE_SOLICITACOES) {
+
             return;
         }
 
-        String codigo = gerarCodigoRecuperacao();
-        String codigoHash = gerarHashCodigo(codigo);
+        String codigo =
+                gerarCodigoRecuperacao();
 
-        RecuperacaoSenha recuperacao = new RecuperacaoSenha();
+        String codigoHash =
+                gerarHashCodigo(codigo);
+
+        RecuperacaoSenha recuperacao =
+                new RecuperacaoSenha();
 
         recuperacao.setUsuario(usuario);
-        recuperacao.setTokenHash(codigoHash);
-        recuperacao.setCriadoEm(agora);
-        recuperacao.setExpiraEm(
-                agora.plusMinutes(TEMPO_EXPIRACAO_CODIGO_MINUTOS)
+
+        recuperacao.setTokenHash(
+                codigoHash
         );
+
+        recuperacao.setCriadoEm(
+                agora
+        );
+
+        recuperacao.setExpiraEm(
+                agora.plusMinutes(
+                        TEMPO_EXPIRACAO_CODIGO_MINUTOS
+                )
+        );
+
         recuperacao.setUsadoEm(null);
+
         recuperacao.setTentativas(0);
 
-        recuperacaoSenhaRepository.save(recuperacao);
+        recuperacaoSenhaRepository.save(
+                recuperacao
+        );
 
         emailService.enviarCodigoRecuperacao(
                 usuario.getEmail(),
                 codigo
         );
+
+
+        LogAuditoria log =
+                new LogAuditoria();
+
+        log.setIdUsuario(
+                Long.valueOf(
+                        usuario.getId()
+                )
+        );
+
+        log.setNomeUsuario(
+                usuario.getNome()
+        );
+
+        log.setAcao(
+                "Solicitou recuperação de senha"
+        );
+
+        logAuditoriaRepository.save(
+                log
+        );
     }
 
     @Transactional
-    public boolean verificarCodigo(String email, String codigo) {
+    public boolean verificarCodigo(
+            String email,
+            String codigo) {
 
-        String codigoHash = gerarHashCodigo(codigo);
+        String codigoHash =
+                gerarHashCodigo(codigo);
 
         var recuperacaoEncontrada =
                 recuperacaoSenhaRepository
@@ -104,29 +159,44 @@ public class AuthService {
             return false;
         }
 
-        var recuperacao = recuperacaoEncontrada.get();
+        var recuperacao =
+                recuperacaoEncontrada.get();
 
         if (recuperacao.getUsadoEm() != null) {
             return false;
         }
 
-        if (recuperacao.getExpiraEm().isBefore(LocalDateTime.now())) {
+        if (recuperacao
+                .getExpiraEm()
+                .isBefore(
+                        LocalDateTime.now()
+                )) {
+
             return false;
         }
 
-        int tentativas = recuperacao.getTentativas() == null
-                ? 0
-                : recuperacao.getTentativas();
+        int tentativas =
+                recuperacao.getTentativas() == null
+                        ? 0
+                        : recuperacao.getTentativas();
 
-        if (tentativas >= LIMITE_TENTATIVAS_CODIGO) {
+        if (tentativas >=
+                LIMITE_TENTATIVAS_CODIGO) {
+
             return false;
         }
 
-        if (!recuperacao.getTokenHash().equals(codigoHash)) {
+        if (!recuperacao
+                .getTokenHash()
+                .equals(codigoHash)) {
 
-            recuperacao.setTentativas(tentativas + 1);
+            recuperacao.setTentativas(
+                    tentativas + 1
+            );
 
-            recuperacaoSenhaRepository.save(recuperacao);
+            recuperacaoSenhaRepository.save(
+                    recuperacao
+            );
 
             return false;
         }
@@ -140,7 +210,8 @@ public class AuthService {
             String codigo,
             String novaSenha) {
 
-        String codigoHash = gerarHashCodigo(codigo);
+        String codigoHash =
+                gerarHashCodigo(codigo);
 
         var recuperacaoEncontrada =
                 recuperacaoSenhaRepository
@@ -152,70 +223,133 @@ public class AuthService {
             return false;
         }
 
-        var recuperacao = recuperacaoEncontrada.get();
+        var recuperacao =
+                recuperacaoEncontrada.get();
 
         if (recuperacao.getUsadoEm() != null) {
             return false;
         }
 
-        if (recuperacao.getExpiraEm().isBefore(LocalDateTime.now())) {
-            return false;
-        }
-
-        int tentativas = recuperacao.getTentativas() == null
-                ? 0
-                : recuperacao.getTentativas();
-
-        if (tentativas >= LIMITE_TENTATIVAS_CODIGO) {
-            return false;
-        }
-
-        if (!recuperacao.getTokenHash().equals(codigoHash)) {
-
-            recuperacao.setTentativas(tentativas + 1);
-
-            recuperacaoSenhaRepository.save(recuperacao);
+        if (recuperacao
+                .getExpiraEm()
+                .isBefore(
+                        LocalDateTime.now()
+                )) {
 
             return false;
         }
 
-        var usuario = recuperacao.getUsuario();
+        int tentativas =
+                recuperacao.getTentativas() == null
+                        ? 0
+                        : recuperacao.getTentativas();
+
+        if (tentativas >=
+                LIMITE_TENTATIVAS_CODIGO) {
+
+            return false;
+        }
+
+        if (!recuperacao
+                .getTokenHash()
+                .equals(codigoHash)) {
+
+            recuperacao.setTentativas(
+                    tentativas + 1
+            );
+
+            recuperacaoSenhaRepository.save(
+                    recuperacao
+            );
+
+            return false;
+        }
+
+        var usuario =
+                recuperacao.getUsuario();
 
         String senhaCriptografada =
-                passwordEncoder.encode(novaSenha);
+                passwordEncoder.encode(
+                        novaSenha
+                );
 
-        usuario.setSenha(senhaCriptografada);
+        usuario.setSenha(
+                senhaCriptografada
+        );
 
-        usuarioRepository.save(usuario);
+        usuarioRepository.save(
+                usuario
+        );
 
-        recuperacao.setUsadoEm(LocalDateTime.now());
+        recuperacao.setUsadoEm(
+                LocalDateTime.now()
+        );
 
-        recuperacaoSenhaRepository.save(recuperacao);
+        recuperacaoSenhaRepository.save(
+                recuperacao
+        );
+
+
+        LogAuditoria log =
+                new LogAuditoria();
+
+        log.setIdUsuario(
+                Long.valueOf(
+                        usuario.getId()
+                )
+        );
+
+        log.setNomeUsuario(
+                usuario.getNome()
+        );
+
+        log.setAcao(
+                "Redefiniu a senha"
+        );
+
+        logAuditoriaRepository.save(
+                log
+        );
 
         return true;
     }
 
     private String gerarCodigoRecuperacao() {
 
-        int numero = secureRandom.nextInt(1000000);
+        int numero =
+                secureRandom.nextInt(
+                        1000000
+                );
 
-        return String.format("%06d", numero);
+        return String.format(
+                "%06d",
+                numero
+        );
     }
 
-    private String gerarHashCodigo(String codigo) {
+    private String gerarHashCodigo(
+            String codigo) {
 
         try {
 
             MessageDigest digest =
-                    MessageDigest.getInstance("SHA-256");
+                    MessageDigest.getInstance(
+                            "SHA-256"
+                    );
 
-            byte[] hash = digest.digest(
-                    codigo.getBytes(StandardCharsets.UTF_8)
-            );
+            byte[] hash =
+                    digest.digest(
+                            codigo.getBytes(
+                                    StandardCharsets.UTF_8
+                            )
+                    );
 
-            return HexFormat.of().formatHex(hash);
+            return HexFormat
+                    .of()
+                    .formatHex(hash);
 
-        } catch (NoSuchAlgorithmException erro) {
+        } catch (
+                NoSuchAlgorithmException erro) {
 
             throw new IllegalStateException(
                     "Não foi possível gerar o hash do código.",

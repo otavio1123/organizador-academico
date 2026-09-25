@@ -16,7 +16,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.organizador.api.dto.AlterarSenhaRequest;
 import com.organizador.api.dto.ExcluirContaRequest;
+import com.organizador.api.model.LogAuditoria;
 import com.organizador.api.model.Usuario;
+import com.organizador.api.repository.LogAuditoriaRepository;
 import com.organizador.api.repository.UsuarioRepository;
 import com.organizador.api.service.TokenService;
 
@@ -28,16 +30,19 @@ public class UsuarioController {
 
     private final UsuarioRepository usuarioRepository;
     private final TokenService tokenService;
+    private final LogAuditoriaRepository logAuditoriaRepository;
 
     private final BCryptPasswordEncoder passwordEncoder =
             new BCryptPasswordEncoder();
 
     public UsuarioController(
             UsuarioRepository usuarioRepository,
-            TokenService tokenService) {
+            TokenService tokenService,
+            LogAuditoriaRepository logAuditoriaRepository) {
 
         this.usuarioRepository = usuarioRepository;
         this.tokenService = tokenService;
+        this.logAuditoriaRepository = logAuditoriaRepository;
     }
 
     @PostMapping("/usuarios")
@@ -71,7 +76,9 @@ public class UsuarioController {
         );
 
         String email =
-                usuario.getEmail().trim().toLowerCase();
+                usuario.getEmail()
+                        .trim()
+                        .toLowerCase();
 
         usuario.setEmail(email);
 
@@ -108,9 +115,11 @@ public class UsuarioController {
         }
 
         usuario.setAceitouTermos("S");
+
         usuario.setDataAceiteTermos(
                 LocalDateTime.now()
         );
+
         usuario.setVersaoTermos("1.0");
 
         String senhaCriptografada =
@@ -125,17 +134,41 @@ public class UsuarioController {
         Usuario usuarioSalvo =
                 usuarioRepository.save(usuario);
 
+
+        LogAuditoria log =
+                new LogAuditoria();
+
+        log.setIdUsuario(
+                Long.valueOf(
+                        usuarioSalvo.getId()
+                )
+        );
+
+        log.setNomeUsuario(
+                usuarioSalvo.getNome()
+        );
+
+        log.setAcao(
+                "Realizou cadastro"
+        );
+
+        logAuditoriaRepository.save(log);
+
+
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(usuarioSalvo);
     }
+
 
     @PostMapping("/usuarios/login")
     public ResponseEntity<?> login(
             @RequestBody Usuario usuario) {
 
         String email =
-                usuario.getEmail().trim().toLowerCase();
+                usuario.getEmail()
+                        .trim()
+                        .toLowerCase();
 
         var usuarioEncontrado =
                 usuarioRepository.findByEmail(email);
@@ -174,6 +207,27 @@ public class UsuarioController {
                         usuarioBanco.getEmail()
                 );
 
+
+        LogAuditoria log =
+                new LogAuditoria();
+
+        log.setIdUsuario(
+                Long.valueOf(
+                        usuarioBanco.getId()
+                )
+        );
+
+        log.setNomeUsuario(
+                usuarioBanco.getNome()
+        );
+
+        log.setAcao(
+                "Realizou login"
+        );
+
+        logAuditoriaRepository.save(log);
+
+
         return ResponseEntity.ok(
                 Map.of(
                         "usuario", usuarioBanco,
@@ -181,6 +235,7 @@ public class UsuarioController {
                 )
         );
     }
+
 
     @PutMapping("/usuarios/senha")
     public ResponseEntity<?> alterarSenha(
@@ -243,6 +298,27 @@ public class UsuarioController {
 
         usuarioRepository.save(usuario);
 
+
+        LogAuditoria log =
+                new LogAuditoria();
+
+        log.setIdUsuario(
+                Long.valueOf(
+                        usuario.getId()
+                )
+        );
+
+        log.setNomeUsuario(
+                usuario.getNome()
+        );
+
+        log.setAcao(
+                "Alterou a senha"
+        );
+
+        logAuditoriaRepository.save(log);
+
+
         return ResponseEntity.ok(
                 Map.of(
                         "mensagem",
@@ -250,6 +326,7 @@ public class UsuarioController {
                 )
         );
     }
+
 
     @DeleteMapping("/usuarios")
     public ResponseEntity<?> excluirConta(
@@ -300,6 +377,27 @@ public class UsuarioController {
                             "Senha incorreta."
                     ));
         }
+
+
+        LogAuditoria log =
+                new LogAuditoria();
+
+        log.setIdUsuario(
+                Long.valueOf(
+                        usuario.getId()
+                )
+        );
+
+        log.setNomeUsuario(
+                usuario.getNome()
+        );
+
+        log.setAcao(
+                "Solicitou exclusão da conta"
+        );
+
+        logAuditoriaRepository.save(log);
+
 
         usuarioRepository.delete(usuario);
 
