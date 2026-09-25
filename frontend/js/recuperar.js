@@ -19,7 +19,12 @@ formRecuperar.addEventListener("submit", async (event) => {
         if (!resposta.ok) {
             throw new Error("Erro ao solicitar recuperação.");
         }
-
+   
+        await fetch(`${API_URL}/LogAuditoria`, {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({nomeUsuario: "null",acao: "Solicitou recuperação de senha"})
+        });
 Swal.fire({
     icon: "info",
     title: "Solicitação recebida",

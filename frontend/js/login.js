@@ -25,6 +25,17 @@ formConfirmar.addEventListener("submit", async (event) => {
 
         if (!resposta.ok) {
 
+            await fetch(`${API_URL}/LogAuditoria`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    nomeUsuario: "NULL",
+                    acao: "Tentativa de login inválida" 
+                })
+            });
+
             Swal.fire({
                 icon: "error",
                 title: "Login inválido",
@@ -33,6 +44,18 @@ formConfirmar.addEventListener("submit", async (event) => {
 
             return;
         }
+
+        await fetch(`${API_URL}/LogAuditoria`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                idUsuario: dados.id,
+                nomeUsuario: dados.nome,
+                acao: "O " + dados.nome + " realizou login no sistema"
+            })
+        })
 
         localStorage.setItem("usuarioLogado", JSON.stringify(dados));
         Swal.fire({
