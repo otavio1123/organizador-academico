@@ -1,35 +1,63 @@
 package com.organizador.api.service;
 
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+
+import com.resend.Resend;
+import com.resend.core.exception.ResendException;
+import com.resend.services.emails.model.CreateEmailOptions;
 
 @Service
 public class EmailService {
 
-    private final JavaMailSender mailSender;
+    private final Resend resend;
 
-    public EmailService(JavaMailSender mailSender) {
-        this.mailSender = mailSender;
+    public EmailService(
+            @Value("${resend.api-key}") String apiKey) {
+
+        this.resend = new Resend(apiKey);
     }
 
-    public void enviarRecuperacaoSenha(String destinatario, String linkRedefinicao) {
+    public void enviarCodigoRecuperacao(
+            String destinatario,
+            String codigo) {
 
-        SimpleMailMessage mensagem = new SimpleMailMessage();
+        CreateEmailOptions email =
+                CreateEmailOptions.builder()
+                        .from(
+                                "Organizador Acadêmico "
+                                + "<onboarding@resend.dev>"
+                        )
+                        .to(destinatario)
+                        .subject(
+                                "Código de recuperação - "
+                                + "Organizador Acadêmico"
+                        )
+                        .text(
+                                "Olá!\n\n"
+                                + "Recebemos uma solicitação para "
+                                + "redefinir a senha da sua conta "
+                                + "no Organizador Acadêmico.\n\n"
+                                + "Seu código de recuperação é:\n\n"
+                                + codigo
+                                + "\n\nEste código é válido por "
+                                + "15 minutos.\n\n"
+                                + "Se você não solicitou a "
+                                + "redefinição de senha, ignore "
+                                + "este e-mail."
+                        )
+                        .build();
 
-        mensagem.setTo(destinatario);
-        mensagem.setSubject("Redefinição de senha - Organizador Acadêmico");
+        try {
 
-        mensagem.setText(
-                "Olá!\n\n"
-                + "Recebemos uma solicitação para redefinir a senha da sua conta "
-                + "no Organizador Acadêmico.\n\n"
-                + "Para criar uma nova senha, acesse o link abaixo:\n\n"
-                + linkRedefinicao
-                + "\n\nEste link é válido por 15 minutos.\n\n"
-                + "Se você não solicitou a redefinição de senha, ignore este e-mail."
-        );
+            resend.emails().send(email);
 
-        mailSender.send(mensagem);
+        } catch (ResendException erro) {
+
+            throw new IllegalStateException(
+                    "Não foi possível enviar o e-mail de recuperação.",
+                    erro
+            );
+        }
     }
 }

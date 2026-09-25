@@ -80,3 +80,24 @@ body {
         padding: 30px 20px;
     }
 }
+
+.rodape {
+    text-align: center;
+    padding: 20px;
+    margin-top: 40px;
+    font-size: 14px;
+}
+
+.rodape a {
+    color: #555;
+    text-decoration: none;
+}
+
+.rodape a:hover {
+    text-decoration: underline;
+}
+
+.rodape span {
+    margin: 0 8px;
+    color: #999;
+}

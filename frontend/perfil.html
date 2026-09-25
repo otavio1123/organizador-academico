@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Perfil - Organizador Acadêmico</title>
+
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/perfil.css">
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    >
+</head>
+
+<body>
+
+    <main class="pagina-perfil">
+
+        <section class="caixa-perfil">
+
+            <h1>Meu Perfil</h1>
+
+            <p id="nomeUsuario"></p>
+            <p id="emailUsuario"></p>
+
+            <hr>
+
+            <h2>Alterar senha</h2>
+
+            <form id="formAlterarSenha">
+
+                <div class="campo-senha">
+                    <input
+                        type="password"
+                        id="senhaAtual"
+                        placeholder="Senha atual"
+                        required
+                    >
+                </div>
+
+                <div class="campo-senha">
+                    <input
+                        type="password"
+                        id="novaSenha"
+                        placeholder="Nova senha"
+                        minlength="8"
+                        required
+                    >
+                </div>
+
+                <div class="campo-senha">
+                    <input
+                        type="password"
+                        id="confirmarNovaSenha"
+                        placeholder="Confirmar nova senha"
+                        minlength="8"
+                        required
+                    >
+                </div>
+
+                <button type="submit">
+                    Alterar senha
+                </button>
+
+            </form>
+
+            <hr>
+
+            <div class="acoes-perfil">
+
+                <button id="btnSair">
+                    Sair da conta
+                </button>
+
+                <button id="btnExcluirConta">
+                    Excluir conta
+                </button>
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="js/perfil.js"></script>
+    <footer class="rodape">
+    <p>
+        <a href="termos.html">Termos de Uso</a>
+        <span>|</span>
+        <a href="privacidade.html">Política de Privacidade</a>
+    </p>
+</footer>
+</body>
+
+</html>

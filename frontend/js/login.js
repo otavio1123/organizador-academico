@@ -61,7 +61,16 @@ formConfirmar.addEventListener("submit", async (event) => {
             return;
         }
 
-        localStorage.setItem("usuarioLogado", JSON.stringify(dados));
+        localStorage.setItem(
+            "usuarioLogado",
+            JSON.stringify(dados.usuario)
+        );
+
+        localStorage.setItem(
+            "token",
+            dados.token
+        );
+
         Swal.fire({
             icon: "success",
             title: "Login realizado!",

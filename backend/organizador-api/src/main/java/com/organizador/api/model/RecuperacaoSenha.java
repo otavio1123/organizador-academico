@@ -23,7 +23,7 @@ public class RecuperacaoSenha {
     @JoinColumn(name = "usuario_id", nullable = false)
     private Usuario usuario;
 
-    @Column(name = "token_hash", nullable = false, unique = true)
+    @Column(name = "token_hash", nullable = false)
     private String tokenHash;
 
     @Column(name = "criado_em", nullable = false)
@@ -34,6 +34,9 @@ public class RecuperacaoSenha {
 
     @Column(name = "usado_em")
     private LocalDateTime usadoEm;
+
+    @Column(name = "tentativas")
+    private Integer tentativas = 0;
 
     public Long getId() {
         return id;
@@ -81,5 +84,13 @@ public class RecuperacaoSenha {
 
     public void setUsadoEm(LocalDateTime usadoEm) {
         this.usadoEm = usadoEm;
+    }
+
+    public Integer getTentativas() {
+        return tentativas;
+    }
+
+    public void setTentativas(Integer tentativas) {
+        this.tentativas = tentativas;
     }
 }
