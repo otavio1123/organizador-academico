@@ -27,6 +27,9 @@ public interface SemestreRepository
     );
 
     @Transactional
+    void deleteByIdusuario(Integer idusuario);
+
+    @Transactional
     @Modifying
     @Query(
         "UPDATE Semestre s "

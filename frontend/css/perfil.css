@@ -107,3 +107,26 @@ body {
     margin: 0 8px;
     color: #999;
 }
+
+.botao-voltar {
+    position: absolute;
+    top: 25px;
+    left: 30px;
+
+    padding: 9px 16px;
+
+    border: 1px solid #d1d5db;
+    border-radius: 7px;
+
+    background-color: white;
+    color: #172238;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    cursor: pointer;
+}
+
+.botao-voltar:hover {
+    background-color: #f1f4f8;
+}

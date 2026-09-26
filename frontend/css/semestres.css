@@ -34,13 +34,11 @@ body {
 .logo img {
     width: 38px;
     height: 38px;
-
     object-fit: contain;
 }
 
 .logo h1 {
     margin: 0;
-
     color: white;
 
     font-size: 18px;
@@ -55,7 +53,6 @@ body {
 .info-perfil {
     display: flex;
     flex-direction: column;
-
     text-align: right;
 }
 
@@ -70,10 +67,11 @@ body {
     margin-top: 3px;
 
     color: #aeb7c7;
-
     font-size: 10px;
 }
 
+
+/* MENU */
 
 .menu-links {
     width: 100%;
@@ -89,8 +87,7 @@ body {
     box-sizing: border-box;
 }
 
-
-.menu-links div {
+.menu-links a {
     height: 100%;
 
     display: flex;
@@ -99,36 +96,41 @@ body {
     padding: 0 18px;
 
     color: #c7cfdd;
+    text-decoration: none;
 
     font-size: 11px;
     font-weight: 600;
 
     cursor: pointer;
-
     transition: 0.2s;
 }
 
-
-.menu-links div:hover {
+.menu-links a:hover {
     background-color: #2d3a52;
-
     color: white;
 }
 
-
-.menu-links div:nth-child(1) {
-    color: white;
+.menu-links a.ativo {
     background-color: #2d3a52;
+    color: white;
+
+    border-bottom: 3px solid #2563EB;
 }
+
+
+/* TÍTULO */
 
 #DivTitulo {
     width: 100%;
+
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    padding: 30px;
+
+    padding: 30px 36px;
+
     box-sizing: border-box;
 }
+
 #Titulo h1 {
     margin: 0;
     font-size: 28px;
@@ -136,54 +138,104 @@ body {
 
 #Titulo p {
     margin-top: 5px;
+    margin-bottom: 0;
+
     color: #666;
 }
+
+#filtroStatusSemestre {
+    height: 40px;
+
+    padding: 0 12px;
+
+    margin-left: auto;
+
+    border: 1px solid #d9e1eb;
+    border-radius: 6px;
+
+    background-color: white;
+    color: #526176;
+
+    font-size: 14px;
+
+    cursor: pointer;
+}
+
+#Divbotao-criarSmestres {
+    margin-left: 20px;
+}
+
+#botao-criarSemestres {
+    height: 40px;
+
+    padding: 0 16px;
+
+    display: flex;
+    align-items: center;
+
+    gap: 8px;
+
+    border: none;
+    border-radius: 6px;
+
+    background-color: #2563EB;
+    color: white;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+#botao-criarSemestres:hover {
+    background-color: #1d4ed8;
+}
+
+
+/* MODAL CRIAR SEMESTRE */
+
 #modalCriarSemestre label {
     display: block;
+
     margin-bottom: 7px;
+
     color: #526176;
+
     font-size: 14px;
     font-weight: 600;
 }
 
 #linhaAnoStatus {
     display: flex;
+
     gap: 18px;
+
     margin-bottom: 20px;
 }
 
 #linhaAnoStatus > div {
     flex: 1;
+
     display: flex;
     flex-direction: column;
 }
 
-/*
-#ativoSemestre {
-    width: calc(50% - 9px);
-    height: 48px;
-    padding: 0 15px;
-    margin-bottom: 20px;
-
-    border: 1px solid #d9e1eb;
-    border-radius: 8px;
-    box-sizing: border-box;
-
-    background-color: white;
-    color: #526176;
-    font-size: 14px;
-}
-*/
 #cabecalhoModal {
     display: flex;
+
     justify-content: space-between;
     align-items: center;
+
     margin-bottom: 28px;
 }
 
 #cabecalhoModal h2 {
     margin: 0;
+
     color: #172238;
+
     font-size: 25px;
     font-weight: 700;
 }
@@ -210,9 +262,11 @@ body {
 
 #corpoModal label {
     display: block;
+
     margin-bottom: 7px;
 
     color: #526176;
+
     font-size: 14px;
     font-weight: 600;
 }
@@ -231,6 +285,7 @@ body {
     box-sizing: border-box;
 
     color: #526176;
+
     font-size: 14px;
 }
 
@@ -245,6 +300,7 @@ body {
 
 #datasSemestre {
     display: flex;
+
     gap: 18px;
 }
 
@@ -256,41 +312,46 @@ body {
     margin-bottom: 25px;
 }
 
-#botao-criarSemestres{
-    background-color: #2563EB;
+#salvarSemestre:hover {
+    background-color: #1d4ed8;
+    cursor: pointer;
 }
 
-#salvarSemestre:hover {
-   border-radius: 5px;
-   background-color: #1d4ed8;
-   cursor: pointer;
-   align-self: flex-start;
-}
+
+/* LISTA DE SEMESTRES */
 
 #listaSemestres {
     display: flex;
     flex-wrap: wrap;
+
     gap: 20px;
+
     padding: 30px 50px;
 }
 
 .card-semestre {
     width: 300px;
+
     padding: 20px;
+
     background-color: #ffffff;
+
     border-radius: 12px;
-    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.12);
     border: 1px solid #e5e5e5;
+
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.12);
 }
 
 .card-semestre h2 {
     margin-top: 0;
     margin-bottom: 20px;
+
     font-size: 22px;
 }
 
 .card-semestre p {
     margin: 10px 0;
+
     font-size: 15px;
 }
 
@@ -301,48 +362,120 @@ body {
 .card-semestre span {
     margin-left: 5px;
 }
+
 .cabecalhoSemestre {
     display: flex;
+
     justify-content: space-between;
     align-items: center;
 }
 
+
+/* BOTÕES DOS CARDS */
+
+#DisciplinasIr {
+    display: inline-block;
+
+    padding: 8px 15px;
+
+    border-radius: 5px;
+
+    background-color: #2563EB;
+    color: white;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    text-decoration: none;
+
+    cursor: pointer;
+}
+
+#DisciplinasIr:hover {
+    background-color: #1d4ed8;
+}
+
+.botao-excluir-semestre {
+    padding: 8px 15px;
+
+    border: none;
+    border-radius: 5px;
+
+    background-color: #dc2626;
+    color: white;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    cursor: pointer;
+}
+
+.botao-excluir-semestre:hover {
+    background-color: #b91c1c;
+}
+
+
+/* MODAL DE EDIÇÃO */
+
 #modalStatus {
     display: none;
+
     position: fixed;
 
     top: 50%;
     left: 50%;
+
     transform: translate(-50%, -50%);
 
-    width: 400px;
-    padding: 30px;
+    width: 545px;
 
-    background: white;
-    border-radius: 12px;
+    padding: 32px 36px;
+
+    background-color: white;
+
+    border-radius: 18px;
+
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
 
     z-index: 1000;
 
-    /* organização do conteúdo */
-    display: none;
+    box-sizing: border-box;
+
     flex-direction: column;
 }
+
 #modalStatus h2 {
-    margin: 0 0 20px 0;
-    font-size: 24px;
+    margin: 0 0 28px 0;
+
+    color: #172238;
+
+    font-size: 25px;
+    font-weight: 700;
 }
 
 #fecharModalStatus {
     position: absolute;
-    top: 10px;
-    right: 15px;
+
+    top: 16px;
+    right: 18px;
+
+    width: 36px;
+    height: 36px;
 
     border: none;
-    background: transparent;
+    border-radius: 50%;
+
+    background-color: #f1f4f8;
+    color: #526176;
 
     font-size: 22px;
+    font-weight: bold;
+
     cursor: pointer;
+}
+
+#fecharModalStatus:hover {
+    background-color: #e3e8ef;
 }
 
 #nomeSemestreOpcoes {
@@ -353,14 +486,51 @@ body {
 }
 
 #modalStatus label {
-    margin-bottom: 8px;
+    display: block;
+
+    margin-bottom: 7px;
+
+    color: #526176;
+
+    font-size: 14px;
+    font-weight: 600;
 }
 
-#statusSemestre {
-    padding: 8px;
+#modalStatus input,
+#modalStatus select {
+    width: 100%;
+    height: 48px;
+
+    padding: 0 15px;
+
     margin-bottom: 20px;
 
-    width: 120px;
+    border: 1px solid #d9e1eb;
+    border-radius: 8px;
+
+    box-sizing: border-box;
+
+    background-color: white;
+    color: #526176;
+
+    font-size: 14px;
+}
+
+#modalStatus input:focus,
+#modalStatus select:focus {
+    outline: none;
+
+    border-color: #2563EB;
+}
+
+#linhaDatasEditar {
+    display: flex;
+
+    gap: 18px;
+}
+
+#linhaDatasEditar > div {
+    flex: 1;
 }
 
 #salvarStatusSemestre {
@@ -386,148 +556,18 @@ body {
     align-self: flex-end;
 }
 
-
-#filtroStatusSemestre {
-    height: 36px;
-    padding: 0 12px;
-
-    border: 1px solid #d9e1eb;
-    border-radius: 6px;
-
-    background-color: white;
-    color: #526176;
-
-    font-size: 14px;
-    cursor: pointer;
-}
-#DisciplinasIr {
-    display: inline-block;
-    padding: 8px 15px;
-    border-radius: 5px;
-    background-color: #2563EB;
-    color: white;
-    font-size: 14px;
-    font-weight: 600;
-    text-decoration: none;
-    cursor: pointer;
-}
-
-#DisciplinasIr:hover {
-    background-color: #1d4ed8;
-}
-.botao-excluir-semestre {
-    padding: 8px 15px;
-    border: none;
-    border-radius: 5px;
-    background-color: #dc2626;
-    color: white;
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-}
-
-.botao-excluir-semestre:hover {
-    background-color: #b91c1c;
-}
-
-#modalStatus {
-    display: none;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-
-    width: 545px;
-    padding: 32px 36px;
-
-    background-color: white;
-    border-radius: 18px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
-
-    z-index: 1000;
-    box-sizing: border-box;
-    flex-direction: column;
-}
-
-#modalStatus h2 {
-    margin: 0 0 28px 0;
-    color: #172238;
-    font-size: 25px;
-    font-weight: 700;
-}
-
-#fecharModalStatus {
-    position: absolute;
-    top: 16px;
-    right: 18px;
-
-    width: 36px;
-    height: 36px;
-
-    border: none;
-    border-radius: 50%;
-
-    background-color: #f1f4f8;
-    color: #526176;
-
-    font-size: 22px;
-    font-weight: bold;
-
-    cursor: pointer;
-}
-
-#modalStatus label {
-    display: block;
-    margin-bottom: 7px;
-
-    color: #526176;
-    font-size: 14px;
-    font-weight: 600;
-}
-
-#modalStatus input,
-#modalStatus select {
-    width: 100%;
-    height: 48px;
-
-    padding: 0 15px;
-    margin-bottom: 20px;
-
-    border: 1px solid #d9e1eb;
-    border-radius: 8px;
-
-    box-sizing: border-box;
-
-    background-color: white;
-    color: #526176;
-
-    font-size: 14px;
-}
-
-#modalStatus input:focus,
-#modalStatus select:focus {
-    outline: none;
-    border-color: #2563EB;
-}
-
-
-#linhaDatasEditar {
-    display: flex;
-    gap: 18px;
-}
-
-#linhaDatasEditar > div {
-    flex: 1;
-}
-
-
 #salvarStatusSemestre:hover {
     background-color: #1d4ed8;
 }
 
+
+/* RODAPÉ */
+
 .rodape {
     text-align: center;
+
     padding: 20px;
+
     margin-top: auto;
 
     font-size: 14px;
@@ -535,6 +575,7 @@ body {
 
 .rodape a {
     color: #555;
+
     text-decoration: none;
 }
 
@@ -544,5 +585,6 @@ body {
 
 .rodape span {
     margin: 0 8px;
+
     color: #999;
 }

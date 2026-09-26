@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.organizador.api.model.RecuperacaoSenha;
 import com.organizador.api.model.Usuario;
@@ -19,4 +20,7 @@ public interface RecuperacaoSenhaRepository
             Usuario usuario,
             LocalDateTime data
     );
+
+    @Transactional
+    void deleteByUsuario(Usuario usuario);
 }

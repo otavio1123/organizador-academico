@@ -157,14 +157,33 @@ formAlterarSenha.addEventListener(
 
 
 document.getElementById("btnSair")
-    .addEventListener("click", function () {
+    .addEventListener("click", async function () {
+
+        try {
+
+            await fetch(
+                "http://localhost:8080/LogAuditoria",
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": "Bearer " + token
+                    },
+                    body: JSON.stringify({
+                        acao: "Saiu do sistema"
+                    })
+                }
+            );
+
+        } catch (erro) {
+            console.error("Erro ao registrar logout:", erro);
+        }
 
         localStorage.removeItem("usuarioLogado");
         localStorage.removeItem("token");
 
         window.location.href = "index.html";
     });
-
 
 document.getElementById("btnExcluirConta")
     .addEventListener(

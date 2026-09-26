@@ -19,6 +19,8 @@ import com.organizador.api.dto.ExcluirContaRequest;
 import com.organizador.api.model.LogAuditoria;
 import com.organizador.api.model.Usuario;
 import com.organizador.api.repository.LogAuditoriaRepository;
+import com.organizador.api.repository.RecuperacaoSenhaRepository;
+import com.organizador.api.repository.SemestreRepository;
 import com.organizador.api.repository.UsuarioRepository;
 import com.organizador.api.service.TokenService;
 
@@ -31,6 +33,8 @@ public class UsuarioController {
     private final UsuarioRepository usuarioRepository;
     private final TokenService tokenService;
     private final LogAuditoriaRepository logAuditoriaRepository;
+    private final RecuperacaoSenhaRepository recuperacaoSenhaRepository;
+    private final SemestreRepository semestreRepository;
 
     private final BCryptPasswordEncoder passwordEncoder =
             new BCryptPasswordEncoder();
@@ -38,11 +42,15 @@ public class UsuarioController {
     public UsuarioController(
             UsuarioRepository usuarioRepository,
             TokenService tokenService,
-            LogAuditoriaRepository logAuditoriaRepository) {
+            LogAuditoriaRepository logAuditoriaRepository,
+            RecuperacaoSenhaRepository recuperacaoSenhaRepository,
+            SemestreRepository semestreRepository) {
 
         this.usuarioRepository = usuarioRepository;
         this.tokenService = tokenService;
         this.logAuditoriaRepository = logAuditoriaRepository;
+        this.recuperacaoSenhaRepository = recuperacaoSenhaRepository;
+        this.semestreRepository = semestreRepository;
     }
 
     @PostMapping("/usuarios")
@@ -120,7 +128,7 @@ public class UsuarioController {
                 LocalDateTime.now()
         );
 
-        usuario.setVersaoTermos("1.0");
+        usuario.setVersaoTermos("1.1");
 
         String senhaCriptografada =
                 passwordEncoder.encode(
@@ -133,7 +141,6 @@ public class UsuarioController {
 
         Usuario usuarioSalvo =
                 usuarioRepository.save(usuario);
-
 
         LogAuditoria log =
                 new LogAuditoria();
@@ -154,12 +161,10 @@ public class UsuarioController {
 
         logAuditoriaRepository.save(log);
 
-
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(usuarioSalvo);
     }
-
 
     @PostMapping("/usuarios/login")
     public ResponseEntity<?> login(
@@ -207,7 +212,6 @@ public class UsuarioController {
                         usuarioBanco.getEmail()
                 );
 
-
         LogAuditoria log =
                 new LogAuditoria();
 
@@ -227,7 +231,6 @@ public class UsuarioController {
 
         logAuditoriaRepository.save(log);
 
-
         return ResponseEntity.ok(
                 Map.of(
                         "usuario", usuarioBanco,
@@ -235,7 +238,6 @@ public class UsuarioController {
                 )
         );
     }
-
 
     @PutMapping("/usuarios/senha")
     public ResponseEntity<?> alterarSenha(
@@ -298,7 +300,6 @@ public class UsuarioController {
 
         usuarioRepository.save(usuario);
 
-
         LogAuditoria log =
                 new LogAuditoria();
 
@@ -318,7 +319,6 @@ public class UsuarioController {
 
         logAuditoriaRepository.save(log);
 
-
         return ResponseEntity.ok(
                 Map.of(
                         "mensagem",
@@ -326,7 +326,6 @@ public class UsuarioController {
                 )
         );
     }
-
 
     @DeleteMapping("/usuarios")
     public ResponseEntity<?> excluirConta(
@@ -378,7 +377,6 @@ public class UsuarioController {
                     ));
         }
 
-
         LogAuditoria log =
                 new LogAuditoria();
 
@@ -398,6 +396,11 @@ public class UsuarioController {
 
         logAuditoriaRepository.save(log);
 
+        recuperacaoSenhaRepository.deleteByUsuario(usuario);
+
+        semestreRepository.deleteByIdusuario(
+                usuario.getId()
+        );
 
         usuarioRepository.delete(usuario);
 
