@@ -115,7 +115,8 @@ public class AuthService {
 
         emailService.enviarCodigoRecuperacao(
                 usuario.getEmail(),
-                codigo
+                codigo,
+                 "RECUPERACAO"
         );
 
 

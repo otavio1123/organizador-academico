@@ -23,6 +23,8 @@ import com.organizador.api.repository.RecuperacaoSenhaRepository;
 import com.organizador.api.repository.SemestreRepository;
 import com.organizador.api.repository.UsuarioRepository;
 import com.organizador.api.service.TokenService;
+import com.organizador.api.service.EmailService;
+import java.security.SecureRandom;
 
 import jakarta.validation.Valid;
 
@@ -32,10 +34,15 @@ public class UsuarioController {
 
     private final UsuarioRepository usuarioRepository;
     private final TokenService tokenService;
+    private final EmailService emailService;
     private final LogAuditoriaRepository logAuditoriaRepository;
     private final RecuperacaoSenhaRepository recuperacaoSenhaRepository;
     private final SemestreRepository semestreRepository;
 
+    private final BCryptPasswordEncoder passwordEncoder2FA =
+        new BCryptPasswordEncoder();
+
+private final SecureRandom secureRandom = new SecureRandom();
     private final BCryptPasswordEncoder passwordEncoder =
             new BCryptPasswordEncoder();
 
@@ -44,14 +51,16 @@ public class UsuarioController {
             TokenService tokenService,
             LogAuditoriaRepository logAuditoriaRepository,
             RecuperacaoSenhaRepository recuperacaoSenhaRepository,
-            SemestreRepository semestreRepository) {
+            SemestreRepository semestreRepository,
+           EmailService emailService) {
 
         this.usuarioRepository = usuarioRepository;
         this.tokenService = tokenService;
         this.logAuditoriaRepository = logAuditoriaRepository;
         this.recuperacaoSenhaRepository = recuperacaoSenhaRepository;
         this.semestreRepository = semestreRepository;
-    }
+        this.emailService = emailService;
+     }
 
     @PostMapping("/usuarios")
     public ResponseEntity<?> cadastrar(
@@ -65,9 +74,10 @@ public class UsuarioController {
                     .body(Map.of(
                             "mensagem",
                             "Informe o nome."
+
                     ));
         }
-
+  
         if (usuario.getEmail() == null
                 || usuario.getEmail().trim().isEmpty()) {
 
@@ -191,6 +201,12 @@ public class UsuarioController {
         Usuario usuarioBanco =
                 usuarioEncontrado.get();
 
+System.out.println("E-mail recebido: " + email);
+System.out.println("Senha recebida existe: " + (usuario.getSenha() != null));
+System.out.println("Senha do banco existe: " + (usuarioBanco.getSenha() != null));
+System.out.println("Tamanho da senha do banco: " + usuarioBanco.getSenha().length());
+
+
         boolean senhaCorreta =
                 passwordEncoder.matches(
                         usuario.getSenha(),
@@ -206,12 +222,21 @@ public class UsuarioController {
                             "E-mail ou senha inválidos."
                     ));
         }
+       String codigo = tokenService.gerarCodigo2FA(
+                usuarioBanco.getEmail()
+        );
 
+        emailService.enviarCodigoRecuperacao(
+                usuarioBanco.getEmail(),
+                codigo,
+                "2FA"
+        );
+       /* 
         String token =
                 tokenService.gerarToken(
                         usuarioBanco.getEmail()
                 );
-
+        */
         LogAuditoria log =
                 new LogAuditoria();
 
@@ -234,7 +259,7 @@ public class UsuarioController {
         return ResponseEntity.ok(
                 Map.of(
                         "usuario", usuarioBanco,
-                        "token", token
+                        "requer2FA", true
                 )
         );
     }
@@ -272,11 +297,11 @@ public class UsuarioController {
 
         Usuario usuario =
                 usuarioEncontrado.get();
-
-        boolean senhaCorreta =
+     boolean senhaCorreta =
                 passwordEncoder.matches(
                         request.getSenhaAtual(),
                         usuario.getSenha()
+                        
                 );
 
         if (!senhaCorreta) {

@@ -20,33 +20,43 @@ public class EmailService {
 
     public void enviarCodigoRecuperacao(
             String destinatario,
-            String codigo) {
+            String codigo,
+            String tipo) {
 
-        CreateEmailOptions email =
-                CreateEmailOptions.builder()
-                        .from(
-                                "Organizador Acadêmico "
-                                + "<onboarding@resend.dev>"
-                        )
-                        .to(destinatario)
-                        .subject(
-                                "Código de recuperação - "
-                                + "Organizador Acadêmico"
-                        )
-                        .text(
-                                "Olá!\n\n"
-                                + "Recebemos uma solicitação para "
-                                + "redefinir a senha da sua conta "
-                                + "no Organizador Acadêmico.\n\n"
-                                + "Seu código de recuperação é:\n\n"
-                                + codigo
-                                + "\n\nEste código é válido por "
-                                + "15 minutos.\n\n"
-                                + "Se você não solicitou a "
-                                + "redefinição de senha, ignore "
-                                + "este e-mail."
-                        )
-                        .build();
+       String textoEmail;
+
+if ("2FA".equals(tipo)) {
+
+    textoEmail = "Olá!\n\n"
+               + "Foi realizado um acesso à sua conta "
+               + "no Organizador Acadêmico.\n\n"
+               + "Seu código de verificação é:\n\n"
+               + codigo
+               + "\n\nEste código é válido por "
+               + "15 minutos.";
+
+} else {
+
+    textoEmail = "Olá!\n\n"
+               + "Recebemos uma solicitação para "
+               + "redefinir a senha da sua conta "
+               + "no Organizador Acadêmico.\n\n"
+               + "Seu código de recuperação é:\n\n"
+               + codigo
+               + "\n\nEste código é válido por "
+               + "15 minutos.\n\n"
+               + "Se você não solicitou a "
+               + "redefinição de senha, ignore "
+               + "este e-mail.";
+}
+
+CreateEmailOptions email =
+        CreateEmailOptions.builder()
+                .from("Organizador Acadêmico " + "<onboarding@resend.dev>" )
+                .to(destinatario)
+                .subject( "2FA".equals(tipo) ? "Código de verificação - Organizador Acadêmico" : "Código de recuperação - Organizador Acadêmico" )
+                .text(textoEmail)
+                .build();
 
         try {
 

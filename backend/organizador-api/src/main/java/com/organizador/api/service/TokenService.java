@@ -5,6 +5,7 @@ import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
 
+import javax.crypto.Mac;
 import javax.crypto.SecretKey;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -49,4 +50,77 @@ public class TokenService {
                 .getPayload()
                 .getSubject();
     }
+    public String gerarCodigo2FA(String email) {
+
+    long intervalo =
+            Instant.now().getEpochSecond() / 900;
+
+    return gerarCodigo2FA(
+            email,
+            intervalo
+    );
+}
+
+private String gerarCodigo2FA(
+        String email,
+        long intervalo) {
+
+    try {
+
+        Mac mac =
+                Mac.getInstance("HmacSHA256");
+
+        mac.init(chave);
+
+        byte[] hash =
+                mac.doFinal(
+                        ("2FA:" + email + ":" + intervalo)
+                                .getBytes(StandardCharsets.UTF_8)
+                );
+
+        int numero =
+                ((hash[0] & 0xff) << 24)
+                | ((hash[1] & 0xff) << 16)
+                | ((hash[2] & 0xff) << 8)
+                | (hash[3] & 0xff);
+
+        numero =
+                Math.abs(numero);
+
+        return String.format(
+                "%06d",
+                numero % 1000000
+        );
+
+    } catch (Exception erro) {
+
+        throw new IllegalStateException(
+                "Não foi possível gerar o código 2FA.",
+                erro
+        );
+    }
+}
+
+public boolean verificarCodigo2FA(
+        String email,
+        String codigo) {
+
+    long intervalo =
+            Instant.now().getEpochSecond() / 900;
+
+    String codigoAtual =
+            gerarCodigo2FA(
+                    email,
+                    intervalo
+            );
+
+    String codigoAnterior =
+            gerarCodigo2FA(
+                    email,
+                    intervalo - 1
+            );
+
+    return codigo.equals(codigoAtual)
+            || codigo.equals(codigoAnterior);
+}
 }

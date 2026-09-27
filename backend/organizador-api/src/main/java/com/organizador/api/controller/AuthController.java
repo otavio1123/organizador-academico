@@ -2,6 +2,7 @@ package com.organizador.api.controller;
 
 import java.util.Map;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,6 +14,9 @@ import com.organizador.api.dto.RecuperarSenhaRequest;
 import com.organizador.api.dto.RedefinirSenhaRequest;
 import com.organizador.api.dto.VerificarCodigoRequest;
 import com.organizador.api.service.AuthService;
+import com.organizador.api.service.TokenService;
+import com.organizador.api.repository.UsuarioRepository;
+import com.organizador.api.model.Usuario;
 
 import jakarta.validation.Valid;
 
@@ -22,10 +26,20 @@ import jakarta.validation.Valid;
 public class AuthController {
 
     private final AuthService authService;
+    private final TokenService tokenService;
+    private final UsuarioRepository usuarioRepository;
 
-    public AuthController(AuthService authService) {
-        this.authService = authService;
-    }
+    public AuthController(
+        AuthService authService,
+        TokenService tokenService,
+        UsuarioRepository usuarioRepository) {
+
+    this.authService = authService;
+    this.tokenService = tokenService;
+    this.usuarioRepository = usuarioRepository;
+}
+
+   
 
     @PostMapping("/recuperar-senha")
     public ResponseEntity<?> recuperarSenha(
@@ -100,4 +114,57 @@ public class AuthController {
                 )
         );
     }
+   @PostMapping("/verificar-2fa")
+   public ResponseEntity<?> verificar2FA(
+        @RequestBody Map<String, String> dados) {
+
+         String email = dados.get("email").trim().toLowerCase();
+         String codigo = dados.get("codigo");
+
+         boolean codigoValido =
+             tokenService.verificarCodigo2FA(
+                     email,
+                     codigo
+             );
+
+             if (!codigoValido) {
+                 return ResponseEntity.badRequest().body(
+                         Map.of(
+                                 "mensagem",
+                                 "Código inválido."
+                         )
+                 );
+             }
+             var usuarioEncontrado =
+        usuarioRepository.findByEmail(email);
+
+if (usuarioEncontrado.isEmpty()) {
+    return ResponseEntity
+            .status(HttpStatus.UNAUTHORIZED)
+            .body(
+                    Map.of(
+                            "mensagem",
+                            "Usuário não encontrado."
+                    )
+            );
+}
+
+                Usuario usuario =
+                        usuarioEncontrado.get();
+
+                String token =
+                        tokenService.gerarToken(
+                                usuario.getEmail()
+                        );
+                
+                return ResponseEntity.ok(
+                        Map.of(
+                                "usuario", usuario,
+                                "token", token
+                        )
+                );
+
+             
+        }
+
 }
