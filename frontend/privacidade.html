@@ -40,6 +40,12 @@
             </p>
 
             <p>
+                O endereço de e-mail também é utilizado para autenticação,
+                recuperação de senha e envio de códigos temporários de autenticação
+                em duas etapas.
+            </p>
+
+            <p>
                 A senha cadastrada pelo usuário também é utilizada para autenticação,
                 porém não é armazenada em texto puro. O sistema mantém apenas o hash
                 da senha gerado por meio do BCrypt.
@@ -66,13 +72,20 @@
                 e a informação de utilização do código.
             </p>
 
+            <p>
+                Para a autenticação em duas etapas, o sistema gera um código
+                temporário de 6 dígitos vinculado ao endereço de e-mail do usuário.
+                Esse código é mantido somente durante o período necessário para sua
+                validação.
+            </p>
+
             <h2>3. Finalidade do tratamento dos dados</h2>
 
             <p>
                 Os dados pessoais são utilizados para permitir a criação e
-                identificação da conta, autenticação do usuário, recuperação e
-                alteração de senha e utilização das funcionalidades do Organizador
-                Acadêmico.
+                identificação da conta, autenticação do usuário, autenticação em
+                duas etapas, recuperação e alteração de senha e utilização das
+                funcionalidades do Organizador Acadêmico.
             </p>
 
             <p>
@@ -94,6 +107,12 @@
                 da conta.
             </p>
 
+            <p>
+                Os dados utilizados na autenticação em duas etapas têm como
+                finalidade confirmar uma segunda etapa de verificação antes da
+                conclusão do login e da geração do token de acesso.
+            </p>
+
             <h2>4. Armazenamento e segurança</h2>
 
             <p>
@@ -108,9 +127,26 @@
             </p>
 
             <p>
-                Após a autenticação, o sistema utiliza token JWT para identificar o
-                usuário nas funcionalidades protegidas. As requisições privadas
-                devem apresentar autenticação válida para serem processadas.
+                Após a validação do e-mail e da senha, o sistema exige uma segunda
+                etapa de autenticação por meio de um código temporário de 6 dígitos
+                enviado ao endereço de e-mail cadastrado.
+            </p>
+
+            <p>
+                O código utilizado na autenticação em duas etapas possui validade
+                de 15 minutos e, após uma validação realizada com sucesso, não poderá
+                ser reutilizado.
+            </p>
+
+            <p>
+                Somente após a conclusão da autenticação em duas etapas o sistema
+                gera o token JWT utilizado para identificar o usuário nas
+                funcionalidades protegidas.
+            </p>
+
+            <p>
+                As requisições privadas devem apresentar autenticação válida para
+                serem processadas.
             </p>
 
             <p>
@@ -127,7 +163,7 @@
                 ou disponibilizados publicamente no repositório do projeto.
             </p>
 
-            <h2>5. Recuperação de senha</h2>
+            <h2>5. Recuperação de senha e autenticação em duas etapas</h2>
 
             <p>
                 O Organizador Acadêmico disponibiliza uma funcionalidade de
@@ -136,8 +172,9 @@
             </p>
 
             <p>
-                O código possui validade limitada e não é armazenado em texto puro.
-                O sistema armazena somente o hash utilizado para sua validação.
+                No processo de recuperação de senha, o código possui validade
+                limitada e não é armazenado em texto puro. O sistema armazena
+                somente o hash utilizado para sua validação.
             </p>
 
             <p>
@@ -147,7 +184,20 @@
             </p>
 
             <p>
-                Após a utilização válida do código, ele não poderá ser reutilizado.
+                Após a utilização válida do código de recuperação, ele não poderá
+                ser reutilizado.
+            </p>
+
+            <p>
+                Durante o login, após a validação do e-mail e da senha, o sistema
+                envia um código temporário de 6 dígitos para o endereço de e-mail
+                cadastrado como segunda etapa de autenticação.
+            </p>
+
+            <p>
+                O código de autenticação em duas etapas possui validade de
+                15 minutos. Após sua utilização com sucesso, ele é invalidado e
+                não poderá ser reutilizado.
             </p>
 
             <h2>6. Serviços de terceiros</h2>
@@ -164,9 +214,9 @@
 
             <p>
                 A Resend é utilizada para o envio de e-mails relacionados à
-                recuperação de senha. Nesse processo, o endereço de e-mail do
-                usuário e o conteúdo necessário ao envio da mensagem poderão ser
-                tratados pelo serviço.
+                recuperação de senha e à autenticação em duas etapas. Nesse processo,
+                o endereço de e-mail do usuário e o conteúdo necessário ao envio da
+                mensagem poderão ser tratados pelo serviço.
             </p>
 
             <p>
@@ -195,31 +245,38 @@
             <h2>8. Tempo de armazenamento</h2>
 
             <p>
-               Os dados relacionados à conta e às informações acadêmicas serão
-               mantidos enquanto forem necessários para a utilização e o
-               funcionamento do Organizador Acadêmico.
+                Os dados relacionados à conta e às informações acadêmicas serão
+                mantidos enquanto forem necessários para a utilização e o
+                funcionamento do Organizador Acadêmico.
             </p>
 
-             <p>
+            <p>
                 Informações temporárias utilizadas para recuperação de senha serão
                 mantidas somente pelo período necessário para controle e validação
                 da solicitação, conforme as regras de segurança definidas pelo
                 sistema.
             </p>
 
-             <p>
+            <p>
+                Os códigos utilizados na autenticação em duas etapas são temporários
+                e permanecem disponíveis somente durante seu período de validade ou
+                até serem utilizados com sucesso.
+            </p>
+
+            <p>
                 Quando o usuário solicitar a exclusão da conta, os dados diretamente
                 vinculados a ela, como os dados da conta, os semestres cadastrados e
                 os registros de recuperação de senha, serão removidos.
             </p>
 
-             <p>
-               Os registros de auditoria poderão ser mantidos após a exclusão da
-               conta para preservar o histórico das ações realizadas e auxiliar no
-               controle de segurança do sistema. Esses registros podem conter o
-               identificador do usuário, seu nome, a ação realizada e a data e hora
-               do registro.
+            <p>
+                Os registros de auditoria poderão ser mantidos após a exclusão da
+                conta para preservar o histórico das ações realizadas e auxiliar no
+                controle de segurança do sistema. Esses registros podem conter o
+                identificador do usuário, seu nome, a ação realizada e a data e hora
+                do registro.
             </p>
+
             <h2>9. Direitos do usuário</h2>
 
             <p>
@@ -250,6 +307,12 @@
             <p>
                 As funcionalidades privadas do Organizador Acadêmico exigem
                 autenticação válida.
+            </p>
+
+            <p>
+                O sistema utiliza autenticação em duas etapas no processo de login.
+                Somente após a validação dessa etapa o token JWT é gerado para
+                identificar o usuário nas requisições protegidas.
             </p>
 
             <p>
@@ -285,7 +348,7 @@
             </p>
 
             <p class="data-atualizacao">
-                Última atualização: 25 de setembro de 2026.
+                Última atualização: 27 de setembro de 2026.
             </p>
 
             <div class="acoes-privacidade">

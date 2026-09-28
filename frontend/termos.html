@@ -17,217 +17,216 @@
         <section class="termos-conteudo">
 
             <h1 class="Termos-Uso">Termos de Uso</h1>
-<h1 class="Termos-Uso">Termos de Uso</h1>
 
-<h2>1. Aceitação dos Termos</h2>
+            <h2>1. Aceitação dos Termos</h2>
 
-<p>
-    Ao criar uma conta e marcar a opção de aceite no cadastro, o usuário
-    declara que leu, compreendeu e concorda com estes Termos de Uso.
-</p>
+            <p>
+                Ao criar uma conta e marcar a opção de aceite no cadastro, o usuário
+                declara que leu, compreendeu e concorda com estes Termos de Uso.
+            </p>
 
-<p>
-    O sistema registra a confirmação do aceite, a data e hora em que ele
-    ocorreu e a versão dos Termos aceita pelo usuário.
-</p>
+            <p>
+                O sistema registra a confirmação do aceite, a data e hora em que ele
+                ocorreu e a versão dos Termos aceita pelo usuário.
+            </p>
 
-<h2>2. Objetivo do sistema</h2>
+            <h2>2. Objetivo do sistema</h2>
 
-<p>
-    O Organizador Acadêmico tem como objetivo auxiliar estudantes na
-    organização e no acompanhamento de informações relacionadas à sua
-    rotina acadêmica, como semestres, disciplinas, atividades,
-    avaliações, notas e prazos.
-</p>
+            <p>
+                O Organizador Acadêmico tem como objetivo auxiliar estudantes na
+                organização e no acompanhamento de informações relacionadas à sua
+                rotina acadêmica, como semestres, disciplinas, atividades,
+                avaliações, notas e prazos.
+            </p>
 
-<p>
-    O sistema deve ser utilizado de forma adequada e para finalidades
-    relacionadas à organização acadêmica do próprio usuário.
-</p>
+            <p>
+                O sistema deve ser utilizado de forma adequada e para finalidades
+                relacionadas à organização acadêmica do próprio usuário.
+            </p>
 
-<h2>3. Cadastro e acesso à conta</h2>
+            <h2>3. Cadastro e acesso à conta</h2>
 
-<p>
-    Para utilizar as funcionalidades privadas do Organizador Acadêmico,
-    o usuário deverá criar uma conta utilizando informações válidas.
-</p>
+            <p>
+                Para utilizar as funcionalidades privadas do Organizador Acadêmico,
+                o usuário deverá criar uma conta utilizando informações válidas.
+            </p>
 
-<p>
-    O usuário é responsável por manter sua senha em sigilo e por evitar
-    o compartilhamento de suas credenciais de acesso com terceiros.
-</p>
+            <p>
+                O usuário é responsável por manter sua senha em sigilo e por evitar
+                o compartilhamento de suas credenciais de acesso com terceiros.
+            </p>
 
-<p>
-    Após a autenticação, o sistema utiliza token de autenticação JWT
-    para identificar o usuário e permitir o acesso às funcionalidades
-    vinculadas à sua conta.
-</p>
+            <p>
+                Após a autenticação, o sistema utiliza token de autenticação JWT
+                para identificar o usuário e permitir o acesso às funcionalidades
+                vinculadas à sua conta.
+            </p>
 
-<h2>4. Segurança da conta</h2>
+            <h2>4. Segurança da conta</h2>
 
-<p>
-    As senhas cadastradas não são armazenadas em texto puro. O sistema
-    utiliza BCrypt para gerar o hash das senhas antes do armazenamento.
-</p>
+            <p>
+                As senhas cadastradas não são armazenadas em texto puro. O sistema
+                utiliza BCrypt para gerar o hash das senhas antes do armazenamento.
+            </p>
 
-<p>
-    O Organizador Acadêmico utiliza mecanismos de autenticação,
-    controle de acesso e validação das requisições para reduzir o risco
-    de acesso indevido às informações dos usuários.
-</p>
+            <p>
+                O Organizador Acadêmico utiliza mecanismos de autenticação,
+                controle de acesso e validação das requisições para reduzir o risco
+                de acesso indevido às informações dos usuários.
+            </p>
 
-<p>
-    Para reforçar a segurança da conta, o sistema poderá exigir uma
-    segunda etapa de autenticação após a validação do e-mail e da senha,
-    por meio de um código temporário enviado ao endereço de e-mail
-    cadastrado.
-</p>
+            <p>
+                Para reforçar a segurança da conta, após a validação do e-mail e da
+                senha, o sistema exige uma segunda etapa de autenticação por meio de
+                um código temporário de 6 dígitos enviado ao endereço de e-mail
+                cadastrado.
+            </p>
 
-<p>
-    O código de autenticação possui prazo de validade e é utilizado
-    exclusivamente para fins de segurança e autenticação da conta.
-</p>
+            <p>
+                O código de autenticação possui validade de 15 minutos e, após uma
+                validação realizada com sucesso, não poderá ser reutilizado.
+            </p>
 
-<p>
-    O usuário é responsável por manter seus dados de acesso e códigos
-    de autenticação em sigilo, não devendo compartilhá-los com terceiros.
-</p>
+            <p>
+                O usuário é responsável por manter seus dados de acesso e códigos
+                de autenticação em sigilo, não devendo compartilhá-los com terceiros.
+            </p>
 
-<p>
-    Caso o usuário esqueça sua senha, poderá utilizar a funcionalidade
-    de recuperação de senha disponibilizada pelo sistema.
-</p>
+            <p>
+                Caso o usuário esqueça sua senha, poderá utilizar a funcionalidade
+                de recuperação de senha disponibilizada pelo sistema.
+            </p>
 
-<h2>5. Recuperação e alteração de senha</h2>
+            <h2>5. Recuperação e alteração de senha</h2>
 
-<p>
-    A recuperação de senha poderá ser realizada por meio de um código
-    temporário enviado ao endereço de e-mail cadastrado.
-</p>
+            <p>
+                A recuperação de senha poderá ser realizada por meio de um código
+                temporário enviado ao endereço de e-mail cadastrado.
+            </p>
 
-<p>
-    O código possui validade limitada, número controlado de tentativas
-    e não poderá ser reutilizado após uma redefinição válida.
-</p>
+            <p>
+                O código possui validade limitada, número controlado de tentativas
+                e não poderá ser reutilizado após uma redefinição válida.
+            </p>
 
-<p>
-    O usuário também poderá alterar sua senha por meio das funcionalidades
-    disponibilizadas em sua conta, mediante as verificações de segurança
-    aplicáveis.
-</p>
+            <p>
+                O usuário também poderá alterar sua senha por meio das funcionalidades
+                disponibilizadas em sua conta, mediante as verificações de segurança
+                aplicáveis.
+            </p>
 
-<h2>6. Responsabilidades do usuário</h2>
+            <h2>6. Responsabilidades do usuário</h2>
 
-<p>
-    O usuário é responsável pelas informações acadêmicas inseridas em
-    sua conta e pela utilização adequada dos recursos disponibilizados
-    pelo sistema.
-</p>
+            <p>
+                O usuário é responsável pelas informações acadêmicas inseridas em
+                sua conta e pela utilização adequada dos recursos disponibilizados
+                pelo sistema.
+            </p>
 
-<p>
-    Não é permitido utilizar o sistema com a finalidade de tentar acessar,
-    alterar ou excluir informações pertencentes a outros usuários.
-</p>
+            <p>
+                Não é permitido utilizar o sistema com a finalidade de tentar acessar,
+                alterar ou excluir informações pertencentes a outros usuários.
+            </p>
 
-<p>
-    O usuário deverá comunicar ou tomar as medidas necessárias caso
-    identifique uso indevido de sua conta ou suspeite que suas
-    credenciais tenham sido comprometidas.
-</p>
+            <p>
+                O usuário deverá comunicar ou tomar as medidas necessárias caso
+                identifique uso indevido de sua conta ou suspeite que suas
+                credenciais tenham sido comprometidas.
+            </p>
 
-<h2>7. Privacidade e proteção dos dados</h2>
+            <h2>7. Privacidade e proteção dos dados</h2>
 
-<p>
-    Os dados pessoais e acadêmicos fornecidos pelo usuário serão tratados
-    de acordo com as finalidades necessárias ao funcionamento do
-    Organizador Acadêmico.
-</p>
+            <p>
+                Os dados pessoais e acadêmicos fornecidos pelo usuário serão tratados
+                de acordo com as finalidades necessárias ao funcionamento do
+                Organizador Acadêmico.
+            </p>
 
-<p>
-    As informações sobre os dados coletados, suas finalidades,
-    armazenamento, segurança, serviços de terceiros e direitos do
-    usuário estão descritas na Política de Privacidade.
-</p>
+            <p>
+                As informações sobre os dados coletados, suas finalidades,
+                armazenamento, segurança, serviços de terceiros e direitos do
+                usuário estão descritas na Política de Privacidade.
+            </p>
 
-<p>
-    A Política de Privacidade poderá ser consultada a qualquer momento
-    nas páginas disponibilizadas pelo sistema.
-</p>
+            <p>
+                A Política de Privacidade poderá ser consultada a qualquer momento
+                nas páginas disponibilizadas pelo sistema.
+            </p>
 
-<h2>8. Serviços externos</h2>
+            <h2>8. Serviços externos</h2>
 
-<p>
-    O Organizador Acadêmico poderá utilizar serviços externos necessários
-    ao funcionamento de determinadas funcionalidades.
-</p>
+            <p>
+                O Organizador Acadêmico poderá utilizar serviços externos necessários
+                ao funcionamento de determinadas funcionalidades.
+            </p>
 
-<p>
-    Entre os serviços utilizados estão o Supabase, para armazenamento
-    dos dados do sistema, e a Resend, para envio de mensagens
-    relacionadas à recuperação de senha e à autenticação em duas etapas.
-</p>
+            <p>
+                Entre os serviços utilizados estão o Supabase, para armazenamento
+                dos dados do sistema, e a Resend, para envio de mensagens
+                relacionadas à recuperação de senha e à autenticação em duas etapas.
+            </p>
 
-<p>
-    O uso desses serviços deverá estar relacionado às finalidades
-    apresentadas na Política de Privacidade.
-</p>
+            <p>
+                O uso desses serviços deverá estar relacionado às finalidades
+                apresentadas na Política de Privacidade.
+            </p>
 
-<h2>9. Exclusão da conta</h2>
+            <h2>9. Exclusão da conta</h2>
 
-<p>
-    O usuário poderá solicitar a exclusão da própria conta por meio das
-    funcionalidades disponibilizadas pelo Organizador Acadêmico.
-</p>
+            <p>
+                O usuário poderá solicitar a exclusão da própria conta por meio das
+                funcionalidades disponibilizadas pelo Organizador Acadêmico.
+            </p>
 
-<p>
-    Para aumentar a segurança dessa operação, o sistema exige
-    autenticação válida e confirmação da senha atual antes de realizar
-    a exclusão.
-</p>
+            <p>
+                Para aumentar a segurança dessa operação, o sistema exige
+                autenticação válida e confirmação da senha atual antes de realizar
+                a exclusão.
+            </p>
 
-<p>
-    Após a exclusão da conta, os dados diretamente vinculados ao usuário,
-    como informações da conta, semestres e registros de recuperação de
-    senha, serão removidos.
-</p>
+            <p>
+                Após a exclusão da conta, os dados diretamente vinculados ao usuário,
+                como informações da conta, semestres e registros de recuperação de
+                senha, serão removidos.
+            </p>
 
-<p>
-    Os registros de auditoria poderão ser mantidos para preservar o
-    histórico das ações realizadas e auxiliar no controle de segurança
-    do sistema.
-</p>
+            <p>
+                Os registros de auditoria poderão ser mantidos para preservar o
+                histórico das ações realizadas e auxiliar no controle de segurança
+                do sistema.
+            </p>
 
-<h2>10. Disponibilidade do sistema</h2>
+            <h2>10. Disponibilidade do sistema</h2>
 
-<p>
-    O Organizador Acadêmico é um projeto acadêmico e poderá passar por
-    atualizações, manutenções e alterações durante seu desenvolvimento.
-</p>
+            <p>
+                O Organizador Acadêmico é um projeto acadêmico e poderá passar por
+                atualizações, manutenções e alterações durante seu desenvolvimento.
+            </p>
 
-<p>
-    Dessa forma, determinadas funcionalidades poderão ser modificadas,
-    interrompidas temporariamente ou aperfeiçoadas ao longo da evolução
-    do projeto.
-</p>
+            <p>
+                Dessa forma, determinadas funcionalidades poderão ser modificadas,
+                interrompidas temporariamente ou aperfeiçoadas ao longo da evolução
+                do projeto.
+            </p>
 
-<h2>11. Alterações dos Termos</h2>
+            <h2>11. Alterações dos Termos</h2>
 
-<p>
-    Estes Termos de Uso poderão ser atualizados sempre que houver mudanças
-    relevantes no funcionamento do Organizador Acadêmico, em suas
-    funcionalidades ou nas condições de utilização do sistema.
-</p>
+            <p>
+                Estes Termos de Uso poderão ser atualizados sempre que houver mudanças
+                relevantes no funcionamento do Organizador Acadêmico, em suas
+                funcionalidades ou nas condições de utilização do sistema.
+            </p>
 
-<p>
-    A versão mais recente permanecerá disponível para consulta dos
-    usuários dentro do sistema.
-</p>
+            <p>
+                A versão mais recente permanecerá disponível para consulta dos
+                usuários dentro do sistema.
+            </p>
 
-<p class="data-atualizacao">
-    Versão dos Termos: 1.1
-    <br>
-    Última atualização: 25 de setembro de 2026.
-</p>
+            <p class="data-atualizacao">
+                Versão dos Termos: 1.2
+                <br>
+                Última atualização: 27 de setembro de 2026.
+            </p>
 
             <div class="acoes-termos">
                 <button
