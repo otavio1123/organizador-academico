@@ -1,11 +1,13 @@
 package com.organizador.api.service;
 
 import java.nio.charset.StandardCharsets;
+import java.security.SecureRandom;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
-import javax.crypto.Mac;
 import javax.crypto.SecretKey;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -19,6 +21,12 @@ public class TokenService {
 
     private final SecretKey chave;
 
+    private final SecureRandom secureRandom =
+            new SecureRandom();
+
+    private final Map<String, Codigo2FA> codigos2FA =
+            new ConcurrentHashMap<>();
+
     public TokenService(
             @Value("${jwt.secret}") String segredo) {
 
@@ -30,6 +38,7 @@ public class TokenService {
     public String gerarToken(String email) {
 
         Instant agora = Instant.now();
+
         Instant expiracao =
                 agora.plus(2, ChronoUnit.HOURS);
 
@@ -50,77 +59,70 @@ public class TokenService {
                 .getPayload()
                 .getSubject();
     }
+
     public String gerarCodigo2FA(String email) {
 
-    long intervalo =
-            Instant.now().getEpochSecond() / 900;
+        String emailNormalizado =
+                email.trim().toLowerCase();
 
-    return gerarCodigo2FA(
-            email,
-            intervalo
-    );
-}
-
-private String gerarCodigo2FA(
-        String email,
-        long intervalo) {
-
-    try {
-
-        Mac mac =
-                Mac.getInstance("HmacSHA256");
-
-        mac.init(chave);
-
-        byte[] hash =
-                mac.doFinal(
-                        ("2FA:" + email + ":" + intervalo)
-                                .getBytes(StandardCharsets.UTF_8)
+        String codigo =
+                String.format(
+                        "%06d",
+                        secureRandom.nextInt(1000000)
                 );
 
-        int numero =
-                ((hash[0] & 0xff) << 24)
-                | ((hash[1] & 0xff) << 16)
-                | ((hash[2] & 0xff) << 8)
-                | (hash[3] & 0xff);
+        Instant expiracao =
+                Instant.now()
+                        .plus(15, ChronoUnit.MINUTES);
 
-        numero =
-                Math.abs(numero);
-
-        return String.format(
-                "%06d",
-                numero % 1000000
+        codigos2FA.put(
+                emailNormalizado,
+                new Codigo2FA(
+                        codigo,
+                        expiracao
+                )
         );
 
-    } catch (Exception erro) {
-
-        throw new IllegalStateException(
-                "Não foi possível gerar o código 2FA.",
-                erro
-        );
+        return codigo;
     }
-}
 
-public boolean verificarCodigo2FA(
-        String email,
-        String codigo) {
+    public boolean verificarCodigo2FA(
+            String email,
+            String codigo) {
 
-    long intervalo =
-            Instant.now().getEpochSecond() / 900;
+        if (email == null || codigo == null) {
+            return false;
+        }
 
-    String codigoAtual =
-            gerarCodigo2FA(
-                    email,
-                    intervalo
-            );
+        String emailNormalizado =
+                email.trim().toLowerCase();
 
-    String codigoAnterior =
-            gerarCodigo2FA(
-                    email,
-                    intervalo - 1
-            );
+        Codigo2FA registro =
+                codigos2FA.get(emailNormalizado);
 
-    return codigo.equals(codigoAtual)
-            || codigo.equals(codigoAnterior);
-}
+        if (registro == null) {
+            return false;
+        }
+
+        if (Instant.now().isAfter(
+                registro.expiracao())) {
+
+            codigos2FA.remove(emailNormalizado);
+
+            return false;
+        }
+
+        if (!registro.codigo().equals(codigo)) {
+            return false;
+        }
+
+        codigos2FA.remove(emailNormalizado);
+
+        return true;
+    }
+
+    private record Codigo2FA(
+            String codigo,
+            Instant expiracao) {
+    }
 }
