@@ -1,5 +1,7 @@
 package com.organizador.api.model;
 
+import java.time.LocalDateTime;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.persistence.Column;
@@ -27,15 +29,31 @@ public class Usuario {
     @Column(name = "aceitou_termos", length = 1)
     private String aceitouTermos;
 
+    @Column(name = "data_aceite_termos")
+    private LocalDateTime dataAceiteTermos;
+
+    @Column(name = "versao_termos")
+    private String versaoTermos;
+
     public Usuario() {
     }
 
-    public Usuario(Integer id, String nome, String email, String senha, String aceitouTermos) {
+    public Usuario(
+            Integer id,
+            String nome,
+            String email,
+            String senha,
+            String aceitouTermos,
+            LocalDateTime dataAceiteTermos,
+            String versaoTermos) {
+
         this.id = id;
         this.nome = nome;
         this.email = email;
         this.senha = senha;
         this.aceitouTermos = aceitouTermos;
+        this.dataAceiteTermos = dataAceiteTermos;
+        this.versaoTermos = versaoTermos;
     }
 
     public Integer getId() {
@@ -76,5 +94,21 @@ public class Usuario {
 
     public void setAceitouTermos(String aceitouTermos) {
         this.aceitouTermos = aceitouTermos;
+    }
+
+    public LocalDateTime getDataAceiteTermos() {
+        return dataAceiteTermos;
+    }
+
+    public void setDataAceiteTermos(LocalDateTime dataAceiteTermos) {
+        this.dataAceiteTermos = dataAceiteTermos;
+    }
+
+    public String getVersaoTermos() {
+        return versaoTermos;
+    }
+
+    public void setVersaoTermos(String versaoTermos) {
+        this.versaoTermos = versaoTermos;
     }
 }

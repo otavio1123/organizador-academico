@@ -483,7 +483,7 @@ input::placeholder {
     box-shadow: 0 0 0 3px rgba(0, 87, 255, 0.12);
 }
 
-#botaoRecuperar {
+.form-recuperacao button {
     width: 100%;
     padding: 16px;
     border: none;
@@ -497,10 +497,9 @@ input::placeholder {
     transition: background-color 0.3s ease;
 }
 
-#botaoRecuperar:hover {
+.form-recuperacao button:hover {
     background-color: #0047cc;
 }
-
 .voltar-login {
     margin-top: 26px;
     padding-top: 20px;
@@ -623,4 +622,55 @@ input::placeholder {
 
 .voltar-login-redefinicao a:hover {
     text-decoration: underline;
+}
+
+#codigoRecuperacao {
+    text-align: center;
+    letter-spacing: normal;
+    font-weight: 600;
+}
+
+.botao-olho {
+    position: absolute;
+    top: 50%;
+    right: 16px;
+    transform: translateY(-50%);
+    width: auto;
+    padding: 0;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+.botao-olho:hover {
+    background: transparent;
+}
+
+.form-recuperacao .botao-olho {
+    width: auto;
+    padding: 0;
+    background: transparent;
+    color: #64748b;
+}
+
+.rodape {
+    text-align: center;
+    padding: 20px;
+    margin-top: 40px;
+    font-size: 14px;
+}
+
+.rodape a {
+    color: #555;
+    text-decoration: none;
+}
+
+.rodape a:hover {
+    text-decoration: underline;
+}
+
+.rodape span {
+    margin: 0 8px;
+    color: #999;
 }

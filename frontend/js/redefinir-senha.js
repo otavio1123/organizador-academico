@@ -59,6 +59,14 @@ formRedefinirSenha.addEventListener("submit", async (event) => {
                 dados.mensagem || "O link é inválido ou expirou."
             );
         }
+        await fetch(`${API_URL}/LogAuditoria`, {
+            method: "POST",
+            headers: {"Content-Type": "application/json" },
+            body: JSON.stringify({
+                nomeUsuario: "NULL",
+                acao: "Redefiniu a senha por recuperação de acesso"
+             })
+        });
 
         Swal.fire({
             icon: "success",

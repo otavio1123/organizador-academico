@@ -8,6 +8,11 @@
     <title>Recuperar Senha - Organizador Acadêmico</title>
 
     <link rel="stylesheet" href="css/style.css">
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    >
 </head>
 
 <body>
@@ -18,9 +23,9 @@
 
             <h1>Esqueci minha senha</h1>
 
-            <p class="texto-recuperacao">
+            <p class="texto-recuperacao" id="textoRecuperacao">
                 Informe o e-mail cadastrado na sua conta para receber
-                as instruções de redefinição de senha.
+                um código de recuperação.
             </p>
 
             <form id="formRecuperar" class="form-recuperacao">
@@ -35,7 +40,65 @@
                 >
 
                 <button id="botaoRecuperar" type="submit">
-                    Enviar instruções
+                    Enviar código
+                </button>
+
+            </form>
+
+            <form
+                id="formCodigo"
+                class="form-recuperacao"
+                style="display: none;"
+            >
+
+                <input
+                    type="text"
+                    id="codigoRecuperacao"
+                    name="codigo"
+                    placeholder="Código de 6 dígitos"
+                    inputmode="numeric"
+                    maxlength="6"
+                    required
+                >
+
+                <button type="submit">
+                    Verificar código
+                </button>
+
+            </form>
+
+            <form
+                id="formNovaSenha"
+                class="form-recuperacao"
+                style="display: none;"
+            >
+
+                <div class="campo-senha">
+                    <input
+                        type="password"
+                        id="novaSenha"
+                        name="novaSenha"
+                        placeholder="Nova senha"
+                        autocomplete="new-password"
+                        minlength="8"
+                        required
+                    >
+                </div>
+
+                <div class="campo-senha">
+                    <input
+                        type="password"
+                        id="confirmarNovaSenha"
+                        name="confirmarNovaSenha"
+                        placeholder="Confirmar nova senha"
+                        autocomplete="new-password"
+                        minlength="8"
+                        required
+                    >
+                </div>
+
+                <button type="submit">
+                    Redefinir senha
                 </button>
 
             </form>

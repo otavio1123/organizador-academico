@@ -1,133 +1,316 @@
 package com.organizador.api.controller;
 
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
-import com.organizador.api.model.Semestre;
-import com.organizador.api.repository.SemestreRepository;
-import java.util.List;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RestController;
 
+import com.organizador.api.model.Semestre;
+import com.organizador.api.model.Usuario;
+import com.organizador.api.repository.SemestreRepository;
+import com.organizador.api.repository.UsuarioRepository;
+import com.organizador.api.service.TokenService;
 
 @RestController
 @CrossOrigin(origins = "*")
 public class SemestreController {
 
     private final SemestreRepository semestreRepository;
+    private final UsuarioRepository usuarioRepository;
+    private final TokenService tokenService;
 
-    public SemestreController(SemestreRepository semestreRepository) {
+    public SemestreController(
+            SemestreRepository semestreRepository,
+            UsuarioRepository usuarioRepository,
+            TokenService tokenService) {
+
         this.semestreRepository = semestreRepository;
+        this.usuarioRepository = usuarioRepository;
+        this.tokenService = tokenService;
     }
 
-   @PostMapping("/Semestres")
-    public ResponseEntity<?> criar(@RequestBody Semestre semestre) {
+    @PostMapping("/Semestres")
+    public ResponseEntity<?> criar(
+            @RequestHeader("Authorization") String authorization,
+            @RequestBody Semestre semestre) {
 
-        if (semestre.getIdusuario() == null) {
-           return ResponseEntity
-            .status(HttpStatus.BAD_REQUEST)
-            .body("Usuário não informado.");
-}
+        String token =
+                authorization.replace("Bearer ", "");
 
-     if ("S".equals(semestre.getAtivo())
-            && semestreRepository.existsByIdusuarioAndAtivo(semestre.getIdusuario(), "S")) {
+        String email =
+                tokenService.obterEmail(token);
+
+        var usuarioEncontrado =
+                usuarioRepository.findByEmail(email);
+
+        if (usuarioEncontrado.isEmpty()) {
+
+            return ResponseEntity
+                    .status(HttpStatus.UNAUTHORIZED)
+                    .body(Map.of(
+                            "mensagem",
+                            "Usuário não encontrado."
+                    ));
+        }
+
+        Usuario usuario =
+                usuarioEncontrado.get();
+
+        semestre.setIdusuario(
+                usuario.getId()
+        );
+
+        if ("S".equals(semestre.getAtivo())
+                && semestreRepository.existsByIdusuarioAndAtivo(
+                        usuario.getId(),
+                        "S")) {
+
+            return ResponseEntity
+                    .status(HttpStatus.CONFLICT)
+                    .body(
+                        "Já existe um semestre ativo para este usuário."
+                    );
+        }
+
+        Semestre semestreSalvo =
+                semestreRepository.save(semestre);
+
         return ResponseEntity
-                .status(HttpStatus.CONFLICT)
-                .body("Já existe um semestre ativo para este usuário.");
-     }
+                .status(HttpStatus.CREATED)
+                .body(semestreSalvo);
+    }
 
-      Semestre semestreSalvo = semestreRepository.save(semestre);
+    @GetMapping("/Semestres")
+    public ResponseEntity<?> listar(
+            @RequestHeader("Authorization") String authorization) {
 
-     return ResponseEntity
-            .status(HttpStatus.CREATED)
-            .body(semestreSalvo);
-     }
+        String token =
+                authorization.replace("Bearer ", "");
 
-     @GetMapping("/Semestres")
-     public List<Semestre> listar(@RequestParam Integer idusuario) {
-        return semestreRepository.findByIdusuario(idusuario);
-     }
+        String email =
+                tokenService.obterEmail(token);
 
-     @DeleteMapping("/Semestres/{id}")
-     public ResponseEntity<?> excluir(@PathVariable Integer id) {
+        var usuarioEncontrado =
+                usuarioRepository.findByEmail(email);
 
-        if (!semestreRepository.existsById(id)) {
+        if (usuarioEncontrado.isEmpty()) {
+
+            return ResponseEntity
+                    .status(HttpStatus.UNAUTHORIZED)
+                    .body(Map.of(
+                            "mensagem",
+                            "Usuário não encontrado."
+                    ));
+        }
+
+        Usuario usuario =
+                usuarioEncontrado.get();
+
+        List<Semestre> semestres =
+                semestreRepository.findByIdusuario(
+                        usuario.getId()
+                );
+
+        return ResponseEntity.ok(semestres);
+    }
+
+    @DeleteMapping("/Semestres/{id}")
+    public ResponseEntity<?> excluir(
+            @PathVariable Integer id,
+            @RequestHeader("Authorization") String authorization) {
+
+        String token =
+                authorization.replace("Bearer ", "");
+
+        String email =
+                tokenService.obterEmail(token);
+
+        var usuarioEncontrado =
+                usuarioRepository.findByEmail(email);
+
+        if (usuarioEncontrado.isEmpty()) {
+
+            return ResponseEntity
+                    .status(HttpStatus.UNAUTHORIZED)
+                    .body(Map.of(
+                            "mensagem",
+                            "Usuário não encontrado."
+                    ));
+        }
+
+        Usuario usuario =
+                usuarioEncontrado.get();
+
+        var semestreEncontrado =
+                semestreRepository.findByIdSemestreAndIdusuario(
+                        id,
+                        usuario.getId()
+                );
+
+        if (semestreEncontrado.isEmpty()) {
+
             return ResponseEntity
                     .status(HttpStatus.NOT_FOUND)
                     .body("Semestre não encontrado.");
         }
 
-        semestreRepository.deleteById(id);
+        semestreRepository.delete(
+                semestreEncontrado.get()
+        );
 
-        return ResponseEntity.ok("Semestre excluído com sucesso.");
-     }
-
-        @PutMapping("/Semestres/{id}")
-         public ResponseEntity<?> atualizar(
-
-     @PathVariable Integer id,
-     @RequestBody Semestre semestre) {
-
-     if (!semestreRepository.existsById(id)) {
-        return ResponseEntity
-                .status(HttpStatus.NOT_FOUND)
-                .body("Semestre não encontrado.");
-     }
-
-     if (semestre.getIdusuario() == null) {
-     return ResponseEntity
-            .status(HttpStatus.BAD_REQUEST)
-            .body("Usuário não informado.");
-        }
-
-     if ("S".equals(semestre.getAtivo())
-            && semestreRepository.existsByIdusuarioAndAtivo(semestre.getIdusuario(), "S")) {
-
-        Semestre semestreAtual = semestreRepository.findById(id).get();
-
-        if (!"S".equals(semestreAtual.getAtivo())) {
-            return ResponseEntity
-                    .status(HttpStatus.CONFLICT)
-                    .body("Já existe um semestre ativo para este usuário.");
-        }
-     }
-     semestre.setIdSemestre(id);
-     Semestre semestreAtualizado = semestreRepository.save(semestre);
-     return ResponseEntity.ok(semestreAtualizado);
-     }
-     @PutMapping("/Semestres/{id}/ativo")
-     public ResponseEntity<?> atualizarAtivo(
-        @PathVariable Integer id,
-        @RequestBody String ativo) {
-
-     if (!semestreRepository.existsById(id)) {
-        return ResponseEntity
-                .status(HttpStatus.NOT_FOUND)
-                .body("Semestre não encontrado.");
-     }
-
-
-     if ("S".equals(ativo)) {
-        Semestre semestreAtual = semestreRepository.findById(id).get();
-
-        if (!"S".equals(semestreAtual.getAtivo())
-                && semestreRepository.existsByIdusuarioAndAtivo(semestreAtual.getIdusuario(), "S")) {
-            return ResponseEntity
-                    .status(HttpStatus.CONFLICT)
-                    .body("Já existe um semestre ativo para este usuário.");
-        }
+        return ResponseEntity.ok(
+                "Semestre excluído com sucesso."
+        );
     }
 
-    semestreRepository.atualizarAtivo(id, ativo);
+    @PutMapping("/Semestres/{id}")
+    public ResponseEntity<?> atualizar(
+            @PathVariable Integer id,
+            @RequestHeader("Authorization") String authorization,
+            @RequestBody Semestre semestre) {
 
-    return ResponseEntity.ok("Status atualizado com sucesso.");
-}
+        String token =
+                authorization.replace("Bearer ", "");
 
+        String email =
+                tokenService.obterEmail(token);
 
+        var usuarioEncontrado =
+                usuarioRepository.findByEmail(email);
+
+        if (usuarioEncontrado.isEmpty()) {
+
+            return ResponseEntity
+                    .status(HttpStatus.UNAUTHORIZED)
+                    .body(Map.of(
+                            "mensagem",
+                            "Usuário não encontrado."
+                    ));
+        }
+
+        Usuario usuario =
+                usuarioEncontrado.get();
+
+        var semestreEncontrado =
+                semestreRepository.findByIdSemestreAndIdusuario(
+                        id,
+                        usuario.getId()
+                );
+
+        if (semestreEncontrado.isEmpty()) {
+
+            return ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .body("Semestre não encontrado.");
+        }
+
+        Semestre semestreAtual =
+                semestreEncontrado.get();
+
+        if ("S".equals(semestre.getAtivo())
+                && semestreRepository.existsByIdusuarioAndAtivo(
+                        usuario.getId(),
+                        "S")) {
+
+            if (!"S".equals(
+                    semestreAtual.getAtivo())) {
+
+                return ResponseEntity
+                        .status(HttpStatus.CONFLICT)
+                        .body(
+                            "Já existe um semestre ativo para este usuário."
+                        );
+            }
+        }
+
+        semestre.setIdSemestre(id);
+        semestre.setIdusuario(
+                usuario.getId()
+        );
+
+        Semestre semestreAtualizado =
+                semestreRepository.save(semestre);
+
+        return ResponseEntity.ok(
+                semestreAtualizado
+        );
+    }
+
+    @PutMapping("/Semestres/{id}/ativo")
+    public ResponseEntity<?> atualizarAtivo(
+            @PathVariable Integer id,
+            @RequestHeader("Authorization") String authorization,
+            @RequestBody String ativo) {
+
+        String token =
+                authorization.replace("Bearer ", "");
+
+        String email =
+                tokenService.obterEmail(token);
+
+        var usuarioEncontrado =
+                usuarioRepository.findByEmail(email);
+
+        if (usuarioEncontrado.isEmpty()) {
+
+            return ResponseEntity
+                    .status(HttpStatus.UNAUTHORIZED)
+                    .body(Map.of(
+                            "mensagem",
+                            "Usuário não encontrado."
+                    ));
+        }
+
+        Usuario usuario =
+                usuarioEncontrado.get();
+
+        var semestreEncontrado =
+                semestreRepository.findByIdSemestreAndIdusuario(
+                        id,
+                        usuario.getId()
+                );
+
+        if (semestreEncontrado.isEmpty()) {
+
+            return ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .body("Semestre não encontrado.");
+        }
+
+        Semestre semestreAtual =
+                semestreEncontrado.get();
+
+        if ("S".equals(ativo)
+                && !"S".equals(
+                        semestreAtual.getAtivo())
+                && semestreRepository.existsByIdusuarioAndAtivo(
+                        usuario.getId(),
+                        "S")) {
+
+            return ResponseEntity
+                    .status(HttpStatus.CONFLICT)
+                    .body(
+                        "Já existe um semestre ativo para este usuário."
+                    );
+        }
+
+        semestreRepository.atualizarAtivo(
+                id,
+                ativo
+        );
+
+        return ResponseEntity.ok(
+                "Status atualizado com sucesso."
+        );
+    }
 }

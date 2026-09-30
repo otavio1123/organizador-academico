@@ -118,6 +118,16 @@ formCadastro.addEventListener("submit", async (event) => {
 
       return;
     }
+    await fetch(`${API_URL}/LogAuditoria`, {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({
+        idUsuario: dados.id,
+        nomeUsuario: dados.nome,
+        acao: "O " + dados.nome + " realizou cadastro no sistema"
+      })
+    });
+
 
     Swal.fire({
       icon: "success",
