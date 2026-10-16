@@ -23,40 +23,44 @@ public class EmailService {
             String codigo,
             String tipo) {
 
-       String textoEmail;
+        String textoEmail;
 
-if ("2FA".equals(tipo)) {
+        if ("2FA".equals(tipo)) {
 
-    textoEmail = "Olá!\n\n"
-               + "Foi realizado um acesso à sua conta "
-               + "no Organizador Acadêmico.\n\n"
-               + "Seu código de verificação é:\n\n"
-               + codigo
-               + "\n\nEste código é válido por "
-               + "15 minutos.";
+            textoEmail = "Olá!\n\n"
+                    + "Foi realizado um acesso à sua conta "
+                    + "no Organizador Acadêmico.\n\n"
+                    + "Seu código de verificação é:\n\n"
+                    + codigo
+                    + "\n\nEste código é válido por "
+                    + "15 minutos.";
 
-} else {
+        } else {
 
-    textoEmail = "Olá!\n\n"
-               + "Recebemos uma solicitação para "
-               + "redefinir a senha da sua conta "
-               + "no Organizador Acadêmico.\n\n"
-               + "Seu código de recuperação é:\n\n"
-               + codigo
-               + "\n\nEste código é válido por "
-               + "15 minutos.\n\n"
-               + "Se você não solicitou a "
-               + "redefinição de senha, ignore "
-               + "este e-mail.";
-}
+            textoEmail = "Olá!\n\n"
+                    + "Recebemos uma solicitação para "
+                    + "redefinir a senha da sua conta "
+                    + "no Organizador Acadêmico.\n\n"
+                    + "Seu código de recuperação é:\n\n"
+                    + codigo
+                    + "\n\nEste código é válido por "
+                    + "15 minutos.\n\n"
+                    + "Se você não solicitou a "
+                    + "redefinição de senha, ignore "
+                    + "este e-mail.";
+        }
 
-CreateEmailOptions email =
-        CreateEmailOptions.builder()
-                .from("Organizador Acadêmico " + "<onboarding@resend.dev>" )
-                .to(destinatario)
-                .subject( "2FA".equals(tipo) ? "Código de verificação - Organizador Acadêmico" : "Código de recuperação - Organizador Acadêmico" )
-                .text(textoEmail)
-                .build();
+        CreateEmailOptions email =
+                CreateEmailOptions.builder()
+                        .from("Organizador Acadêmico <noreply@organizadoracademico.com.br>")
+                        .to(destinatario)
+                        .subject(
+                                "2FA".equals(tipo)
+                                        ? "Código de verificação - Organizador Acadêmico"
+                                        : "Código de recuperação - Organizador Acadêmico"
+                        )
+                        .text(textoEmail)
+                        .build();
 
         try {
 
@@ -65,7 +69,7 @@ CreateEmailOptions email =
         } catch (ResendException erro) {
 
             throw new IllegalStateException(
-                    "Não foi possível enviar o e-mail de recuperação.",
+                    "Não foi possível enviar o e-mail.",
                     erro
             );
         }

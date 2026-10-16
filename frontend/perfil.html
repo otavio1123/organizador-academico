@@ -7,96 +7,470 @@
 
     <title>Perfil - Organizador Acadêmico</title>
 
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/perfil.css">
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
 
     <link
         rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
     >
+
+    <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="css/alertas.css">
+    <link rel="stylesheet" href="css/perfil.css">
 </head>
 
 <body>
-<button class="botao-voltar" type="button" onclick="history.back()">
-    ← Voltar
-</button>
-    <main class="pagina-perfil">
 
-        <section class="caixa-perfil">
+<header class="cabecalho-app">
 
-            <h1>Meu Perfil</h1>
+    <nav class="navbar navbar-dark navbar-expand-lg">
 
-            <p id="nomeUsuario"></p>
-            <p id="emailUsuario"></p>
+        <div class="container-fluid px-4">
 
-            <hr>
+            <a
+                class="navbar-brand d-flex align-items-center gap-2"
+                href="home.html"
+            >
 
-            <h2>Alterar senha</h2>
+                <img
+                    src="/img/logo.png"
+                    alt="Organizador Acadêmico"
+                    class="logo-app"
+                >
 
-            <form id="formAlterarSenha">
+                <span class="nome-app">
+                    Organizador Acadêmico
+                </span>
 
-                <div class="campo-senha">
-                    <input
-                        type="password"
-                        id="senhaAtual"
-                        placeholder="Senha atual"
-                        required
-                    >
-                </div>
+            </a>
 
-                <div class="campo-senha">
-                    <input
-                        type="password"
-                        id="novaSenha"
-                        placeholder="Nova senha"
-                        minlength="8"
-                        required
-                    >
-                </div>
+            <a
+    href="perfil.html"
+    class="usuario-topo d-none d-md-flex"
+    title="Acessar perfil"
+>
 
-                <div class="campo-senha">
-                    <input
-                        type="password"
-                        id="confirmarNovaSenha"
-                        placeholder="Confirmar nova senha"
-                        minlength="8"
-                        required
-                    >
-                </div>
+    <div class="text-end">
 
-                <button type="submit">
-                    Alterar senha
-                </button>
+        <span
+            class="nome-usuario"
+            id="nomeUsuarioLogado"
+        >
+            Usuário
+        </span>
 
-            </form>
+        <small
+            class="identificacao-usuario"
+            id="emailUsuarioLogado"
+        ></small>
 
-            <hr>
+    </div>
 
-            <div class="acoes-perfil">
+    <div class="icone-usuario">
 
-                <button id="btnSair">
-                    Sair da conta
-                </button>
+        <img
+            id="imagemUsuarioTopo"
+            src=""
+            alt="Foto do usuário"
+            class="d-none"
+        >
 
-                <button id="btnExcluirConta">
-                    Excluir conta
-                </button>
+        <i
+            id="iconeUsuarioTopo"
+            class="fa-solid fa-user"
+        ></i>
+
+    </div>
+
+</a>
+
+            <button
+                class="navbar-toggler"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#menuPrincipal"
+                aria-controls="menuPrincipal"
+                aria-expanded="false"
+                aria-label="Abrir menu"
+            >
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+        </div>
+
+    </nav>
+
+    <nav class="navbar navbar-expand-lg navbar-menu-app">
+
+        <div class="container-fluid px-4">
+
+            <div
+                class="collapse navbar-collapse"
+                id="menuPrincipal"
+            >
+
+                <ul class="navbar-nav">
+
+                    <li class="nav-item">
+                        <a
+                            class="nav-link"
+                            href="home.html"
+                        >
+                            <i class="fa-solid fa-house me-2"></i>
+                            Dashboard
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a
+                            class="nav-link ativo"
+                            href="perfil.html"
+                        >
+                            <i class="fa-solid fa-user me-2"></i>
+                            Perfil
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a
+                            class="nav-link"
+                            href="semestres.html"
+                        >
+                            <i class="fa-solid fa-calendar-days me-2"></i>
+                            Semestres
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a
+                            class="nav-link"
+                            href="#"
+                        >
+                            <i class="fa-solid fa-book me-2"></i>
+                            Disciplinas
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a
+                            class="nav-link"
+                            href="#"
+                        >
+                            <i class="fa-solid fa-list-check me-2"></i>
+                            Atividades
+                        </a>
+                    </li>
+
+                </ul>
 
             </div>
 
-        </section>
+        </div>
 
-    </main>
+    </nav>
 
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="js/perfil.js"></script>
-    <footer class="rodape">
+</header>
+
+<main class="container py-5 flex-grow-1">
+
+    <div class="mb-4">
+
+        <a
+            href="javascript:history.back()"
+            class="btn btn-outline-secondary btn-sm"
+        >
+            <i class="fa-solid fa-arrow-left me-2"></i>
+            Voltar
+        </a>
+
+    </div>
+
+    <div class="row justify-content-center">
+
+        <div class="col-12 col-lg-9 col-xl-8">
+
+            <div class="card card-perfil">
+
+                <div class="card-body p-4 p-md-5">
+
+                    <div class="text-center mb-5">
+
+                        <div class="foto-perfil mx-auto mb-3">
+
+                            <img
+                                id="imagemPerfil"
+                                src=""
+                                alt="Foto de perfil"
+                                class="d-none"
+                            >
+
+                            <i
+                                id="iconePerfil"
+                                class="fa-solid fa-user"
+                            ></i>
+
+                        </div>
+
+                        <h1 class="titulo-perfil">
+                            Meu Perfil
+                        </h1>
+
+                        <p class="descricao-perfil">
+                            Gerencie seus dados pessoais e sua conta
+                        </p>
+
+                        <button
+                            type="button"
+                            id="btnAlterarFoto"
+                            class="btn btn-outline-primary btn-sm mt-2"
+                        >
+                            <i class="fa-solid fa-camera me-2"></i>
+                            Alterar foto
+                        </button>
+
+                        <input
+                            type="file"
+                            id="inputFotoPerfil"
+                            accept="image/png,image/jpeg,image/webp"
+                            hidden
+                        >
+
+                    </div>
+
+                    <section class="mb-5">
+
+                        <div class="mb-4">
+
+                            <h2 class="titulo-secao">
+                                Dados pessoais
+                            </h2>
+
+                            <p class="texto-secao">
+                                Atualize as informações da sua conta.
+                            </p>
+
+                        </div>
+
+                        <form id="formPerfil">
+
+                            <div class="mb-3">
+
+                                <label
+                                    for="nomePerfil"
+                                    class="form-label"
+                                >
+                                    Nome
+                                </label>
+
+                                <input
+                                    type="text"
+                                    id="nomePerfil"
+                                    class="form-control"
+                                    required
+                                >
+
+                            </div>
+
+                            <div class="mb-4">
+
+                                <label
+                                    for="emailPerfil"
+                                    class="form-label"
+                                >
+                                    E-mail
+                                </label>
+
+                                <input
+                                    type="email"
+                                    id="emailPerfil"
+                                    class="form-control"
+                                    readonly
+                                >
+
+                                <div class="form-text">
+                                    O e-mail da conta não pode ser alterado.
+                                </div>
+
+                            </div>
+
+                            <button
+                                type="submit"
+                                class="btn btn-primary px-4"
+                            >
+                                <i class="fa-solid fa-floppy-disk me-2"></i>
+                                Salvar alterações
+                            </button>
+
+                        </form>
+
+                    </section>
+
+                    <hr class="my-5">
+
+                    <section class="mb-5">
+
+                        <div class="mb-4">
+
+                            <h2 class="titulo-secao">
+                                Alterar senha
+                            </h2>
+
+                            <p class="texto-secao">
+                                Use uma senha com pelo menos 8 caracteres.
+                            </p>
+
+                        </div>
+
+                        <form id="formAlterarSenha">
+
+                            <div class="campo-senha mb-3">
+
+                                <label
+                                    for="senhaAtual"
+                                    class="form-label"
+                                >
+                                    Senha atual
+                                </label>
+
+                                <input
+                                    type="password"
+                                    id="senhaAtual"
+                                    class="form-control"
+                                    placeholder="Digite sua senha atual"
+                                    required
+                                >
+
+                            </div>
+
+                            <div class="campo-senha mb-3">
+
+                                <label
+                                    for="novaSenha"
+                                    class="form-label"
+                                >
+                                    Nova senha
+                                </label>
+
+                                <input
+                                    type="password"
+                                    id="novaSenha"
+                                    class="form-control"
+                                    placeholder="Digite a nova senha"
+                                    minlength="8"
+                                    required
+                                >
+
+                            </div>
+
+                            <div class="campo-senha mb-4">
+
+                                <label
+                                    for="confirmarNovaSenha"
+                                    class="form-label"
+                                >
+                                    Confirmar nova senha
+                                </label>
+
+                                <input
+                                    type="password"
+                                    id="confirmarNovaSenha"
+                                    class="form-control"
+                                    placeholder="Digite novamente a nova senha"
+                                    minlength="8"
+                                    required
+                                >
+
+                            </div>
+
+                            <button
+                                type="submit"
+                                class="btn btn-primary px-4"
+                            >
+                                <i class="fa-solid fa-key me-2"></i>
+                                Alterar senha
+                            </button>
+
+                        </form>
+
+                    </section>
+
+                    <hr class="my-5">
+
+                    <section>
+
+                        <div class="mb-4">
+
+                            <h2 class="titulo-secao">
+                                Conta
+                            </h2>
+
+                            <p class="texto-secao">
+                                Gerencie sua sessão ou exclua sua conta.
+                            </p>
+
+                        </div>
+
+                        <div class="d-flex flex-column flex-sm-row gap-3">
+
+                            <button
+                                id="btnSair"
+                                type="button"
+                                class="btn btn-dark px-4"
+                            >
+                                <i class="fa-solid fa-right-from-bracket me-2"></i>
+                                Sair da conta
+                            </button>
+
+                            <button
+                                id="btnExcluirConta"
+                                type="button"
+                                class="btn btn-outline-danger px-4"
+                            >
+                                <i class="fa-regular fa-trash-can me-2"></i>
+                                Excluir conta
+                            </button>
+
+                        </div>
+
+                    </section>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</main>
+
+<footer class="rodape">
+
     <p>
-        <a href="termos.html">Termos de Uso</a>
+        <a href="termos.html">
+            Termos de Uso
+        </a>
+
         <span>|</span>
-        <a href="privacidade.html">Política de Privacidade</a>
+
+        <a href="privacidade.html">
+            Política de Privacidade
+        </a>
     </p>
+
 </footer>
+
+<script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+></script>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script src="js/perfil.js"></script>
+
 </body>
 
 </html>

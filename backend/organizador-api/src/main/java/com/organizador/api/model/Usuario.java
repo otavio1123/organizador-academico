@@ -35,6 +35,9 @@ public class Usuario {
     @Column(name = "versao_termos")
     private String versaoTermos;
 
+    @Column(name = "foto_perfil")
+    private String fotoPerfil;
+
     public Usuario() {
     }
 
@@ -45,7 +48,8 @@ public class Usuario {
             String senha,
             String aceitouTermos,
             LocalDateTime dataAceiteTermos,
-            String versaoTermos) {
+            String versaoTermos,
+            String fotoPerfil) {
 
         this.id = id;
         this.nome = nome;
@@ -54,6 +58,7 @@ public class Usuario {
         this.aceitouTermos = aceitouTermos;
         this.dataAceiteTermos = dataAceiteTermos;
         this.versaoTermos = versaoTermos;
+        this.fotoPerfil = fotoPerfil;
     }
 
     public Integer getId() {
@@ -110,5 +115,13 @@ public class Usuario {
 
     public void setVersaoTermos(String versaoTermos) {
         this.versaoTermos = versaoTermos;
+    }
+
+    public String getFotoPerfil() {
+        return fotoPerfil;
+    }
+
+    public void setFotoPerfil(String fotoPerfil) {
+        this.fotoPerfil = fotoPerfil;
     }
 }

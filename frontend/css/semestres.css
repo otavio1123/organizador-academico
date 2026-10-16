@@ -1,590 +1,217 @@
-body {
-    margin: 0;
-    min-height: 100vh;
-
-    display: flex;
-    flex-direction: column;
-}
-
-#Menu {
-    width: 100%;
-    font-family: Arial, sans-serif;
-}
-
-#PrimeiroMenu {
-    width: 100%;
-    height: 65px;
-
-    background-color: #172238;
-
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
-    padding: 0 30px;
-    box-sizing: border-box;
-}
-
-.logo {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.logo img {
-    width: 38px;
-    height: 38px;
-    object-fit: contain;
-}
-
-.logo h1 {
-    margin: 0;
-    color: white;
-
-    font-size: 18px;
-    font-weight: 600;
-}
-
-.perfil {
-    display: flex;
-    align-items: center;
-}
-
-.info-perfil {
-    display: flex;
-    flex-direction: column;
-    text-align: right;
-}
-
-.info-perfil span {
-    color: white;
-
-    font-size: 13px;
-    font-weight: 600;
-}
-
-.info-perfil small {
-    margin-top: 3px;
-
-    color: #aeb7c7;
-    font-size: 10px;
-}
-
-
-/* MENU */
-
-.menu-links {
-    width: 100%;
-    height: 42px;
-
-    background-color: #202c43;
-
-    display: flex;
-    align-items: center;
-
-    padding-left: 30px;
-
-    box-sizing: border-box;
-}
-
-.menu-links a {
-    height: 100%;
-
-    display: flex;
-    align-items: center;
-
-    padding: 0 18px;
-
-    color: #c7cfdd;
-    text-decoration: none;
-
-    font-size: 11px;
-    font-weight: 600;
-
-    cursor: pointer;
-    transition: 0.2s;
-}
-
-.menu-links a:hover {
-    background-color: #2d3a52;
-    color: white;
-}
-
-.menu-links a.ativo {
-    background-color: #2d3a52;
-    color: white;
-
-    border-bottom: 3px solid #2563EB;
-}
-
-
-/* TÍTULO */
-
 #DivTitulo {
     width: 100%;
-
-    display: flex;
-    align-items: center;
-
-    padding: 30px 36px;
-
-    box-sizing: border-box;
 }
 
 #Titulo h1 {
     margin: 0;
-    font-size: 28px;
+
+    color: var(--cor-texto);
+
+    font-family: 'DM Serif Display', serif;
+    font-size: 34px;
+    font-weight: 400;
+
+    letter-spacing: -0.3px;
 }
 
 #Titulo p {
-    margin-top: 5px;
-    margin-bottom: 0;
+    margin: 6px 0 0;
 
-    color: #666;
+    color: var(--cor-texto-secundario);
+
+    font-size: 16px;
 }
 
-#filtroStatusSemestre {
-    height: 40px;
+.filtro-semestres {
+    width: 145px;
+    height: 46px;
 
-    padding: 0 12px;
-
-    margin-left: auto;
-
-    border: 1px solid #d9e1eb;
-    border-radius: 6px;
-
-    background-color: white;
-    color: #526176;
-
-    font-size: 14px;
+    font-weight: 600;
 
     cursor: pointer;
-}
-
-#Divbotao-criarSmestres {
-    margin-left: 20px;
 }
 
 #botao-criarSemestres {
-    height: 40px;
+    min-width: 175px;
+    height: 46px;
 
-    padding: 0 16px;
+    border-radius: 9px;
 
-    display: flex;
-    align-items: center;
+    font-weight: 700;
 
-    gap: 8px;
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.18);
 
-    border: none;
-    border-radius: 6px;
-
-    background-color: #2563EB;
-    color: white;
-
-    font-size: 14px;
-    font-weight: 600;
-
-    cursor: pointer;
-
-    transition: 0.2s;
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
 }
 
 #botao-criarSemestres:hover {
-    background-color: #1d4ed8;
+    transform: translateY(-2px);
+
+    box-shadow: 0 7px 16px rgba(37, 99, 235, 0.23);
 }
 
-
-/* MODAL CRIAR SEMESTRE */
-
-#modalCriarSemestre label {
-    display: block;
-
-    margin-bottom: 7px;
-
-    color: #526176;
-
-    font-size: 14px;
-    font-weight: 600;
+#botao-criarSemestres i {
+    transition: transform 0.2s ease;
 }
 
-#linhaAnoStatus {
-    display: flex;
-
-    gap: 18px;
-
-    margin-bottom: 20px;
+#botao-criarSemestres:hover i {
+    transform: rotate(90deg);
 }
-
-#linhaAnoStatus > div {
-    flex: 1;
-
-    display: flex;
-    flex-direction: column;
-}
-
-#cabecalhoModal {
-    display: flex;
-
-    justify-content: space-between;
-    align-items: center;
-
-    margin-bottom: 28px;
-}
-
-#cabecalhoModal h2 {
-    margin: 0;
-
-    color: #172238;
-
-    font-size: 25px;
-    font-weight: 700;
-}
-
-#fecharModal {
-    width: 36px;
-    height: 36px;
-
-    border: none;
-    border-radius: 50%;
-
-    background-color: #f1f4f8;
-    color: #526176;
-
-    font-size: 22px;
-    font-weight: bold;
-
-    cursor: pointer;
-}
-
-#fecharModal:hover {
-    background-color: #e3e8ef;
-}
-
-#corpoModal label {
-    display: block;
-
-    margin-bottom: 7px;
-
-    color: #526176;
-
-    font-size: 14px;
-    font-weight: 600;
-}
-
-#corpoModal input {
-    width: 100%;
-    height: 48px;
-
-    padding: 0 15px;
-
-    margin-bottom: 20px;
-
-    border: 1px solid #d9e1eb;
-    border-radius: 8px;
-
-    box-sizing: border-box;
-
-    color: #526176;
-
-    font-size: 14px;
-}
-
-#corpoModal input::placeholder {
-    color: #718096;
-}
-
-#corpoModal input:focus {
-    outline: none;
-    border-color: #2563EB;
-}
-
-#datasSemestre {
-    display: flex;
-
-    gap: 18px;
-}
-
-#datasSemestre > div {
-    flex: 1;
-}
-
-#datasSemestre input {
-    margin-bottom: 25px;
-}
-
-#salvarSemestre:hover {
-    background-color: #1d4ed8;
-    cursor: pointer;
-}
-
-
-/* LISTA DE SEMESTRES */
 
 #listaSemestres {
-    display: flex;
-    flex-wrap: wrap;
-
-    gap: 20px;
-
-    padding: 30px 50px;
+    margin-bottom: 30px;
 }
 
 .card-semestre {
-    width: 300px;
+    min-height: 285px;
 
-    padding: 20px;
+    border: 1px solid var(--cor-borda);
+    border-radius: var(--raio-grande);
 
-    background-color: #ffffff;
+    background-color: var(--cor-card);
 
-    border-radius: 12px;
-    border: 1px solid #e5e5e5;
+    box-shadow: var(--sombra-card);
 
-    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.12);
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        border-color 0.2s ease;
 }
 
-.card-semestre h2 {
-    margin-top: 0;
-    margin-bottom: 20px;
+.card-semestre:hover {
+    transform: translateY(-3px);
 
-    font-size: 22px;
+    border-color: #d5deea;
+
+    box-shadow: 0 9px 24px rgba(15, 23, 42, 0.11);
 }
 
-.card-semestre p {
-    margin: 10px 0;
-
-    font-size: 15px;
+.card-semestre .card-body {
+    padding: 22px;
 }
 
-.card-semestre strong {
-    font-weight: 600;
-}
+.nome-semestre {
+    color: var(--cor-texto);
 
-.card-semestre span {
-    margin-left: 5px;
-}
-
-.cabecalhoSemestre {
-    display: flex;
-
-    justify-content: space-between;
-    align-items: center;
-}
-
-
-/* BOTÕES DOS CARDS */
-
-#DisciplinasIr {
-    display: inline-block;
-
-    padding: 8px 15px;
-
-    border-radius: 5px;
-
-    background-color: #2563EB;
-    color: white;
-
-    font-size: 14px;
-    font-weight: 600;
-
-    text-decoration: none;
-
-    cursor: pointer;
-}
-
-#DisciplinasIr:hover {
-    background-color: #1d4ed8;
-}
-
-.botao-excluir-semestre {
-    padding: 8px 15px;
-
-    border: none;
-    border-radius: 5px;
-
-    background-color: #dc2626;
-    color: white;
-
-    font-size: 14px;
-    font-weight: 600;
-
-    cursor: pointer;
-}
-
-.botao-excluir-semestre:hover {
-    background-color: #b91c1c;
-}
-
-
-/* MODAL DE EDIÇÃO */
-
-#modalStatus {
-    display: none;
-
-    position: fixed;
-
-    top: 50%;
-    left: 50%;
-
-    transform: translate(-50%, -50%);
-
-    width: 545px;
-
-    padding: 32px 36px;
-
-    background-color: white;
-
-    border-radius: 18px;
-
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
-
-    z-index: 1000;
-
-    box-sizing: border-box;
-
-    flex-direction: column;
-}
-
-#modalStatus h2 {
-    margin: 0 0 28px 0;
-
-    color: #172238;
-
-    font-size: 25px;
+    font-size: 20px;
     font-weight: 700;
 }
 
-#fecharModalStatus {
-    position: absolute;
+.botaoOpcoesSemestre {
+    width: 34px;
+    height: 34px;
 
-    top: 16px;
-    right: 18px;
+    flex-shrink: 0;
 
-    width: 36px;
-    height: 36px;
-
-    border: none;
-    border-radius: 50%;
-
-    background-color: #f1f4f8;
-    color: #526176;
-
-    font-size: 22px;
-    font-weight: bold;
-
-    cursor: pointer;
+    color: var(--cor-texto-secundario);
 }
 
-#fecharModalStatus:hover {
-    background-color: #e3e8ef;
+.botaoOpcoesSemestre:hover {
+    color: var(--cor-texto);
+
+    background-color: #e9eef5;
 }
 
-#nomeSemestreOpcoes {
-    margin: 0 0 20px 0;
+.dados-semestre p {
+    margin: 10px 0;
 
-    font-size: 18px;
-    font-weight: bold;
-}
-
-#modalStatus label {
-    display: block;
-
-    margin-bottom: 7px;
-
-    color: #526176;
-
-    font-size: 14px;
-    font-weight: 600;
-}
-
-#modalStatus input,
-#modalStatus select {
-    width: 100%;
-    height: 48px;
-
-    padding: 0 15px;
-
-    margin-bottom: 20px;
-
-    border: 1px solid #d9e1eb;
-    border-radius: 8px;
-
-    box-sizing: border-box;
-
-    background-color: white;
-    color: #526176;
+    color: var(--cor-texto-secundario);
 
     font-size: 14px;
 }
 
-#modalStatus input:focus,
-#modalStatus select:focus {
-    outline: none;
+.dados-semestre i {
+    width: 18px;
 
-    border-color: #2563EB;
-}
+    color: #94a3b8;
 
-#linhaDatasEditar {
-    display: flex;
-
-    gap: 18px;
-}
-
-#linhaDatasEditar > div {
-    flex: 1;
-}
-
-#salvarStatusSemestre {
-    width: auto;
-    min-width: 100px;
-    height: 45px;
-
-    padding: 0 22px;
-
-    margin-top: 5px;
-
-    border: none;
-    border-radius: 8px;
-
-    background-color: #2563EB;
-    color: white;
-
-    font-size: 14px;
-    font-weight: 600;
-
-    cursor: pointer;
-
-    align-self: flex-end;
-}
-
-#salvarStatusSemestre:hover {
-    background-color: #1d4ed8;
-}
-
-
-/* RODAPÉ */
-
-.rodape {
     text-align: center;
+}
 
-    padding: 20px;
+.dados-semestre strong {
+    color: var(--cor-texto);
 
-    margin-top: auto;
+    font-weight: 600;
+}
+
+.dados-semestre span {
+    margin-left: 4px;
+}
+
+#DisciplinasIr {
+    border-radius: 8px;
+
+    font-weight: 600;
+}
+
+.botao-excluir-semestre {
+    border-radius: 8px;
+
+    font-weight: 600;
+}
+
+#modalCriarSemestre .modal-content {
+    border: none;
+    border-radius: 14px;
+
+    box-shadow: 0 14px 40px rgba(15, 23, 42, 0.18);
+}
+
+#modalCriarSemestre .modal-header {
+    padding: 20px 24px;
+}
+
+#modalCriarSemestre .modal-body {
+    padding: 24px;
+}
+
+#modalCriarSemestre .modal-footer {
+    padding: 16px 24px;
+}
+
+#modalCriarSemestre .modal-title {
+    color: var(--cor-texto);
+
+    font-size: 20px;
+    font-weight: 700;
+}
+
+#modalCriarSemestre .form-label {
+    color: #526176;
 
     font-size: 14px;
+    font-weight: 600;
 }
 
-.rodape a {
-    color: #555;
-
-    text-decoration: none;
+#modalCriarSemestre .form-control,
+#modalCriarSemestre .form-select {
+    min-height: 44px;
 }
 
-.rodape a:hover {
-    text-decoration: underline;
+#modalCriarSemestre .btn {
+    min-width: 100px;
+
+    border-radius: 8px;
+
+    font-weight: 600;
 }
 
-.rodape span {
-    margin: 0 8px;
+@media (max-width: 767px) {
+    #Titulo h1 {
+        font-size: 30px;
+    }
 
-    color: #999;
+    #Titulo p {
+        font-size: 14px;
+    }
+
+    .filtro-semestres {
+        width: 100%;
+    }
+
+    #botao-criarSemestres {
+        width: 100%;
+    }
 }

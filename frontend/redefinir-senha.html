@@ -9,94 +9,211 @@
         content="width=device-width, initial-scale=1.0"
     >
 
-    <title>Redefinir senha | Organizador Acadêmico</title>
+    <title>Redefinir Senha - Organizador Acadêmico</title>
 
-    <link rel="stylesheet" href="css/style.css">
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    >
+
+    <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="css/alertas.css">
+    <link rel="stylesheet" href="css/redefinir-senha.css">
 </head>
 
-<body>
+<body class="pagina-autenticacao">
 
-    <main class="pagina-redefinicao">
+<div class="container-fluid p-0">
 
-        <section class="caixa-redefinicao">
+    <div class="row g-0 min-vh-100">
 
-            <h1>Redefinir senha</h1>
+        <div class="col-lg-6 d-none d-lg-flex painel-apresentacao">
 
-            <p class="texto-redefinicao">
-                Crie uma nova senha para acessar sua conta.
-            </p>
+            <div class="conteudo-apresentacao">
 
-            <form
-                id="formRedefinirSenha"
-                class="form-redefinicao"
-            >
-
-                <div class="campo-redefinicao">
-
-                    <label for="novaSenha">
-                        Nova senha
-                    </label>
-
-                    <input
-                        type="password"
-                        id="novaSenha"
-                        name="novaSenha"
-                        placeholder="Digite sua nova senha"
-                        autocomplete="new-password"
-                        required
-                    >
-
-                </div>
-
-                <div class="campo-redefinicao">
-
-                    <label for="confirmarSenha">
-                        Confirmar nova senha
-                    </label>
-
-                    <input
-                        type="password"
-                        id="confirmarSenha"
-                        name="confirmarSenha"
-                        placeholder="Digite novamente sua nova senha"
-                        autocomplete="new-password"
-                        required
-                    >
-
-                </div>
-
-                <button
-                    type="submit"
-                    id="botaoRedefinir"
+                <a
+                    href="index.html"
+                    class="marca-login"
                 >
-                    Redefinir senha
-                </button>
 
-            </form>
+                    <img
+                        src="/img/Logo.png"
+                        alt="Organizador Acadêmico"
+                        class="logo-login"
+                    >
 
-            <div class="voltar-login-redefinicao">
+                    <span>
+                        Organizador Acadêmico
+                    </span>
 
-                <a href="index.html">
-                    Voltar para o login
                 </a>
+
+                <div class="texto-apresentacao">
+
+                    <h1>
+                        Crie uma nova senha.
+                    </h1>
+
+                    <p>
+                        Escolha uma nova senha para proteger sua conta
+                        e continuar utilizando o Organizador Acadêmico.
+                    </p>
+
+                </div>
 
             </div>
 
-        </section>
+        </div>
 
-    </main>
+        <div class="col-lg-6 area-redefinicao">
 
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="js/config.js"></script>
-    <script src="js/redefinir-senha.js"></script>
+            <section class="card-redefinicao">
 
-    <footer class="rodape">
-    <p>
-        <a href="termos.html">Termos de Uso</a>
-        <span>|</span>
-        <a href="privacidade.html">Política de Privacidade</a>
-    </p>
-</footer>
+                <div class="marca-mobile d-lg-none">
+
+                    <img
+                        src="img/logo.png"
+                        alt="Organizador Acadêmico"
+                    >
+
+                    <span>
+                        Organizador Acadêmico
+                    </span>
+
+                </div>
+
+                <div class="cabecalho-redefinicao">
+
+                    <span class="rotulo-redefinicao">
+                        Segurança da conta
+                    </span>
+
+                    <h2>
+                        Redefinir senha
+                    </h2>
+
+                    <p>
+                        Crie uma nova senha com pelo menos
+                        8 caracteres para acessar sua conta.
+                    </p>
+
+                </div>
+
+                <form
+                    id="formRedefinirSenha"
+                    class="form-redefinicao"
+                >
+
+                    <div class="mb-3">
+
+                        <label
+                            for="novaSenha"
+                            class="form-label"
+                        >
+                            Nova senha
+                        </label>
+
+                        <div class="campo-com-icone campo-senha">
+
+                            <i class="fa-solid fa-lock"></i>
+
+                            <input
+                                type="password"
+                                id="novaSenha"
+                                name="novaSenha"
+                                class="form-control"
+                                placeholder="Mínimo de 8 caracteres"
+                                autocomplete="new-password"
+                                minlength="8"
+                                required
+                            >
+
+                        </div>
+
+                    </div>
+
+                    <div class="mb-3">
+
+                        <label
+                            for="confirmarSenha"
+                            class="form-label"
+                        >
+                            Confirmar nova senha
+                        </label>
+
+                        <div class="campo-com-icone campo-senha">
+
+                            <i class="fa-solid fa-lock"></i>
+
+                            <input
+                                type="password"
+                                id="confirmarSenha"
+                                name="confirmarSenha"
+                                class="form-control"
+                                placeholder="Digite novamente a senha"
+                                autocomplete="new-password"
+                                minlength="8"
+                                required
+                            >
+
+                        </div>
+
+                    </div>
+
+                    <button
+                        type="submit"
+                        id="botaoRedefinir"
+                        class="btn btn-primary w-100 botao-redefinir"
+                    >
+                        Redefinir senha
+                    </button>
+
+                </form>
+
+                <div class="separador-redefinicao">
+                    <span></span>
+                </div>
+
+                <div class="voltar-login-redefinicao">
+
+                    <a href="index.html">
+                        <i class="fa-solid fa-arrow-left me-2"></i>
+                        Voltar para o login
+                    </a>
+
+                </div>
+
+                <div class="links-legais">
+
+                    <a href="termos.html">
+                        Termos de Uso
+                    </a>
+
+                    <span>•</span>
+
+                    <a href="privacidade.html">
+                        Política de Privacidade
+                    </a>
+
+                </div>
+
+            </section>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="js/config.js"></script>
+<script src="js/redefinir-senha.js"></script>
+
 </body>
 
 </html>
