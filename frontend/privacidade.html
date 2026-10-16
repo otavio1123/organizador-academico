@@ -7,16 +7,68 @@
 
     <title>Política de Privacidade - Organizador Acadêmico</title>
 
-    <link rel="stylesheet" href="css/style.css">
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    >
+
+    <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="css/termos.css">
 </head>
 
-<body class="pagina-privacidade">
+<body class="pagina-documento">
 
-    <main class="privacidade-container">
+<header class="cabecalho-documento">
 
-        <section class="privacidade-conteudo">
+    <div class="container">
 
-            <h1>Política de Privacidade</h1>
+        <a
+            href="index.html"
+            class="marca-documento"
+        >
+
+            <img
+                src="/img/Logo.png"
+                alt="Organizador Acadêmico"
+                class="logo-documento"
+            >
+
+            <span>
+                Organizador Acadêmico
+            </span>
+
+        </a>
+
+    </div>
+
+</header>
+
+<main class="container documento-container">
+
+    <section class="documento-conteudo">
+
+        <div class="cabecalho-conteudo">
+
+            <span class="rotulo-documento">
+                Privacidade e proteção de dados
+            </span>
+
+            <h1>
+                Política de Privacidade
+            </h1>
+
+            <p>
+                Saiba como seus dados são utilizados e protegidos no Organizador Acadêmico.
+            </p>
+
+        </div>
+
+        <div class="conteudo-legal">
 
             <h2>1. Sobre esta Política de Privacidade</h2>
 
@@ -60,8 +112,14 @@
             <p>
                 Durante a utilização do sistema, poderão ser armazenados dados
                 acadêmicos cadastrados pelo próprio usuário, como semestres,
-                disciplinas, atividades, avaliações, notas, prazos e demais
-                informações necessárias à organização da rotina acadêmica.
+                disciplinas, atividades, prazos e documentos relacionados às
+                atividades acadêmicas.
+            </p>
+
+            <p>
+                Caso o usuário escolha utilizar uma foto de perfil, o sistema
+                armazenará a imagem necessária para apresentação do perfil e da
+                identificação visual da conta.
             </p>
 
             <p>
@@ -91,8 +149,13 @@
             <p>
                 Os dados acadêmicos cadastrados pelo usuário são utilizados para
                 possibilitar a organização de semestres, disciplinas, atividades,
-                avaliações, notas, prazos e demais informações relacionadas à sua
-                rotina acadêmica.
+                prazos e documentos relacionados à sua rotina acadêmica.
+            </p>
+
+            <p>
+                A foto de perfil, quando fornecida voluntariamente pelo usuário,
+                é utilizada para personalização e identificação visual da conta
+                dentro do sistema.
             </p>
 
             <p>
@@ -117,7 +180,18 @@
 
             <p>
                 Os dados do Organizador Acadêmico são armazenados em banco de dados
-                PostgreSQL utilizando o Supabase como serviço de banco de dados.
+                PostgreSQL utilizando o Supabase como serviço de infraestrutura.
+            </p>
+
+            <p>
+                As imagens utilizadas como foto de perfil são armazenadas no
+                Supabase Storage em área de armazenamento configurada como privada.
+            </p>
+
+            <p>
+                O acesso às fotos privadas ocorre por meio de mecanismos controlados
+                pelo backend, utilizando endereços temporários para apresentação
+                das imagens no sistema.
             </p>
 
             <p>
@@ -151,9 +225,7 @@
 
             <p>
                 O backend realiza verificações para que o usuário tenha acesso
-                apenas às informações relacionadas à própria conta. Identificadores
-                enviados pelo frontend não são utilizados como única forma de
-                determinar a propriedade dos dados.
+                apenas às informações relacionadas à própria conta.
             </p>
 
             <p>
@@ -209,7 +281,8 @@
 
             <p>
                 O Supabase é utilizado para hospedagem e gerenciamento do banco de
-                dados PostgreSQL do sistema.
+                dados PostgreSQL e para armazenamento privado de arquivos utilizados
+                pelo sistema.
             </p>
 
             <p>
@@ -265,16 +338,14 @@
 
             <p>
                 Quando o usuário solicitar a exclusão da conta, os dados diretamente
-                vinculados a ela, como os dados da conta, os semestres cadastrados e
-                os registros de recuperação de senha, serão removidos.
+                vinculados a ela deverão ser tratados conforme as regras de exclusão
+                e retenção definidas pelo sistema.
             </p>
 
             <p>
                 Os registros de auditoria poderão ser mantidos após a exclusão da
                 conta para preservar o histórico das ações realizadas e auxiliar no
-                controle de segurança do sistema. Esses registros podem conter o
-                identificador do usuário, seu nome, a ação realizada e a data e hora
-                do registro.
+                controle de segurança do sistema.
             </p>
 
             <h2>9. Direitos do usuário</h2>
@@ -287,8 +358,8 @@
             </p>
 
             <p>
-                O usuário também poderá alterar sua senha e solicitar a exclusão
-                da própria conta.
+                O usuário também poderá alterar seu nome, sua foto de perfil,
+                sua senha e solicitar a exclusão da própria conta.
             </p>
 
             <p>
@@ -299,7 +370,7 @@
             <p>
                 O usuário poderá consultar a Política de Privacidade e os Termos de
                 Uso disponibilizados pelo Organizador Acadêmico a qualquer momento
-                por meio das páginas acessíveis dentro do sistema.
+                por meio das páginas acessíveis no sistema.
             </p>
 
             <h2>10. Controle de acesso aos dados</h2>
@@ -347,33 +418,77 @@
                 disponível no sistema para consulta dos usuários.
             </p>
 
-            <p class="data-atualizacao">
-                Última atualização: 27 de setembro de 2026.
-            </p>
+            <div class="informacao-versao">
 
-            <div class="acoes-privacidade">
-                <button
-                    type="button"
-                    class="botao-voltar-cadastro"
-                    onclick="voltarPagina()">
-                    Voltar
-                </button>
+                <i class="fa-regular fa-clock"></i>
+
+                <div>
+                    <strong>Política de Privacidade</strong>
+
+                    <span>
+                        Última atualização: 27 de setembro de 2026.
+                    </span>
+                </div>
+
             </div>
 
-        </section>
+        </div>
 
-    </main>
+        <div class="acoes-documento">
 
-    <script>
-        function voltarPagina() {
+            <button
+                type="button"
+                class="btn btn-outline-secondary"
+                onclick="voltarPagina()"
+            >
+                <i class="fa-solid fa-arrow-left me-2"></i>
+                Voltar
+            </button>
 
-            if (document.referrer) {
-                history.back();
-            } else {
-                window.location.href = "index.html";
-            }
+            <a
+                href="termos.html"
+                class="btn btn-primary"
+            >
+                Termos de Uso
+                <i class="fa-solid fa-arrow-right ms-2"></i>
+            </a>
+
+        </div>
+
+    </section>
+
+</main>
+
+<footer class="rodape">
+
+    <p>
+        <a href="termos.html">
+            Termos de Uso
+        </a>
+
+        <span>|</span>
+
+        <a href="privacidade.html">
+            Política de Privacidade
+        </a>
+    </p>
+
+</footer>
+
+<script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+></script>
+
+<script>
+    function voltarPagina() {
+
+        if (document.referrer) {
+            history.back();
+        } else {
+            window.location.href = "index.html";
         }
-    </script>
+    }
+</script>
 
 </body>
 

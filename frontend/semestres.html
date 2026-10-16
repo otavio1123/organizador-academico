@@ -5,141 +5,298 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet" href="css/semestres.css">
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
 
     <link
         rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
     >
 
-    <link
-        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
-        rel="stylesheet"
-    >
+    <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="css/semestres.css">
 
     <title>Semestres</title>
 </head>
 
 <body>
 
-    <div id="Menu">
+<header class="cabecalho-app">
 
-        <div id="PrimeiroMenu">
+    <nav class="navbar navbar-dark navbar-expand-lg">
 
-            <div class="logo">
-                <img src="img/logo.png" alt="Organizador Acadêmico">
-                <h1>Organizador Acadêmico</h1>
-            </div>
+        <div class="container-fluid px-4">
 
-            <div class="perfil">
+            <a
+                class="navbar-brand d-flex align-items-center gap-2"
+                href="home.html"
+            >
 
-                <div class="info-perfil">
-                    <span>Danilo</span>
-                    <small>RA: 1222101103</small>
+                <img
+                    src="/img/logo.png"
+                    alt="Organizador Acadêmico"
+                    class="logo-app"
+                >
+
+                <span class="nome-app">
+                    Organizador Acadêmico
+                </span>
+
+            </a>
+
+            <a
+                href="perfil.html"
+                class="usuario-topo d-none d-md-flex"
+                title="Acessar perfil"
+            >
+
+                <div class="text-end">
+
+                    <span
+                        class="nome-usuario"
+                        id="nomeUsuarioLogado"
+                    >
+                        Usuário
+                    </span>
+
+                    <small
+                        class="identificacao-usuario"
+                        id="emailUsuarioLogado"
+                    ></small>
+
                 </div>
+             <div class="icone-usuario">
 
-            </div>
+         <img
+          id="imagemUsuarioTopo"
+          src=""
+          alt="Foto do usuário"
+          class="d-none"
+         >
 
-        </div>
-
-        <div class="menu-links">
-
-    <a href="home.html">DASH</a>
-
-    <a href="perfil.html">PERFIL</a>
-
-    <a href="semestres.html" class="ativo">SEMESTRES</a>
-
-    <a href="#">DISCIPLINAS</a>
-
-    <a href="#">ATIV.</a>
-
-    <a href="#">NOTAS</a>
-
-    <a href="#">CONFIG</a>
-
-</div>
+    <i
+        id="iconeUsuarioTopo"
+        class="fa-solid fa-user"
+    ></i>
 
     </div>
 
+            </a>
 
-    <div id="DivTitulo">
+            <button
+                class="navbar-toggler"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#menuPrincipal"
+                aria-controls="menuPrincipal"
+                aria-expanded="false"
+                aria-label="Abrir menu"
+            >
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
-        <div id="Titulo">
-            <h1>Semestres</h1>
-            <p>Gerencie os semestres letivos e suas disciplinas</p>
         </div>
 
-        <select id="filtroStatusSemestre">
+    </nav>
+
+    <nav class="navbar navbar-expand-lg navbar-menu-app">
+
+        <div class="container-fluid px-4">
+
+            <div
+                class="collapse navbar-collapse"
+                id="menuPrincipal"
+            >
+
+                <ul class="navbar-nav">
+
+                    <li class="nav-item">
+                        <a
+                            class="nav-link"
+                            href="home.html"
+                        >
+                            <i class="fa-solid fa-house me-2"></i>
+                            Dashboard
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a
+                            class="nav-link"
+                            href="perfil.html"
+                        >
+                            <i class="fa-solid fa-user me-2"></i>
+                            Perfil
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a
+                            class="nav-link ativo"
+                            href="semestres.html"
+                        >
+                            <i class="fa-solid fa-calendar-days me-2"></i>
+                            Semestres
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a
+                            class="nav-link"
+                            href="#"
+                        >
+                            <i class="fa-solid fa-book me-2"></i>
+                            Disciplinas
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a
+                            class="nav-link"
+                            href="#"
+                        >
+                            <i class="fa-solid fa-list-check me-2"></i>
+                            Atividades
+                        </a>
+                    </li>
+
+                </ul>
+
+            </div>
+
+        </div>
+
+    </nav>
+
+</header>
+
+<main class="container-fluid px-4 py-4 flex-grow-1">
+
+    <div
+        id="DivTitulo"
+        class="d-flex flex-column flex-md-row align-items-md-center gap-3 mb-4"
+    >
+
+        <div
+            id="Titulo"
+            class="me-md-auto"
+        >
+            <h1>Semestres</h1>
+
+            <p>
+                Gerencie os semestres letivos e suas disciplinas
+            </p>
+        </div>
+
+        <select
+            id="filtroStatusSemestre"
+            class="form-select filtro-semestres"
+            aria-label="Filtrar semestres por status"
+        >
             <option value="S">Ativos</option>
             <option value="N">Inativos</option>
         </select>
 
-        <div id="Divbotao-criarSmestres">
-
-            <button
-                id="botao-criarSemestres"
-                type="button"
-                data-bs-toggle="modal"
-                data-bs-target="#modalCriarSemestre"
-            >
-                <i class="fa-solid fa-plus"></i>
-                Criar semestre
-            </button>
-
-        </div>
+        <button
+            id="botao-criarSemestres"
+            type="button"
+            class="btn btn-primary d-flex align-items-center justify-content-center gap-2 px-4"
+            data-bs-toggle="modal"
+            data-bs-target="#modalCriarSemestre"
+        >
+            <i class="fa-solid fa-plus"></i>
+            Criar semestre
+        </button>
 
     </div>
 
-
-    <div id="listaSemestres"></div>
-
+    <div
+        id="listaSemestres"
+        class="row g-4"
+    ></div>
 
     <template id="modeloSemestre">
 
-        <div class="card-semestre">
+        <div class="col-12 col-md-6 col-xl-4">
 
-            <div class="cabecalhoSemestre">
+            <article class="card card-semestre h-100">
 
-                <h2 class="nome-semestre"></h2>
+                <div class="card-body d-flex flex-column">
 
-                <button
-                    class="botaoOpcoesSemestre"
-                    type="button"
-                    aria-label="Opções do semestre"
-                >
-                    <i class="fa-solid fa-ellipsis-vertical"></i>
-                </button>
+                    <div
+                        class="d-flex justify-content-between align-items-start gap-3 mb-3"
+                    >
 
-            </div>
+                        <h2 class="nome-semestre mb-0"></h2>
 
-            <p>
-                <strong>Ano:</strong>
-                <span class="ano-semestre"></span>
-            </p>
+                        <button
+                            class="botaoOpcoesSemestre btn btn-light btn-sm rounded-circle"
+                            type="button"
+                            aria-label="Editar semestre"
+                        >
+                            <i class="fa-solid fa-ellipsis-vertical"></i>
+                        </button>
 
-            <p>
-                <strong>Início:</strong>
-                <span class="inicio-semestre"></span>
-            </p>
+                    </div>
 
-            <p>
-                <strong>Fim:</strong>
-                <span class="fim-semestre"></span>
-            </p>
+                    <div class="dados-semestre mb-4">
 
-            <a href="diciplina.html" id="DisciplinasIr">
-                Disciplinas
-            </a>
+                        <p>
+                            <i class="fa-regular fa-calendar me-2"></i>
 
-            <button class="botao-excluir-semestre">
-                Excluir
-            </button>
+                            <strong>Ano:</strong>
+
+                            <span class="ano-semestre"></span>
+                        </p>
+
+                        <p>
+                            <i class="fa-regular fa-calendar-check me-2"></i>
+
+                            <strong>Início:</strong>
+
+                            <span class="inicio-semestre"></span>
+                        </p>
+
+                        <p>
+                            <i class="fa-regular fa-calendar-xmark me-2"></i>
+
+                            <strong>Fim:</strong>
+
+                            <span class="fim-semestre"></span>
+                        </p>
+
+                    </div>
+
+                    <div class="mt-auto d-grid gap-2">
+
+                        <a
+                            href="diciplina.html"
+                            id="DisciplinasIr"
+                            class="btn btn-primary"
+                        >
+                            <i class="fa-solid fa-book me-2"></i>
+                            Disciplinas
+                        </a>
+
+                        <button
+                            class="botao-excluir-semestre btn btn-outline-danger"
+                            type="button"
+                        >
+                            <i class="fa-regular fa-trash-can me-2"></i>
+                            Excluir
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </article>
 
         </div>
 
     </template>
-
 
     <div
         class="modal fade"
@@ -169,10 +326,12 @@
 
                 </div>
 
-
                 <div class="modal-body">
 
-                    <label for="nomeSemestre">
+                    <label
+                        for="nomeSemestre"
+                        class="form-label"
+                    >
                         Nome do semestre
                     </label>
 
@@ -183,12 +342,17 @@
                         placeholder="Ex: Semestre 2026.1"
                     >
 
+                    <div
+                        id="linhaAnoStatus"
+                        class="row g-3 mt-1"
+                    >
 
-                    <div id="linhaAnoStatus">
+                        <div class="col-md-6">
 
-                        <div>
-
-                            <label for="anoSemestre">
+                            <label
+                                for="anoSemestre"
+                                class="form-label"
+                            >
                                 Ano
                             </label>
 
@@ -201,16 +365,18 @@
 
                         </div>
 
+                        <div class="col-md-6">
 
-                        <div>
-
-                            <label for="ativoSemestre">
+                            <label
+                                for="ativoSemestre"
+                                class="form-label"
+                            >
                                 Status
                             </label>
 
                             <select
                                 id="ativoSemestre"
-                                class="form-control"
+                                class="form-select"
                             >
                                 <option value="S">Ativo</option>
                                 <option value="N">Inativo</option>
@@ -220,12 +386,17 @@
 
                     </div>
 
+                    <div
+                        id="datasSemestre"
+                        class="row g-3 mt-1"
+                    >
 
-                    <div id="datasSemestre">
+                        <div class="col-md-6">
 
-                        <div>
-
-                            <label for="inicioSemestre">
+                            <label
+                                for="inicioSemestre"
+                                class="form-label"
+                            >
                                 Início
                             </label>
 
@@ -237,10 +408,12 @@
 
                         </div>
 
+                        <div class="col-md-6">
 
-                        <div>
-
-                            <label for="fimSemestre">
+                            <label
+                                for="fimSemestre"
+                                class="form-label"
+                            >
                                 Fim
                             </label>
 
@@ -255,7 +428,6 @@
                     </div>
 
                 </div>
-
 
                 <div class="modal-footer">
 
@@ -283,23 +455,29 @@
 
     </div>
 
+</main>
 
-    <footer class="rodape">
+<footer class="rodape">
 
-        <p>
-            <a href="termos.html">Termos de Uso</a>
-            <span>|</span>
-            <a href="privacidade.html">Política de Privacidade</a>
-        </p>
+    <p>
+        <a href="termos.html">
+            Termos de Uso
+        </a>
 
-    </footer>
+        <span>|</span>
 
+        <a href="privacidade.html">
+            Política de Privacidade
+        </a>
+    </p>
 
-    <script
-        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
-    ></script>
+</footer>
 
-    <script src="js/semestres.js"></script>
+<script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+></script>
+
+<script src="js/semestres.js"></script>
 
 </body>
 
