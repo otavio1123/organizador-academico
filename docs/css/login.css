@@ -1,0 +1,294 @@
+.pagina-autenticacao {
+    min-height: 100vh;
+    margin: 0;
+    background-color: #f8fafc;
+    color: var(--cor-texto);
+}
+
+.painel-apresentacao {
+    min-height: 100vh;
+    padding: 48px 64px 56px;
+    align-items: stretch;
+    background:
+        linear-gradient(
+            145deg,
+            #172238 0%,
+            #1e3a67 55%,
+            #2563eb 130%
+        );
+    color: #ffffff;
+}
+
+.conteudo-apresentacao {
+    width: 100%;
+    max-width: 620px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.marca-login {
+    display: inline-flex;
+    align-items: center;
+    gap: 16px;
+    align-self: flex-start;
+    margin-top: 8px;
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 21px;
+    font-weight: 700;
+}
+
+.marca-login:hover {
+    color: #ffffff;
+}
+
+.logo-login {
+    width: 68px;
+    height: 68px;
+    object-fit: contain;
+    border-radius: 14px;
+    display: block;
+    flex-shrink: 0;
+}
+
+.marca-login span {
+    line-height: 1;
+}
+
+.texto-apresentacao {
+    max-width: 560px;
+    margin-top: 100px;
+}
+
+.destaque-login {
+    display: none;
+}
+
+.texto-apresentacao h1 {
+    max-width: 520px;
+    margin: 0;
+    font-family: "DM Serif Display", serif;
+    font-size: 52px;
+    font-weight: 400;
+    line-height: 1.08;
+    letter-spacing: -0.5px;
+}
+
+.texto-apresentacao p {
+    max-width: 490px;
+    margin: 24px 0 0;
+    color: #cbd5e1;
+    font-size: 17px;
+    line-height: 1.7;
+}
+
+.area-login {
+    min-height: 100vh;
+    padding: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #ffffff;
+}
+
+.card-login {
+    width: 100%;
+    max-width: 450px;
+}
+
+.cabecalho-login {
+    margin-bottom: 32px;
+}
+
+.rotulo-login {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--cor-primaria);
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.cabecalho-login h2 {
+    margin: 0;
+    color: var(--cor-texto);
+    font-family: "DM Serif Display", serif;
+    font-size: 38px;
+    font-weight: 400;
+}
+
+.cabecalho-login p {
+    margin: 10px 0 0;
+    color: var(--cor-texto-secundario);
+    font-size: 15px;
+    line-height: 1.6;
+}
+
+.form-login {
+    margin: 0;
+}
+
+.form-login .form-label {
+    margin-bottom: 8px;
+    color: var(--cor-texto);
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.campo-com-icone {
+    position: relative;
+}
+
+.campo-com-icone > i:first-child {
+    position: absolute;
+    top: 50%;
+    left: 15px;
+    z-index: 2;
+    transform: translateY(-50%);
+    color: #94a3b8;
+    font-size: 15px;
+    pointer-events: none;
+}
+
+.campo-com-icone .form-control {
+    min-height: 50px;
+    padding-left: 44px;
+    border-radius: 9px;
+    font-size: 15px;
+}
+
+.campo-senha .form-control {
+    padding-right: 48px;
+}
+
+.form-login .form-control::placeholder {
+    color: #94a3b8;
+}
+
+.link-secundario {
+    color: var(--cor-primaria);
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.link-secundario:hover {
+    color: var(--cor-primaria-hover);
+    text-decoration: underline;
+}
+
+.botao-login {
+    min-height: 50px;
+    margin-top: 12px;
+    border-radius: 9px;
+    font-size: 15px;
+    font-weight: 700;
+}
+
+.separador-login {
+    margin: 28px 0 24px;
+}
+
+.separador-login span {
+    display: block;
+    width: 100%;
+    height: 1px;
+    background-color: var(--cor-borda);
+}
+
+.cadastro-login {
+    margin: 0;
+    color: var(--cor-texto-secundario);
+    text-align: center;
+    font-size: 14px;
+}
+
+.cadastro-login a {
+    margin-left: 3px;
+    color: var(--cor-primaria);
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.cadastro-login a:hover {
+    color: var(--cor-primaria-hover);
+    text-decoration: underline;
+}
+
+.links-legais {
+    margin-top: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    color: #94a3b8;
+    font-size: 12px;
+}
+
+.links-legais a {
+    color: #64748b;
+    text-decoration: none;
+}
+
+.links-legais a:hover {
+    color: var(--cor-primaria);
+}
+
+.marca-mobile {
+    margin-bottom: 35px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--cor-texto);
+    font-weight: 700;
+}
+
+.marca-mobile img {
+    width: 42px;
+    height: 42px;
+    object-fit: contain;
+}
+
+@media (max-width: 991px) {
+
+    .area-login {
+        padding: 38px 24px;
+        background-color: #f8fafc;
+    }
+
+    .card-login {
+        max-width: 480px;
+        padding: 38px;
+        background-color: #ffffff;
+        border: 1px solid var(--cor-borda);
+        border-radius: var(--raio-grande);
+        box-shadow: var(--sombra-card);
+    }
+}
+
+@media (max-width: 575px) {
+
+    .area-login {
+        padding: 22px 16px;
+    }
+
+    .card-login {
+        padding: 28px 22px;
+    }
+
+    .cabecalho-login {
+        margin-bottom: 26px;
+    }
+
+    .cabecalho-login h2 {
+        font-size: 32px;
+    }
+
+    .marca-mobile {
+        margin-bottom: 28px;
+    }
+
+    .links-legais {
+        flex-wrap: wrap;
+    }
+}

@@ -18,7 +18,7 @@
     <link rel="stylesheet" href="css/global.css">
     <link rel="stylesheet" href="css/semestres.css">
 
-    <title>Semestres</title>
+    <title>Semestres - Organizador Acadêmico</title>
 </head>
 
 <body>
@@ -67,21 +67,22 @@
                     ></small>
 
                 </div>
-             <div class="icone-usuario">
 
-         <img
-          id="imagemUsuarioTopo"
-          src=""
-          alt="Foto do usuário"
-          class="d-none"
-         >
+                <div class="icone-usuario">
 
-    <i
-        id="iconeUsuarioTopo"
-        class="fa-solid fa-user"
-    ></i>
+                    <img
+                        id="imagemUsuarioTopo"
+                        src=""
+                        alt="Foto do usuário"
+                        class="d-none"
+                    >
 
-    </div>
+                    <i
+                        id="iconeUsuarioTopo"
+                        class="fa-solid fa-user"
+                    ></i>
+
+                </div>
 
             </a>
 
@@ -113,6 +114,7 @@
                 <ul class="navbar-nav">
 
                     <li class="nav-item">
+
                         <a
                             class="nav-link"
                             href="home.html"
@@ -120,9 +122,11 @@
                             <i class="fa-solid fa-house me-2"></i>
                             Dashboard
                         </a>
+
                     </li>
 
                     <li class="nav-item">
+
                         <a
                             class="nav-link"
                             href="perfil.html"
@@ -130,9 +134,11 @@
                             <i class="fa-solid fa-user me-2"></i>
                             Perfil
                         </a>
+
                     </li>
 
                     <li class="nav-item">
+
                         <a
                             class="nav-link ativo"
                             href="semestres.html"
@@ -140,9 +146,11 @@
                             <i class="fa-solid fa-calendar-days me-2"></i>
                             Semestres
                         </a>
+
                     </li>
 
                     <li class="nav-item">
+
                         <a
                             class="nav-link"
                             href="#"
@@ -150,9 +158,11 @@
                             <i class="fa-solid fa-book me-2"></i>
                             Disciplinas
                         </a>
+
                     </li>
 
                     <li class="nav-item">
+
                         <a
                             class="nav-link"
                             href="#"
@@ -160,6 +170,7 @@
                             <i class="fa-solid fa-list-check me-2"></i>
                             Atividades
                         </a>
+
                     </li>
 
                 </ul>
@@ -183,11 +194,15 @@
             id="Titulo"
             class="me-md-auto"
         >
-            <h1>Semestres</h1>
+
+            <h1>
+                Semestres
+            </h1>
 
             <p>
                 Gerencie os semestres letivos e suas disciplinas
             </p>
+
         </div>
 
         <select
@@ -195,8 +210,13 @@
             class="form-select filtro-semestres"
             aria-label="Filtrar semestres por status"
         >
-            <option value="S">Ativos</option>
-            <option value="N">Inativos</option>
+            <option value="S">
+                Ativos
+            </option>
+
+            <option value="N">
+                Inativos
+            </option>
         </select>
 
         <button
@@ -207,6 +227,7 @@
             data-bs-target="#modalCriarSemestre"
         >
             <i class="fa-solid fa-plus"></i>
+
             Criar semestre
         </button>
 
@@ -244,27 +265,39 @@
                     <div class="dados-semestre mb-4">
 
                         <p>
+
                             <i class="fa-regular fa-calendar me-2"></i>
 
-                            <strong>Ano:</strong>
+                            <strong>
+                                Ano:
+                            </strong>
 
                             <span class="ano-semestre"></span>
+
                         </p>
 
                         <p>
+
                             <i class="fa-regular fa-calendar-check me-2"></i>
 
-                            <strong>Início:</strong>
+                            <strong>
+                                Início:
+                            </strong>
 
                             <span class="inicio-semestre"></span>
+
                         </p>
 
                         <p>
+
                             <i class="fa-regular fa-calendar-xmark me-2"></i>
 
-                            <strong>Fim:</strong>
+                            <strong>
+                                Fim:
+                            </strong>
 
                             <span class="fim-semestre"></span>
+
                         </p>
 
                     </div>
@@ -272,11 +305,12 @@
                     <div class="mt-auto d-grid gap-2">
 
                         <a
-                            href="diciplina.html"
+                            href="#"
                             id="DisciplinasIr"
                             class="btn btn-primary"
                         >
                             <i class="fa-solid fa-book me-2"></i>
+
                             Disciplinas
                         </a>
 
@@ -285,6 +319,7 @@
                             type="button"
                         >
                             <i class="fa-regular fa-trash-can me-2"></i>
+
                             Excluir
                         </button>
 
@@ -302,9 +337,10 @@
         class="modal fade"
         id="modalCriarSemestre"
         tabindex="-1"
+        aria-hidden="true"
     >
 
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-dialog-centered">
 
             <div class="modal-content">
 
@@ -378,8 +414,13 @@
                                 id="ativoSemestre"
                                 class="form-select"
                             >
-                                <option value="S">Ativo</option>
-                                <option value="N">Inativo</option>
+                                <option value="S">
+                                    Ativo
+                                </option>
+
+                                <option value="N">
+                                    Inativo
+                                </option>
                             </select>
 
                         </div>
@@ -460,6 +501,7 @@
 <footer class="rodape">
 
     <p>
+
         <a href="termos.html">
             Termos de Uso
         </a>
@@ -469,6 +511,7 @@
         <a href="privacidade.html">
             Política de Privacidade
         </a>
+
     </p>
 
 </footer>

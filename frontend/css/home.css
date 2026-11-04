@@ -10,114 +10,176 @@
 
 .subtitulo-dashboard {
     margin: 6px 0 0;
+
     color: var(--cor-texto-secundario);
+
     font-size: 16px;
 }
 
 .card-semestre-atual {
     padding: 28px 30px;
+
     background-color: var(--cor-card);
+
     border: 1px solid var(--cor-borda);
     border-radius: var(--raio-grande);
+
     box-shadow: var(--sombra-card);
 }
 
 .rotulo-dashboard {
     display: block;
+
     margin-bottom: 5px;
+
     color: var(--cor-texto-secundario);
+
     font-size: 14px;
     font-weight: 600;
 }
 
 .nome-semestre-atual {
     margin: 0;
+
     color: var(--cor-texto);
+
     font-size: 26px;
     font-weight: 700;
 }
 
 .periodo-semestre {
     margin: 8px 0 0;
+
     color: var(--cor-texto-secundario);
+
     font-size: 14px;
 }
 
 .badge-semestre {
     padding: 7px 12px;
+
     border-radius: 20px;
+
     background-color: #dcfce7;
     color: #15803d;
+
     font-size: 13px;
     font-weight: 700;
 }
 
 .card-resumo {
     min-height: 120px;
+
     padding: 24px;
+
     display: flex;
     align-items: center;
     gap: 18px;
+
     background-color: var(--cor-card);
+
     border: 1px solid var(--cor-borda);
     border-radius: var(--raio-grande);
+
     box-shadow: var(--sombra-card);
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        border-color 0.2s ease;
+}
+
+.card-resumo:hover {
+    transform: translateY(-2px);
+
+    border-color: #d8e1ed;
+
+    box-shadow:
+        0 8px 22px rgba(15, 23, 42, 0.09);
 }
 
 .icone-resumo {
     width: 52px;
     height: 52px;
+
     flex-shrink: 0;
+
     display: flex;
     align-items: center;
     justify-content: center;
+
     border-radius: 12px;
+
     background-color: #eff6ff;
     color: var(--cor-primaria);
+
     font-size: 21px;
 }
 
 .numero-resumo {
     display: block;
+
     color: var(--cor-texto);
+
     font-size: 28px;
+    font-weight: 700;
     line-height: 1;
 }
 
 .card-dashboard {
     padding: 28px;
+
     background-color: var(--cor-card);
+
     border: 1px solid var(--cor-borda);
     border-radius: var(--raio-grande);
+
     box-shadow: var(--sombra-card);
 }
 
 .titulo-secao-dashboard {
     margin: 0;
+
     color: var(--cor-texto);
+
     font-size: 21px;
     font-weight: 700;
 }
 
 .descricao-secao-dashboard {
     margin: 5px 0 0;
+
     color: var(--cor-texto-secundario);
+
     font-size: 14px;
 }
 
 .icone-secao {
+    flex-shrink: 0;
+
     color: var(--cor-texto-secundario);
+
     font-size: 22px;
+}
+
+.area-grafico {
+    position: relative;
+
+    width: 100%;
+    height: 320px;
 }
 
 .estado-vazio-dashboard {
     min-height: 190px;
+
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     gap: 12px;
+
     color: var(--cor-texto-secundario);
+
     text-align: center;
 }
 
@@ -127,28 +189,165 @@
 
 .estado-vazio-dashboard p {
     margin: 0;
+
+    max-width: 330px;
+
     font-size: 14px;
+    line-height: 1.5;
+}
+
+.lista-resumo-disciplinas {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.item-resumo-disciplina {
+    padding: 18px;
+
+    border: 1px solid var(--cor-borda);
+    border-radius: 11px;
+
+    background-color: #f8fafc;
+
+    transition:
+        border-color 0.2s ease,
+        background-color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.item-resumo-disciplina:hover {
+    transform: translateY(-1px);
+
+    border-color: #cbd5e1;
+
+    background-color: #ffffff;
+}
+
+.resumo-disciplina-principal {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+
+    margin-bottom: 14px;
+}
+
+.resumo-disciplina-principal h3 {
+    margin: 0 0 5px;
+
+    color: var(--cor-texto);
+
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.resumo-disciplina-principal p {
+    margin: 0;
+
+    color: var(--cor-texto-secundario);
+
+    font-size: 13px;
+}
+
+.resumo-disciplina-principal p i {
+    width: 17px;
+
+    margin-right: 4px;
+
+    color: #94a3b8;
+
+    text-align: center;
+}
+
+.resumo-disciplina-dados {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 22px;
+}
+
+.resumo-disciplina-dados span {
+    color: var(--cor-texto-secundario);
+
+    font-size: 13px;
+}
+
+.resumo-disciplina-dados i {
+    width: 17px;
+
+    margin-right: 4px;
+
+    color: #94a3b8;
+
+    text-align: center;
+}
+
+.resumo-disciplina-dados strong {
+    margin-left: 3px;
+
+    color: var(--cor-texto);
+
+    font-weight: 700;
+}
+
+.badge-desempenho {
+    padding: 6px 10px;
+
+    flex-shrink: 0;
+
+    border-radius: 20px;
+
+    font-size: 11px;
+    font-weight: 700;
+
+    white-space: nowrap;
+}
+
+.badge-ok {
+    background-color: #dcfce7;
+    color: #15803d;
+}
+
+.badge-abaixo {
+    background-color: #fee2e2;
+    color: #b91c1c;
 }
 
 .atalho-dashboard {
     min-height: 58px;
+
     padding: 0 16px;
+
     display: grid;
     grid-template-columns: 25px 1fr auto;
     align-items: center;
     gap: 12px;
+
     color: var(--cor-texto);
+
     text-decoration: none;
+
     background-color: #f8fafc;
+
     border: 1px solid var(--cor-borda);
     border-radius: 10px;
+
     font-weight: 600;
-    transition: 0.2s;
+
+    transition:
+        color 0.2s ease,
+        border-color 0.2s ease,
+        background-color 0.2s ease,
+        transform 0.2s ease;
 }
 
 .atalho-dashboard:hover {
+    transform: translateX(2px);
+
     color: var(--cor-primaria);
+
     border-color: #bfdbfe;
+
     background-color: #eff6ff;
 }
 
@@ -158,7 +357,15 @@
 
 .atalho-dashboard > i:last-child {
     color: var(--cor-texto-secundario);
+
     font-size: 12px;
+}
+
+@media (max-width: 991px) {
+
+    .area-grafico {
+        height: 300px;
+    }
 }
 
 @media (max-width: 767px) {
@@ -178,9 +385,27 @@
 
     .card-resumo {
         min-height: 105px;
+
+        padding: 20px;
     }
 
     .card-dashboard {
         padding: 22px;
+    }
+
+    .area-grafico {
+        height: 280px;
+    }
+
+    .resumo-disciplina-principal {
+        flex-direction: column;
+
+        gap: 10px;
+    }
+
+    .resumo-disciplina-dados {
+        flex-direction: column;
+
+        gap: 8px;
     }
 }

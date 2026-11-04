@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    >
+
+    <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="css/alertas.css">
+    <link rel="stylesheet" href="css/disciplinas.css">
+
+    <title>Disciplinas</title>
+</head>
+
+<body>
+
+<header class="cabecalho-app">
+
+    <nav class="navbar navbar-dark navbar-expand-lg">
+
+        <div class="container-fluid px-4">
+
+            <a
+                class="navbar-brand d-flex align-items-center gap-2"
+                href="home.html"
+            >
+
+                <img
+                    src="/img/logo.png"
+                    alt="Organizador Acadêmico"
+                    class="logo-app"
+                >
+
+                <span class="nome-app">
+                    Organizador Acadêmico
+                </span>
+
+            </a>
+
+            <a
+                href="perfil.html"
+                class="usuario-topo d-none d-md-flex"
+                title="Acessar perfil"
+            >
+
+                <div class="text-end">
+
+                    <span
+                        class="nome-usuario"
+                        id="nomeUsuarioLogado"
+                    >
+                        Usuário
+                    </span>
+
+                    <small
+                        class="identificacao-usuario"
+                        id="emailUsuarioLogado"
+                    ></small>
+
+                </div>
+
+                <div class="icone-usuario">
+
+                    <img
+                        id="imagemUsuarioTopo"
+                        src=""
+                        alt="Foto do usuário"
+                        class="d-none"
+                    >
+
+                    <i
+                        id="iconeUsuarioTopo"
+                        class="fa-solid fa-user"
+                    ></i>
+
+                </div>
+
+            </a>
+
+            <button
+                class="navbar-toggler"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#menuPrincipal"
+                aria-controls="menuPrincipal"
+                aria-expanded="false"
+                aria-label="Abrir menu"
+            >
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+        </div>
+
+    </nav>
+
+    <nav class="navbar navbar-expand-lg navbar-menu-app">
+
+        <div class="container-fluid px-4">
+
+            <div
+                class="collapse navbar-collapse"
+                id="menuPrincipal"
+            >
+
+                <ul class="navbar-nav">
+
+                    <li class="nav-item">
+
+                        <a
+                            class="nav-link"
+                            href="home.html"
+                        >
+                            <i class="fa-solid fa-house me-2"></i>
+                            Dashboard
+                        </a>
+
+                    </li>
+
+                    <li class="nav-item">
+
+                        <a
+                            class="nav-link"
+                            href="perfil.html"
+                        >
+                            <i class="fa-solid fa-user me-2"></i>
+                            Perfil
+                        </a>
+
+                    </li>
+
+                    <li class="nav-item">
+
+                        <a
+                            class="nav-link"
+                            href="semestres.html"
+                        >
+                            <i class="fa-solid fa-calendar-days me-2"></i>
+                            Semestres
+                        </a>
+
+                    </li>
+
+                    <li class="nav-item">
+
+                        <a
+                            class="nav-link ativo"
+                            href="semestres.html"
+                        >
+                            <i class="fa-solid fa-book me-2"></i>
+                            Disciplinas
+                        </a>
+
+                    </li>
+
+                    <li class="nav-item">
+
+                        <a
+                            class="nav-link"
+                            href="#"
+                        >
+                            <i class="fa-solid fa-list-check me-2"></i>
+                            Atividades
+                        </a>
+
+                    </li>
+
+                </ul>
+
+            </div>
+
+        </div>
+
+    </nav>
+
+</header>
+
+<main class="container-fluid px-4 py-4 flex-grow-1">
+
+    <div class="mb-3">
+
+        <a
+            href="semestres.html"
+            class="voltar-semestres"
+        >
+            <i class="fa-solid fa-arrow-left me-2"></i>
+            Voltar para semestres
+        </a>
+
+    </div>
+
+    <section class="resumo-semestre mb-4">
+
+        <div>
+
+            <div class="d-flex align-items-center gap-2 flex-wrap">
+
+                <span class="rotulo-semestre">
+                    Semestre selecionado
+                </span>
+
+                <span
+                    id="statusSemestre"
+                    class="badge-semestre d-none"
+                >
+                    Ativo
+                </span>
+
+            </div>
+
+            <h2 id="nomeSemestreAtual">
+                Carregando semestre...
+            </h2>
+
+            <p id="periodoSemestreAtual">
+                Aguarde enquanto buscamos as informações.
+            </p>
+
+        </div>
+
+    </section>
+
+    <div
+        id="DivTitulo"
+        class="d-flex flex-column flex-md-row align-items-md-center gap-3 mb-4"
+    >
+
+        <div
+            id="Titulo"
+            class="me-md-auto"
+        >
+
+            <h1>Disciplinas</h1>
+
+            <p>
+                Gerencie as disciplinas vinculadas a este semestre
+            </p>
+
+        </div>
+
+        <button
+            id="botaoCriarDisciplina"
+            type="button"
+            class="btn btn-primary d-flex align-items-center justify-content-center gap-2 px-4"
+            data-bs-toggle="modal"
+            data-bs-target="#modalDisciplina"
+        >
+            <i class="fa-solid fa-plus"></i>
+            Nova disciplina
+        </button>
+
+    </div>
+
+    <div
+        id="listaDisciplinas"
+        class="row g-4"
+    ></div>
+
+    <div
+        id="estadoVazioDisciplinas"
+        class="estado-vazio d-none"
+    >
+
+        <div class="icone-estado-vazio">
+
+            <i class="fa-solid fa-book-open"></i>
+
+        </div>
+
+        <h3>
+            Nenhuma disciplina cadastrada
+        </h3>
+
+        <p>
+            Cadastre a primeira disciplina deste semestre para começar
+            a organizar suas atividades.
+        </p>
+
+        <button
+            type="button"
+            class="btn btn-primary"
+            data-bs-toggle="modal"
+            data-bs-target="#modalDisciplina"
+        >
+            <i class="fa-solid fa-plus me-2"></i>
+            Criar disciplina
+        </button>
+
+    </div>
+
+    <template id="modeloDisciplina">
+
+        <div class="col-12 col-md-6 col-xl-4">
+
+            <article class="card card-disciplina h-100">
+
+                <div class="card-body d-flex flex-column">
+
+                    <div
+                        class="d-flex justify-content-between align-items-start gap-3 mb-3"
+                    >
+
+                        <div class="icone-disciplina">
+
+                            <i class="fa-solid fa-book"></i>
+
+                        </div>
+
+                        <button
+                            class="botaoEditarDisciplina btn btn-light btn-sm rounded-circle"
+                            type="button"
+                            aria-label="Editar disciplina"
+                        >
+                            <i class="fa-solid fa-pen"></i>
+                        </button>
+
+                    </div>
+
+                    <h2 class="nome-disciplina"></h2>
+
+                    <div class="informacoes-academicas mb-3">
+
+                        <p class="linha-professor d-none">
+
+                            <i class="fa-solid fa-chalkboard-user me-2"></i>
+
+                            <strong>Professor:</strong>
+
+                            <span class="nome-professor"></span>
+
+                        </p>
+
+                        <div class="lista-horarios"></div>
+
+                        <p>
+
+                            <i class="fa-solid fa-user-clock me-2"></i>
+
+                            <strong>Faltas:</strong>
+
+                            <span class="quantidade-faltas">
+                                0
+                            </span>
+
+                        </p>
+
+                        <p class="linha-media-minima d-none">
+
+                            <i class="fa-solid fa-chart-line me-2"></i>
+
+                            <strong>Média mínima:</strong>
+
+                            <span class="media-minima"></span>
+
+                        </p>
+
+                        <p class="linha-media-final d-none">
+
+                            <i class="fa-solid fa-graduation-cap me-2"></i>
+
+                            <strong>Média final:</strong>
+
+                            <span class="media-final"></span>
+
+                        </p>
+
+                    </div>
+
+                    <div class="dados-disciplina">
+
+                        <p>
+
+                            <i class="fa-solid fa-list-check me-2"></i>
+
+                            <strong>Atividades:</strong>
+
+                            <span class="quantidade-atividades">
+                                0
+                            </span>
+
+                        </p>
+
+                        <p>
+
+                            <i class="fa-regular fa-clock me-2"></i>
+
+                            <strong>Próximos prazos:</strong>
+
+                            <span class="quantidade-prazos">
+                                0
+                            </span>
+
+                        </p>
+
+                        <p>
+
+                            <i class="fa-solid fa-triangle-exclamation me-2"></i>
+
+                            <strong>Atrasadas:</strong>
+
+                            <span class="quantidade-atrasadas">
+                                0
+                            </span>
+
+                        </p>
+
+                    </div>
+
+                    <div class="mt-auto d-grid gap-2">
+
+                        <a
+                            href="#"
+                            class="btn btn-primary botaoVerAtividades"
+                        >
+                            <i class="fa-solid fa-list-check me-2"></i>
+                            Ver atividades
+                        </a>
+
+                        <button
+                            class="btn btn-outline-danger botaoExcluirDisciplina"
+                            type="button"
+                        >
+                            <i class="fa-regular fa-trash-can me-2"></i>
+                            Excluir
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </article>
+
+        </div>
+
+    </template>
+
+    <div
+        class="modal fade"
+        id="modalDisciplina"
+        tabindex="-1"
+        aria-hidden="true"
+    >
+
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+
+            <div class="modal-content">
+
+                <div class="modal-header">
+
+                    <h5
+                        id="tituloModalDisciplina"
+                        class="modal-title"
+                    >
+                        Nova disciplina
+                    </h5>
+
+                    <button
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Fechar"
+                    ></button>
+
+                </div>
+
+                <div class="modal-body">
+
+                    <div class="row g-3">
+
+                        <div class="col-12">
+
+                            <label
+                                for="nomeDisciplina"
+                                class="form-label"
+                            >
+                                Nome da disciplina
+                                <span class="text-danger">*</span>
+                            </label>
+
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="nomeDisciplina"
+                                maxlength="255"
+                                placeholder="Ex: Banco de Dados"
+                                autocomplete="off"
+                            >
+
+                        </div>
+
+                        <div class="col-12">
+
+                            <label
+                                for="nomeProfessor"
+                                class="form-label"
+                            >
+                                Nome do professor
+                            </label>
+
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="nomeProfessor"
+                                maxlength="50"
+                                placeholder="Ex: João da Silva"
+                                autocomplete="off"
+                            >
+
+                        </div>
+
+                        <div class="col-12 col-md-4">
+
+                            <label
+                                for="faltasDisciplina"
+                                class="form-label"
+                            >
+                                Faltas
+                            </label>
+
+                            <input
+                                type="number"
+                                class="form-control"
+                                id="faltasDisciplina"
+                                min="0"
+                                step="1"
+                                value="0"
+                            >
+
+                        </div>
+
+                        <div class="col-12 col-md-4">
+
+                            <label
+                                for="mediaMinima"
+                                class="form-label"
+                            >
+                                Média mínima
+                            </label>
+
+                            <input
+                                type="number"
+                                class="form-control"
+                                id="mediaMinima"
+                                min="0"
+                                max="10"
+                                step="0.01"
+                                placeholder="Ex: 6,0"
+                            >
+
+                        </div>
+
+                        <div class="col-12 col-md-4">
+
+                            <label
+                                for="mediaFinal"
+                                class="form-label"
+                            >
+                                Média final
+                            </label>
+
+                            <input
+                                type="number"
+                                class="form-control"
+                                id="mediaFinal"
+                                min="0"
+                                max="10"
+                                step="0.01"
+                                placeholder="Ex: 8,5"
+                            >
+
+                        </div>
+
+                    </div>
+
+                    <hr class="my-4">
+
+                    <div
+                        class="d-flex justify-content-between align-items-center gap-3 mb-3"
+                    >
+
+                        <div>
+
+                            <h6 class="mb-1">
+                                Horários da disciplina
+                            </h6>
+
+                            <small class="text-muted">
+                                Adicione os dias e horários das aulas.
+                            </small>
+
+                        </div>
+
+                        <button
+                            type="button"
+                            id="adicionarHorario"
+                            class="btn btn-outline-primary btn-sm"
+                        >
+                            <i class="fa-solid fa-plus me-1"></i>
+                            Adicionar horário
+                        </button>
+
+                    </div>
+
+                    <div id="listaHorariosFormulario"></div>
+
+                    <div class="semestre-modal mt-4">
+
+                        <span>
+                            Semestre
+                        </span>
+
+                        <strong id="nomeSemestreModal">
+                            -
+                        </strong>
+
+                    </div>
+
+                </div>
+
+                <div class="modal-footer">
+
+                    <button
+                        type="button"
+                        class="btn btn-secondary"
+                        data-bs-dismiss="modal"
+                    >
+                        Cancelar
+                    </button>
+
+                    <button
+                        type="button"
+                        id="salvarDisciplina"
+                        class="btn btn-primary"
+                    >
+                        Confirmar
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <template id="modeloHorarioFormulario">
+
+        <div class="linha-horario border rounded-3 p-3 mb-3">
+
+            <input
+                type="hidden"
+                class="id-horario"
+            >
+
+            <div class="row g-2 align-items-end">
+
+                <div class="col-12 col-md-4">
+
+                    <label class="form-label">
+                        Dia da semana
+                    </label>
+
+                    <select class="form-select dia-semana">
+
+                        <option value="">
+                            Selecione
+                        </option>
+
+                        <option value="SEGUNDA">
+                            Segunda-feira
+                        </option>
+
+                        <option value="TERCA">
+                            Terça-feira
+                        </option>
+
+                        <option value="QUARTA">
+                            Quarta-feira
+                        </option>
+
+                        <option value="QUINTA">
+                            Quinta-feira
+                        </option>
+
+                        <option value="SEXTA">
+                            Sexta-feira
+                        </option>
+
+                        <option value="SABADO">
+                            Sábado
+                        </option>
+
+                        <option value="DOMINGO">
+                            Domingo
+                        </option>
+
+                    </select>
+
+                </div>
+
+                <div class="col-6 col-md-3">
+
+                    <label class="form-label">
+                        Início
+                    </label>
+
+                    <input
+                        type="time"
+                        class="form-control hora-inicio"
+                    >
+
+                </div>
+
+                <div class="col-6 col-md-3">
+
+                    <label class="form-label">
+                        Fim
+                    </label>
+
+                    <input
+                        type="time"
+                        class="form-control hora-fim"
+                    >
+
+                </div>
+
+                <div class="col-12 col-md-2">
+
+                    <button
+                        type="button"
+                        class="btn btn-outline-danger w-100 remover-horario"
+                        title="Remover horário"
+                    >
+                        <i class="fa-regular fa-trash-can"></i>
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </template>
+
+</main>
+
+<footer class="rodape">
+
+    <p>
+
+        <a href="termos.html">
+            Termos de Uso
+        </a>
+
+        <span>|</span>
+
+        <a href="privacidade.html">
+            Política de Privacidade
+        </a>
+
+    </p>
+
+</footer>
+
+<script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+></script>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script src="js/config.js"></script>
+<script src="js/disciplinas.js"></script>
+
+</body>
+
+</html>

@@ -114,6 +114,7 @@
                 <ul class="navbar-nav">
 
                     <li class="nav-item">
+
                         <a
                             class="nav-link ativo"
                             href="home.html"
@@ -121,9 +122,11 @@
                             <i class="fa-solid fa-house me-2"></i>
                             Dashboard
                         </a>
+
                     </li>
 
                     <li class="nav-item">
+
                         <a
                             class="nav-link"
                             href="perfil.html"
@@ -131,9 +134,11 @@
                             <i class="fa-solid fa-user me-2"></i>
                             Perfil
                         </a>
+
                     </li>
 
                     <li class="nav-item">
+
                         <a
                             class="nav-link"
                             href="semestres.html"
@@ -141,19 +146,24 @@
                             <i class="fa-solid fa-calendar-days me-2"></i>
                             Semestres
                         </a>
+
                     </li>
 
                     <li class="nav-item">
+
                         <a
+                            id="linkDisciplinasMenu"
                             class="nav-link"
                             href="#"
                         >
                             <i class="fa-solid fa-book me-2"></i>
                             Disciplinas
                         </a>
+
                     </li>
 
                     <li class="nav-item">
+
                         <a
                             class="nav-link"
                             href="#"
@@ -161,6 +171,7 @@
                             <i class="fa-solid fa-list-check me-2"></i>
                             Atividades
                         </a>
+
                     </li>
 
                 </ul>
@@ -184,7 +195,7 @@
             </h1>
 
             <p class="subtitulo-dashboard">
-                Acompanhe sua organização acadêmica em um só lugar
+                Acompanhe seu desempenho acadêmico em um só lugar
             </p>
 
         </div>
@@ -193,7 +204,9 @@
 
     <section class="card-semestre-atual mb-4">
 
-        <div class="d-flex justify-content-between align-items-start gap-3">
+        <div
+            class="d-flex justify-content-between align-items-start gap-3"
+        >
 
             <div>
 
@@ -211,8 +224,7 @@
                 <p
                     class="periodo-semestre"
                     id="periodoSemestreAtual"
-                >
-                </p>
+                ></p>
 
             </div>
 
@@ -237,12 +249,14 @@
 
     <section class="row g-4 mb-4">
 
-        <div class="col-12 col-md-4">
+        <div class="col-12 col-sm-6 col-xl-3">
 
-            <div class="card-resumo">
+            <div class="card-resumo h-100">
 
                 <div class="icone-resumo">
+
                     <i class="fa-solid fa-book"></i>
+
                 </div>
 
                 <div>
@@ -264,23 +278,25 @@
 
         </div>
 
-        <div class="col-12 col-md-4">
+        <div class="col-12 col-sm-6 col-xl-3">
 
-            <div class="card-resumo">
+            <div class="card-resumo h-100">
 
                 <div class="icone-resumo">
-                    <i class="fa-solid fa-list-check"></i>
+
+                    <i class="fa-solid fa-user-clock"></i>
+
                 </div>
 
                 <div>
 
                     <span class="rotulo-dashboard">
-                        Atividades pendentes
+                        Total de faltas
                     </span>
 
                     <strong
                         class="numero-resumo"
-                        id="totalAtividadesPendentes"
+                        id="totalFaltas"
                     >
                         —
                     </strong>
@@ -291,26 +307,163 @@
 
         </div>
 
-        <div class="col-12 col-md-4">
+        <div class="col-12 col-sm-6 col-xl-3">
 
-            <div class="card-resumo">
+            <div class="card-resumo h-100">
 
                 <div class="icone-resumo">
-                    <i class="fa-solid fa-clock"></i>
+
+                    <i class="fa-solid fa-chart-line"></i>
+
                 </div>
 
                 <div>
 
                     <span class="rotulo-dashboard">
-                        Próximos prazos
+                        Média geral
                     </span>
 
                     <strong
                         class="numero-resumo"
-                        id="totalProximosPrazos"
+                        id="mediaGeral"
                     >
                         —
                     </strong>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-12 col-sm-6 col-xl-3">
+
+            <div class="card-resumo h-100">
+
+                <div class="icone-resumo">
+
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+
+                </div>
+
+                <div>
+
+                    <span class="rotulo-dashboard">
+                        Abaixo da média
+                    </span>
+
+                    <strong
+                        class="numero-resumo"
+                        id="disciplinasAbaixoMedia"
+                    >
+                        —
+                    </strong>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <section class="row g-4 mb-4">
+
+        <div class="col-12 col-lg-7">
+
+            <div class="card-dashboard h-100">
+
+                <div
+                    class="d-flex justify-content-between align-items-center mb-4"
+                >
+
+                    <div>
+
+                        <h2 class="titulo-secao-dashboard">
+                            Desempenho por disciplina
+                        </h2>
+
+                        <p class="descricao-secao-dashboard">
+                            Média final registrada em cada disciplina
+                        </p>
+
+                    </div>
+
+                    <i
+                        class="fa-solid fa-chart-column icone-secao"
+                    ></i>
+
+                </div>
+
+                <div class="area-grafico">
+
+                    <canvas
+                        id="graficoMedias"
+                    ></canvas>
+
+                </div>
+
+                <div
+                    id="estadoVazioMedias"
+                    class="estado-vazio-dashboard d-none"
+                >
+
+                    <i class="fa-solid fa-chart-column"></i>
+
+                    <p>
+                        Cadastre médias nas disciplinas para visualizar o gráfico.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-12 col-lg-5">
+
+            <div class="card-dashboard h-100">
+
+                <div
+                    class="d-flex justify-content-between align-items-center mb-4"
+                >
+
+                    <div>
+
+                        <h2 class="titulo-secao-dashboard">
+                            Faltas por disciplina
+                        </h2>
+
+                        <p class="descricao-secao-dashboard">
+                            Quantidade de faltas registradas
+                        </p>
+
+                    </div>
+
+                    <i
+                        class="fa-solid fa-user-clock icone-secao"
+                    ></i>
+
+                </div>
+
+                <div class="area-grafico">
+
+                    <canvas
+                        id="graficoFaltas"
+                    ></canvas>
+
+                </div>
+
+                <div
+                    id="estadoVazioFaltas"
+                    class="estado-vazio-dashboard d-none"
+                >
+
+                    <i class="fa-solid fa-user-clock"></i>
+
+                    <p>
+                        Nenhuma falta registrada no semestre atual.
+                    </p>
 
                 </div>
 
@@ -326,33 +479,42 @@
 
             <div class="card-dashboard h-100">
 
-                <div class="d-flex justify-content-between align-items-center mb-4">
+                <div
+                    class="d-flex justify-content-between align-items-center mb-4"
+                >
 
                     <div>
 
                         <h2 class="titulo-secao-dashboard">
-                            Próximas atividades
+                            Resumo das disciplinas
                         </h2>
 
                         <p class="descricao-secao-dashboard">
-                            Acompanhe os compromissos mais próximos
+                            Acompanhe médias e faltas do semestre atual
                         </p>
 
                     </div>
 
-                    <i class="fa-regular fa-calendar icone-secao"></i>
+                    <i
+                        class="fa-solid fa-graduation-cap icone-secao"
+                    ></i>
 
                 </div>
 
                 <div
-                    class="estado-vazio-dashboard"
-                    id="listaProximasAtividades"
+                    id="listaResumoDisciplinas"
+                    class="lista-resumo-disciplinas"
+                ></div>
+
+                <div
+                    id="estadoVazioDisciplinas"
+                    class="estado-vazio-dashboard d-none"
                 >
 
-                    <i class="fa-regular fa-calendar-check"></i>
+                    <i class="fa-solid fa-book-open"></i>
 
                     <p>
-                        As próximas atividades aparecerão aqui.
+                        Nenhuma disciplina cadastrada no semestre atual.
                     </p>
 
                 </div>
@@ -375,6 +537,7 @@
                         href="semestres.html"
                         class="atalho-dashboard"
                     >
+
                         <i class="fa-solid fa-calendar-days"></i>
 
                         <span>
@@ -382,12 +545,15 @@
                         </span>
 
                         <i class="fa-solid fa-chevron-right"></i>
+
                     </a>
 
                     <a
+                        id="linkDisciplinasRapido"
                         href="#"
                         class="atalho-dashboard"
                     >
+
                         <i class="fa-solid fa-book"></i>
 
                         <span>
@@ -395,12 +561,14 @@
                         </span>
 
                         <i class="fa-solid fa-chevron-right"></i>
+
                     </a>
 
                     <a
                         href="#"
                         class="atalho-dashboard"
                     >
+
                         <i class="fa-solid fa-list-check"></i>
 
                         <span>
@@ -408,6 +576,7 @@
                         </span>
 
                         <i class="fa-solid fa-chevron-right"></i>
+
                     </a>
 
                 </div>
@@ -423,6 +592,7 @@
 <footer class="rodape">
 
     <p>
+
         <a href="termos.html">
             Termos de Uso
         </a>
@@ -432,6 +602,7 @@
         <a href="privacidade.html">
             Política de Privacidade
         </a>
+
     </p>
 
 </footer>
@@ -440,6 +611,11 @@
     src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
 ></script>
 
+<script
+    src="https://cdn.jsdelivr.net/npm/chart.js"
+></script>
+
+<script src="js/config.js"></script>
 <script src="js/home.js"></script>
 
 </body>
