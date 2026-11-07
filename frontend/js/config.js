@@ -1,1 +1,1 @@
-const API_URL = "https://organizador-academico-v2em.onrender.com";
+const API_URL = "http://localhost:8080";
