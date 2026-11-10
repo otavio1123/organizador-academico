@@ -1,0 +1,108 @@
+.swal2-popup {
+    border-radius: 16px !important;
+    padding: 32px 30px !important;
+    font-family: "DM Sans", sans-serif !important;
+    box-shadow: 0 20px 60px rgba(15, 23, 42, 0.18) !important;
+}
+
+.swal2-title {
+    color: #172238 !important;
+    font-family: "DM Serif Display", serif !important;
+    font-size: 30px !important;
+    font-weight: 400 !important;
+}
+
+.swal2-html-container {
+    margin-top: 12px !important;
+    color: #64748b !important;
+    font-size: 15px !important;
+    line-height: 1.6 !important;
+}
+
+.swal2-icon {
+    margin-top: 8px !important;
+}
+
+.swal2-confirm {
+    min-width: 120px !important;
+    padding: 11px 22px !important;
+
+    border: none !important;
+    border-radius: 8px !important;
+
+    background-color: #2563eb !important;
+
+    font-size: 14px !important;
+    font-weight: 700 !important;
+
+    box-shadow: none !important;
+}
+
+.swal2-confirm:hover {
+    background-color: #1d4ed8 !important;
+}
+
+.swal2-cancel {
+    min-width: 110px !important;
+    padding: 11px 22px !important;
+
+    border-radius: 8px !important;
+
+    font-size: 14px !important;
+    font-weight: 600 !important;
+}
+
+.swal2-actions {
+    margin-top: 24px !important;
+}
+
+.swal2-timer-progress-bar {
+    background-color: #2563eb !important;
+}
+
+.swal2-input {
+    width: 100% !important;
+    max-width: 480px !important;
+
+    min-height: 52px !important;
+
+    margin: 22px auto 8px !important;
+
+    padding: 0 16px !important;
+
+    border: 1px solid #cbd5e1 !important;
+    border-radius: 9px !important;
+
+    color: #172238 !important;
+    background-color: #ffffff !important;
+
+    font-family: "DM Sans", sans-serif !important;
+    font-size: 15px !important;
+
+    box-shadow: none !important;
+}
+
+.swal2-input:focus {
+    border-color: #2563eb !important;
+
+    box-shadow:
+        0 0 0 3px rgba(37, 99, 235, 0.12) !important;
+
+    outline: none !important;
+}
+
+.swal2-input::placeholder {
+    color: #94a3b8 !important;
+}
+
+.swal2-popup:has(.swal2-input) {
+    width: 540px !important;
+}
+
+.swal2-popup:has(.swal2-input) .swal2-title {
+    margin-bottom: 4px !important;
+}
+
+.swal2-popup:has(.swal2-input) .swal2-html-container {
+    margin-bottom: 0 !important;
+}

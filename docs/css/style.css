@@ -1,0 +1,676 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Serif+Display:ital@0;1&display=swap');
+
+
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, #f1f0ff, #dddafe);
+    font-family: 'DM Sans', sans-serif;
+    color: #111;
+}
+
+main {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 20px;
+}
+
+input {
+    width: 100%;
+    padding: 14px;
+    border: 1px solid #cbd5e1;
+    border-radius: 12px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 1rem;
+    outline: none;
+    color: #1e293b;
+    background-color: #ffffff;
+}
+
+input:focus {
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+input::placeholder {
+    color: #94a3b8;
+}
+
+.pagina-login {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 30px;
+}
+
+.caixa-login {
+    width: 100%;
+    max-width: 460px;
+    padding: 45px;
+    background-color: #ffffff;
+    border-radius: 18px;
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.12);
+}
+
+.caixa-login h1 {
+    margin: 0 0 32px;
+    text-align: center;
+    font-family: 'DM Serif Display', serif;
+    font-size: 34px;
+    color: #111;
+}
+
+.form-login {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin: 0;
+}
+
+.form-login input {
+    padding: 16px;
+    border-radius: 10px;
+    font-size: 16px;
+}
+
+.form-login input:focus {
+    border-color: #0057ff;
+    box-shadow: 0 0 0 3px rgba(0, 87, 255, 0.12);
+}
+
+#botaoConfirmar {
+    width: 100%;
+    padding: 16px;
+    margin-top: 4px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    background-color: #0057ff;
+    color: #ffffff;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    transition: background-color 0.3s ease;
+}
+
+#botaoConfirmar:hover {
+    background-color: #0047cc;
+}
+
+.opcoes-login {
+    width: 100%;
+    margin-top: 25px;
+    padding: 20px;
+    background-color: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+}
+
+.opcoes-login p {
+    margin: 0;
+    font-size: 15px;
+    line-height: 1.5;
+    color: #334155;
+}
+
+.opcoes-login p + p {
+    margin-top: 12px;
+}
+
+.opcoes-login a,
+.opcoes-login a:visited {
+    color: #0057ff;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.opcoes-login a:hover {
+    color: #003bb3;
+    text-decoration: underline;
+}
+
+.cadastro {
+    width: 520px;
+    padding: 45px;
+    background-color: #ffffff;
+    border-radius: 18px;
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.12);
+}
+
+#tituloCadastro {
+    margin: 0 0 32px;
+    text-align: center;
+    font-family: 'DM Serif Display', serif;
+    font-size: 34px;
+    color: #111;
+}
+
+#botaoCadastrar {
+    width: 100%;
+    padding: 16px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    background-color: #0057ff;
+    color: #ffffff;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    transition: background-color 0.3s ease;
+}
+
+#botaoCadastrar:hover {
+    background-color: #0047cc;
+}
+
+.resultado {
+    width: 100%;
+    margin-top: 22px;
+}
+
+.confirmacao {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    cursor: pointer;
+    font-size: 15px;
+    line-height: 1.5;
+    color: #111;
+}
+
+.confirmacao input {
+    width: 18px;
+    height: 18px;
+    padding: 0;
+    margin: 3px 0 0;
+    flex-shrink: 0;
+    border-radius: 3px;
+    accent-color: #0057ff;
+    box-shadow: none;
+}
+
+.confirmacao input:focus {
+    box-shadow: none;
+}
+
+.confirmacao span {
+    display: block;
+    flex: 1;
+}
+
+.confirmacao a,
+.confirmacao a:visited {
+    color: #0057ff;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.confirmacao a:hover {
+    color: #003bb3;
+    text-decoration: underline;
+}
+
+.acesso-login {
+    margin-top: 28px;
+    padding-top: 20px;
+    border-top: 1px solid #e2e8f0;
+    text-align: center;
+}
+
+.acesso-login p {
+    margin: 0;
+    font-size: 15px;
+    color: #475569;
+}
+
+.acesso-login a,
+.acesso-login a:visited {
+    color: #0057ff;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.acesso-login a:hover {
+    color: #003bb3;
+    text-decoration: underline;
+}
+
+.pagina-termos {
+    min-height: 100vh;
+    display: block;
+    padding: 50px 20px;
+    background: linear-gradient(135deg, #f1f0ff, #dddafe);
+    font-family: 'DM Sans', sans-serif;
+    color: #111;
+}
+
+.termos-container {
+    width: 100%;
+    max-width: 950px;
+    margin: 0 auto;
+    display: block;
+}
+
+.termos-conteudo {
+    width: 100%;
+    padding: 55px 65px;
+    background-color: #ffffff;
+    border-radius: 18px;
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.12);
+}
+
+.termos-conteudo h1 {
+    margin: 0 0 40px;
+    font-family: 'DM Serif Display', serif;
+    font-size: 40px;
+    color: #111;
+}
+
+.termos-conteudo h2 {
+    margin-top: 32px;
+    margin-bottom: 12px;
+    font-size: 22px;
+    color: #111;
+}
+
+.termos-conteudo p {
+    margin: 0;
+    font-size: 17px;
+    line-height: 1.7;
+    color: #334155;
+}
+
+.termos-conteudo .data-atualizacao {
+    margin-top: 20px;
+    font-size: 15px;
+    color: #64748b;
+}
+
+.acoes-termos {
+    margin-top: 45px;
+    display: flex;
+    justify-content: flex-start;
+}
+
+.botao-voltar {
+    display: inline-block;
+    padding: 14px 24px;
+    border-radius: 10px;
+    background-color: #0057ff;
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+.botao-voltar:visited {
+    color: #ffffff;
+}
+
+.botao-voltar:hover {
+    background-color: #0047cc;
+}
+
+#senha {
+    position: relative;
+    width: 100%;
+}
+
+.campo-senha {
+    position: relative;
+    width: 100%;
+}
+
+.campo-senha input {
+    width: 100%;
+    padding-right: 40px;
+}
+
+.pagina-privacidade {
+    min-height: 100vh;
+    display: block;
+    padding: 50px 20px;
+    background: linear-gradient(135deg, #f1f0ff, #dddafe);
+    font-family: 'DM Sans', sans-serif;
+    color: #111;
+}
+
+.privacidade-container {
+    width: 100%;
+    max-width: 950px;
+    margin: 0 auto;
+    display: block;
+}
+
+.privacidade-conteudo {
+    width: 100%;
+    padding: 55px 65px;
+    background-color: #ffffff;
+    border-radius: 18px;
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.12);
+}
+
+.privacidade-conteudo h1 {
+    margin: 0 0 40px;
+    font-family: 'DM Serif Display', serif;
+    font-size: 40px;
+    color: #111;
+}
+
+.privacidade-conteudo h2 {
+    margin-top: 32px;
+    margin-bottom: 12px;
+    font-size: 22px;
+    color: #111;
+}
+
+.privacidade-conteudo p {
+    margin: 0;
+    font-size: 17px;
+    line-height: 1.7;
+    color: #334155;
+}
+
+.privacidade-conteudo p + p {
+    margin-top: 12px;
+}
+
+.privacidade-conteudo .data-atualizacao {
+    margin-top: 20px;
+    font-size: 15px;
+    color: #64748b;
+}
+
+.acoes-privacidade {
+    margin-top: 45px;
+    display: flex;
+    justify-content: flex-start;
+}
+
+.botao-voltar-cadastro {
+    display: inline-block;
+    padding: 14px 24px;
+    border-radius: 10px;
+    background-color: #0057ff;
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+.botao-voltar-cadastro:visited {
+    color: #ffffff;
+}
+
+.botao-voltar-cadastro:hover {
+    background-color: #0047cc;
+}
+
+.pagina-recuperacao {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 30px;
+}
+
+.caixa-recuperacao {
+    width: 100%;
+    max-width: 520px;
+    padding: 45px;
+    background-color: #ffffff;
+    border-radius: 18px;
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.12);
+}
+
+.caixa-recuperacao h1 {
+    margin: 0 0 18px;
+    text-align: center;
+    font-family: 'DM Serif Display', serif;
+    font-size: 34px;
+    color: #111;
+}
+
+.texto-recuperacao {
+    margin: 0 0 28px;
+    text-align: center;
+    font-size: 15px;
+    line-height: 1.6;
+    color: #475569;
+}
+
+.form-recuperacao {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin: 0;
+}
+
+.form-recuperacao input {
+    width: 100%;
+    padding: 16px;
+    border: 1px solid #cbd5e1;
+    border-radius: 10px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 16px;
+    color: #1e293b;
+    background-color: #ffffff;
+    outline: none;
+}
+
+.form-recuperacao input:focus {
+    border-color: #0057ff;
+    box-shadow: 0 0 0 3px rgba(0, 87, 255, 0.12);
+}
+
+.form-recuperacao button {
+    width: 100%;
+    padding: 16px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    background-color: #0057ff;
+    color: #ffffff;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    transition: background-color 0.3s ease;
+}
+
+.form-recuperacao button:hover {
+    background-color: #0047cc;
+}
+.voltar-login {
+    margin-top: 26px;
+    padding-top: 20px;
+    border-top: 1px solid #e2e8f0;
+    text-align: center;
+}
+
+.voltar-login a,
+.voltar-login a:visited {
+    color: #0057ff;
+    font-size: 15px;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.voltar-login a:hover {
+    color: #003bb3;
+    text-decoration: underline;
+}
+
+
+
+.pagina-redefinicao {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 30px;
+}
+
+.caixa-redefinicao {
+    width: 100%;
+    max-width: 520px;
+    padding: 45px;
+    background: #ffffff;
+    border-radius: 18px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+.caixa-redefinicao h1 {
+    margin: 0 0 12px;
+    text-align: center;
+    font-family: "DM Serif Display", serif;
+    font-size: 34px;
+    color: #111111;
+}
+
+.texto-redefinicao {
+    margin: 0 0 28px;
+    text-align: center;
+    font-size: 15px;
+    line-height: 1.6;
+    color: #475569;
+}
+
+.form-redefinicao {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.campo-redefinicao {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.campo-redefinicao label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #111111;
+}
+
+.campo-redefinicao input {
+    width: 100%;
+    padding: 16px;
+    border: 1px solid #d1d5db;
+    border-radius: 10px;
+    font-size: 15px;
+    outline: none;
+    transition: 0.2s;
+}
+
+.campo-redefinicao input:focus {
+    border-color: #0057ff;
+    box-shadow: 0 0 0 3px rgba(0, 87, 255, 0.1);
+}
+
+#botaoRedefinir {
+    margin-top: 4px;
+    padding: 16px;
+    border: none;
+    border-radius: 10px;
+    background: #0057ff;
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+#botaoRedefinir:hover {
+    background: #0047cc;
+}
+
+.voltar-login-redefinicao {
+    margin-top: 26px;
+    padding-top: 20px;
+    border-top: 1px solid #e5e7eb;
+    text-align: center;
+}
+
+.voltar-login-redefinicao a {
+    color: #0057ff;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.voltar-login-redefinicao a:hover {
+    text-decoration: underline;
+}
+
+#codigoRecuperacao {
+    text-align: center;
+    letter-spacing: normal;
+    font-weight: 600;
+}
+
+.botao-olho {
+    position: absolute;
+    top: 50%;
+    right: 16px;
+    transform: translateY(-50%);
+    width: auto;
+    padding: 0;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+.botao-olho:hover {
+    background: transparent;
+}
+
+.form-recuperacao .botao-olho {
+    width: auto;
+    padding: 0;
+    background: transparent;
+    color: #64748b;
+}
+
+.rodape {
+    text-align: center;
+    padding: 20px;
+    margin-top: 40px;
+    font-size: 14px;
+}
+
+.rodape a {
+    color: #555;
+    text-decoration: none;
+}
+
+.rodape a:hover {
+    text-decoration: underline;
+}
+
+.rodape span {
+    margin: 0 8px;
+    color: #999;
+}

@@ -1,0 +1,209 @@
+.pagina-perfil {
+    flex: 1;
+    width: 100%;
+}
+
+.card-perfil {
+    max-width: 900px;
+    margin: 0 auto;
+
+    border: 1px solid var(--cor-borda);
+    border-radius: var(--raio-grande);
+
+    background-color: var(--cor-card);
+
+    box-shadow: var(--sombra-card);
+}
+
+main.container {
+    max-width: 1050px;
+}
+
+.btn-outline-secondary {
+    border-radius: 8px;
+
+    font-weight: 600;
+}
+
+.foto-perfil {
+    width: 110px;
+    height: 110px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    overflow: hidden;
+
+    border-radius: 50%;
+
+    background-color: #eef2f7;
+
+    border: 4px solid white;
+
+    box-shadow: 0 4px 14px rgba(15, 23, 42, 0.12);
+}
+
+.foto-perfil img {
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+}
+
+.foto-perfil i {
+    color: #64748b;
+
+    font-size: 42px;
+}
+
+.titulo-perfil {
+    margin: 0;
+
+    color: var(--cor-texto);
+
+    font-family: 'DM Serif Display', serif;
+    font-size: 36px;
+    font-weight: 400;
+}
+
+.descricao-perfil {
+    margin-top: 8px;
+    margin-bottom: 0;
+
+    color: var(--cor-texto-secundario);
+
+    font-size: 15px;
+}
+
+#btnAlterarFoto {
+    border-radius: 8px;
+
+    font-weight: 600;
+}
+
+.titulo-secao {
+    margin-bottom: 6px;
+
+    color: var(--cor-texto);
+
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.texto-secao {
+    margin: 0;
+
+    color: var(--cor-texto-secundario);
+
+    font-size: 14px;
+}
+
+.form-label {
+    color: var(--cor-texto);
+
+    font-size: 14px;
+    font-weight: 600;
+}
+
+#nomePerfil,
+#emailPerfil,
+#senhaAtual,
+#novaSenha,
+#confirmarNovaSenha {
+    min-height: 46px;
+}
+
+#emailPerfil {
+    background-color: #f8fafc;
+
+    color: #64748b;
+
+    cursor: not-allowed;
+}
+
+.campo-senha {
+    position: relative;
+}
+
+.campo-senha i {
+    position: absolute;
+
+    right: 14px;
+    bottom: 13px;
+
+    color: #64748b;
+
+    cursor: pointer;
+}
+
+#formPerfil .btn,
+#formAlterarSenha .btn {
+    min-width: 170px;
+
+    border-radius: 8px;
+
+    font-weight: 600;
+}
+
+#btnSair,
+#btnExcluirConta {
+    min-width: 180px;
+
+    border-radius: 8px;
+
+    font-weight: 600;
+}
+
+#btnSair {
+    background-color: #111827;
+
+    border-color: #111827;
+}
+
+#btnSair:hover {
+    background-color: #020617;
+
+    border-color: #020617;
+}
+
+#btnExcluirConta:hover {
+    color: white;
+
+    background-color: var(--cor-perigo);
+
+    border-color: var(--cor-perigo);
+}
+
+hr {
+    border-color: var(--cor-borda);
+
+    opacity: 1;
+}
+
+@media (max-width: 767px) {
+
+    .card-perfil .card-body {
+        padding: 28px 22px !important;
+    }
+
+    .titulo-perfil {
+        font-size: 30px;
+    }
+
+    .foto-perfil {
+        width: 92px;
+        height: 92px;
+    }
+
+    .foto-perfil i {
+        font-size: 34px;
+    }
+
+    #formPerfil .btn,
+    #formAlterarSenha .btn,
+    #btnSair,
+    #btnExcluirConta {
+        width: 100%;
+    }
+}

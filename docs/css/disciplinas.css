@@ -1,0 +1,526 @@
+#DivTitulo {
+    width: 100%;
+}
+
+#Titulo h1 {
+    margin: 0;
+
+    color: var(--cor-texto);
+
+    font-family: "DM Serif Display", serif;
+    font-size: 34px;
+    font-weight: 400;
+
+    letter-spacing: -0.3px;
+}
+
+#Titulo p {
+    margin: 6px 0 0;
+
+    color: var(--cor-texto-secundario);
+
+    font-size: 16px;
+}
+
+.voltar-semestres {
+    display: inline-flex;
+    align-items: center;
+
+    color: var(--cor-texto-secundario);
+
+    font-size: 14px;
+    font-weight: 600;
+
+    text-decoration: none;
+
+    transition: color 0.2s ease;
+}
+
+.voltar-semestres:hover {
+    color: var(--cor-primaria);
+}
+
+.resumo-semestre {
+    padding: 20px 22px;
+
+    border: 1px solid var(--cor-borda);
+    border-radius: var(--raio-grande);
+
+    background-color: var(--cor-card);
+
+    box-shadow: var(--sombra-card);
+}
+
+.rotulo-semestre {
+    color: var(--cor-primaria);
+
+    font-size: 12px;
+    font-weight: 700;
+
+    text-transform: uppercase;
+    letter-spacing: 0.7px;
+}
+
+.resumo-semestre h2 {
+    margin: 7px 0 3px;
+
+    color: var(--cor-texto);
+
+    font-size: 21px;
+    font-weight: 700;
+}
+
+.resumo-semestre p {
+    margin: 0;
+
+    color: var(--cor-texto-secundario);
+
+    font-size: 14px;
+}
+
+.badge-semestre {
+    padding: 5px 9px;
+
+    border-radius: 20px;
+
+    background-color: #dcfce7;
+    color: #15803d;
+
+    font-size: 11px;
+    font-weight: 700;
+
+    text-transform: uppercase;
+}
+
+#botaoCriarDisciplina {
+    min-width: 175px;
+    height: 46px;
+
+    border-radius: 9px;
+
+    font-weight: 700;
+
+    box-shadow:
+        0 4px 12px rgba(37, 99, 235, 0.18);
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+#botaoCriarDisciplina:hover {
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 7px 16px rgba(37, 99, 235, 0.23);
+}
+
+#botaoCriarDisciplina i {
+    transition: transform 0.2s ease;
+}
+
+#botaoCriarDisciplina:hover i {
+    transform: rotate(90deg);
+}
+
+#listaDisciplinas {
+    margin-bottom: 30px;
+}
+
+.card-disciplina {
+    min-height: 390px;
+
+    border: 1px solid var(--cor-borda);
+    border-radius: var(--raio-grande);
+
+    background-color: var(--cor-card);
+
+    box-shadow: var(--sombra-card);
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        border-color 0.2s ease;
+}
+
+.card-disciplina:hover {
+    transform: translateY(-3px);
+
+    border-color: #d5deea;
+
+    box-shadow:
+        0 9px 24px rgba(15, 23, 42, 0.11);
+}
+
+.card-disciplina .card-body {
+    padding: 22px;
+}
+
+.icone-disciplina {
+    width: 42px;
+    height: 42px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 10px;
+
+    background-color: #eff6ff;
+    color: var(--cor-primaria);
+
+    font-size: 18px;
+}
+
+.nome-disciplina {
+    margin: 0 0 16px;
+
+    color: var(--cor-texto);
+
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.botaoEditarDisciplina {
+    width: 34px;
+    height: 34px;
+
+    flex-shrink: 0;
+
+    color: var(--cor-texto-secundario);
+}
+
+.botaoEditarDisciplina:hover {
+    color: var(--cor-texto);
+
+    background-color: #e9eef5;
+}
+
+.informacoes-academicas {
+    padding-bottom: 14px;
+
+    border-bottom: 1px solid var(--cor-borda);
+}
+
+.informacoes-academicas p,
+.dados-disciplina p,
+.lista-horarios p {
+    margin: 9px 0;
+
+    color: var(--cor-texto-secundario);
+
+    font-size: 14px;
+}
+
+.informacoes-academicas i,
+.dados-disciplina i,
+.lista-horarios i {
+    width: 18px;
+
+    color: #94a3b8;
+
+    text-align: center;
+}
+
+.informacoes-academicas strong,
+.dados-disciplina strong,
+.lista-horarios strong {
+    color: var(--cor-texto);
+
+    font-weight: 600;
+}
+
+.informacoes-academicas span,
+.dados-disciplina span {
+    margin-left: 4px;
+}
+
+.lista-horarios {
+    margin-bottom: 4px;
+}
+
+.dados-disciplina {
+    margin-bottom: 22px;
+}
+
+.botaoVerAtividades {
+    border-radius: 8px;
+
+    font-weight: 600;
+}
+
+.botaoExcluirDisciplina {
+    border-radius: 8px;
+
+    font-weight: 600;
+}
+
+.estado-vazio {
+    max-width: 520px;
+
+    margin: 70px auto;
+
+    text-align: center;
+}
+
+.icone-estado-vazio {
+    width: 70px;
+    height: 70px;
+
+    margin: 0 auto 20px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 18px;
+
+    background-color: #eff6ff;
+    color: var(--cor-primaria);
+
+    font-size: 27px;
+}
+
+.estado-vazio h3 {
+    margin-bottom: 8px;
+
+    color: var(--cor-texto);
+
+    font-size: 21px;
+    font-weight: 700;
+}
+
+.estado-vazio p {
+    max-width: 430px;
+
+    margin: 0 auto 22px;
+
+    color: var(--cor-texto-secundario);
+
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.estado-vazio .btn {
+    min-height: 44px;
+
+    border-radius: 8px;
+
+    font-weight: 600;
+}
+
+#modalDisciplina .modal-dialog {
+    max-width: 780px;
+}
+
+#modalDisciplina .modal-content {
+    border: none;
+    border-radius: 14px;
+
+    box-shadow:
+        0 14px 40px rgba(15, 23, 42, 0.18);
+}
+
+#modalDisciplina .modal-header {
+    padding: 20px 24px;
+
+    border-bottom: 1px solid var(--cor-borda);
+}
+
+#modalDisciplina .modal-body {
+    max-height: 70vh;
+
+    padding: 24px;
+
+    overflow-y: auto;
+}
+
+#modalDisciplina .modal-footer {
+    padding: 16px 24px;
+
+    border-top: 1px solid var(--cor-borda);
+}
+
+#modalDisciplina .modal-title {
+    color: var(--cor-texto);
+
+    font-size: 20px;
+    font-weight: 700;
+}
+
+#modalDisciplina .form-label {
+    margin-bottom: 6px;
+
+    color: #526176;
+
+    font-size: 14px;
+    font-weight: 600;
+}
+
+#modalDisciplina .form-control,
+#modalDisciplina .form-select {
+    min-height: 44px;
+
+    border-color: var(--cor-borda);
+    border-radius: 8px;
+
+    box-shadow: none;
+}
+
+#modalDisciplina .form-control:focus,
+#modalDisciplina .form-select:focus {
+    border-color: var(--cor-primaria);
+
+    box-shadow:
+        0 0 0 3px rgba(37, 99, 235, 0.12);
+}
+
+#modalDisciplina .btn {
+    min-width: 100px;
+
+    border-radius: 8px;
+
+    font-weight: 600;
+}
+
+#modalDisciplina hr {
+    border-color: var(--cor-borda);
+
+    opacity: 1;
+}
+
+#modalDisciplina h6 {
+    color: var(--cor-texto);
+
+    font-size: 15px;
+    font-weight: 700;
+}
+
+#adicionarHorario {
+    min-width: auto !important;
+
+    white-space: nowrap;
+}
+
+#listaHorariosFormulario:empty::before {
+    content: "Nenhum horário adicionado.";
+
+    display: block;
+
+    padding: 18px;
+
+    border: 1px dashed var(--cor-borda);
+    border-radius: 9px;
+
+    color: var(--cor-texto-secundario);
+
+    background-color: #f8fafc;
+
+    font-size: 13px;
+    text-align: center;
+}
+
+.linha-horario {
+    border-color: var(--cor-borda) !important;
+
+    background-color: #f8fafc;
+
+    transition:
+        border-color 0.2s ease,
+        background-color 0.2s ease;
+}
+
+.linha-horario:hover {
+    border-color: #cbd5e1 !important;
+
+    background-color: #ffffff;
+}
+
+.linha-horario .form-label {
+    font-size: 12px !important;
+}
+
+.remover-horario {
+    min-width: 44px !important;
+    height: 44px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.semestre-modal {
+    padding: 13px 15px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+
+    border: 1px solid var(--cor-borda);
+    border-radius: 8px;
+
+    background-color: #f8fafc;
+}
+
+.semestre-modal span {
+    color: var(--cor-texto-secundario);
+
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.semestre-modal strong {
+    color: var(--cor-texto);
+
+    font-size: 14px;
+    font-weight: 700;
+}
+
+@media (max-width: 767px) {
+
+    #Titulo h1 {
+        font-size: 30px;
+    }
+
+    #Titulo p {
+        font-size: 14px;
+    }
+
+    #botaoCriarDisciplina {
+        width: 100%;
+    }
+
+    .resumo-semestre {
+        padding: 18px;
+    }
+
+    .resumo-semestre h2 {
+        font-size: 19px;
+    }
+
+    .card-disciplina {
+        min-height: auto;
+    }
+
+    #modalDisciplina .modal-dialog {
+        max-width: none;
+
+        margin: 12px;
+    }
+
+    #modalDisciplina .modal-body {
+        max-height: 72vh;
+
+        padding: 20px;
+    }
+
+    #modalDisciplina .modal-header,
+    #modalDisciplina .modal-footer {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+
+    #adicionarHorario {
+        width: 100%;
+    }
+}
