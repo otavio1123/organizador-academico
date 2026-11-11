@@ -20,7 +20,6 @@ const usuarioLogado =
     JSON.parse(localStorage.getItem("usuarioLogado"));
 
 if (!token || !usuarioLogado) {
-
     localStorage.removeItem("token");
     localStorage.removeItem("usuarioLogado");
 
@@ -40,27 +39,21 @@ const iconeUsuarioTopo =
     document.getElementById("iconeUsuarioTopo");
 
 if (nomeUsuario) {
-
     nomeUsuario.textContent =
         usuarioLogado.nome || "Usuário";
 }
 
 if (emailUsuario) {
-
     emailUsuario.textContent =
         usuarioLogado.email || "";
 }
 
-
 async function carregarUsuarioTopo() {
-
     try {
-
         const resposta = await fetch(
-            "http://localhost:8080/usuarios/perfil",
+            `${API_URL}/usuarios/perfil`,
             {
                 method: "GET",
-
                 headers: {
                     "Authorization":
                         "Bearer " + token
@@ -76,7 +69,6 @@ async function carregarUsuarioTopo() {
             await resposta.json();
 
         if (dados.usuario) {
-
             usuarioLogado.nome =
                 dados.usuario.nome;
 
@@ -92,22 +84,18 @@ async function carregarUsuarioTopo() {
             );
 
             if (nomeUsuario) {
-
                 nomeUsuario.textContent =
                     dados.usuario.nome || "Usuário";
             }
 
             if (emailUsuario) {
-
                 emailUsuario.textContent =
                     dados.usuario.email || "";
             }
         }
 
         if (dados.fotoUrl) {
-
             if (imagemUsuarioTopo) {
-
                 imagemUsuarioTopo.src =
                     dados.fotoUrl;
 
@@ -117,16 +105,12 @@ async function carregarUsuarioTopo() {
             }
 
             if (iconeUsuarioTopo) {
-
                 iconeUsuarioTopo.classList.add(
                     "d-none"
                 );
             }
-
         } else {
-
             if (imagemUsuarioTopo) {
-
                 imagemUsuarioTopo.src = "";
 
                 imagemUsuarioTopo.classList.add(
@@ -135,7 +119,6 @@ async function carregarUsuarioTopo() {
             }
 
             if (iconeUsuarioTopo) {
-
                 iconeUsuarioTopo.classList.remove(
                     "d-none"
                 );
@@ -143,7 +126,6 @@ async function carregarUsuarioTopo() {
         }
 
     } catch (erro) {
-
         console.error(
             "Erro ao carregar usuário:",
             erro
@@ -151,23 +133,18 @@ async function carregarUsuarioTopo() {
     }
 }
 
-
 let idSemestreSelecionado = null;
-
 
 filtroStatusSemestre.addEventListener(
     "change",
     () => {
-
         carregarSemestres();
     }
 );
 
-
 botaoCriarSemestres.addEventListener(
     "click",
     () => {
-
         idSemestreSelecionado = null;
 
         tituloModalSemestre.textContent =
@@ -195,11 +172,9 @@ botaoCriarSemestres.addEventListener(
     }
 );
 
-
 salvarSemestre.addEventListener(
     "click",
     async () => {
-
         const nome =
             document.getElementById(
                 "nomeSemestre"
@@ -233,7 +208,6 @@ salvarSemestre.addEventListener(
             !dataInicio ||
             !dataFim
         ) {
-
             alert(
                 "Preencha todos os campos."
             );
@@ -242,7 +216,6 @@ salvarSemestre.addEventListener(
         }
 
         if (dataFim <= dataInicio) {
-
             alert(
                 "A data de fim deve ser maior que a data de início."
             );
@@ -259,15 +232,13 @@ salvarSemestre.addEventListener(
         };
 
         try {
-
             let resposta;
 
             if (
                 idSemestreSelecionado === null
             ) {
-
                 resposta = await fetch(
-                    "http://localhost:8080/Semestres",
+                    `${API_URL}/Semestres`,
                     {
                         method: "POST",
 
@@ -287,9 +258,8 @@ salvarSemestre.addEventListener(
                 );
 
             } else {
-
                 resposta = await fetch(
-                    `http://localhost:8080/Semestres/${idSemestreSelecionado}`,
+                    `${API_URL}/Semestres/${idSemestreSelecionado}`,
                     {
                         method: "PUT",
 
@@ -310,7 +280,6 @@ salvarSemestre.addEventListener(
             }
 
             if (!resposta.ok) {
-
                 const mensagem =
                     await resposta.text();
 
@@ -325,9 +294,8 @@ salvarSemestre.addEventListener(
             if (
                 idSemestreSelecionado === null
             ) {
-
                 await fetch(
-                    "http://localhost:8080/LogAuditoria",
+                    `${API_URL}/LogAuditoria`,
                     {
                         method: "POST",
 
@@ -349,9 +317,8 @@ salvarSemestre.addEventListener(
                 );
 
             } else {
-
                 await fetch(
-                    "http://localhost:8080/LogAuditoria",
+                    `${API_URL}/LogAuditoria`,
                     {
                         method: "POST",
 
@@ -376,13 +343,10 @@ salvarSemestre.addEventListener(
             if (
                 idSemestreSelecionado === null
             ) {
-
                 alert(
                     "Semestre criado com sucesso!"
                 );
-
             } else {
-
                 alert(
                     "Semestre alterado com sucesso!"
                 );
@@ -423,7 +387,6 @@ salvarSemestre.addEventListener(
             carregarSemestres();
 
         } catch (erro) {
-
             console.error(erro);
 
             alert(
@@ -433,13 +396,10 @@ salvarSemestre.addEventListener(
     }
 );
 
-
 async function carregarSemestres() {
-
     try {
-
         const resposta = await fetch(
-            "http://localhost:8080/Semestres",
+            `${API_URL}/Semestres`,
             {
                 method: "GET",
 
@@ -451,7 +411,6 @@ async function carregarSemestres() {
         );
 
         if (!resposta.ok) {
-
             const mensagem =
                 await resposta.text();
 
@@ -476,7 +435,6 @@ async function carregarSemestres() {
         const semestresFiltrados =
             semestres.filter(
                 semestre => {
-
                     return semestre.ativo ===
                         statusEscolhido;
                 }
@@ -484,7 +442,6 @@ async function carregarSemestres() {
 
         semestresFiltrados.forEach(
             semestre => {
-
                 const modelo =
                     document.getElementById(
                         "modeloSemestre"
@@ -515,13 +472,13 @@ async function carregarSemestres() {
                 ).textContent =
                     semestre.dataFim;
 
-                const botaoDisciplinas =
-                    card.querySelector(
-                        "#DisciplinasIr"
-                    );
+const botaoDisciplinas =
+    card.querySelector(
+        ".botao-disciplinas"
+    );
 
-                botaoDisciplinas.href =
-                    `disciplinas.html?idSemestre=${semestre.idSemestre}`;
+botaoDisciplinas.href =
+    `disciplinas.html?idSemestre=${semestre.idSemestre}`;
 
                 const botaoExcluir =
                     card.querySelector(
@@ -536,7 +493,6 @@ async function carregarSemestres() {
                 botaoOpcoes.addEventListener(
                     "click",
                     () => {
-
                         idSemestreSelecionado =
                             semestre.idSemestre;
 
@@ -580,7 +536,6 @@ async function carregarSemestres() {
                 botaoExcluir.addEventListener(
                     "click",
                     async () => {
-
                         const confirmar =
                             confirm(
                                 `Deseja realmente excluir o semestre "${semestre.nome}"?`
@@ -591,10 +546,9 @@ async function carregarSemestres() {
                         }
 
                         try {
-
                             const resposta =
                                 await fetch(
-                                    `http://localhost:8080/Semestres/${semestre.idSemestre}`,
+                                    `${API_URL}/Semestres/${semestre.idSemestre}`,
                                     {
                                         method:
                                             "DELETE",
@@ -608,7 +562,6 @@ async function carregarSemestres() {
                                 );
 
                             if (!resposta.ok) {
-
                                 const mensagem =
                                     await resposta.text();
 
@@ -620,7 +573,7 @@ async function carregarSemestres() {
                             }
 
                             await fetch(
-                                "http://localhost:8080/LogAuditoria",
+                                `${API_URL}/LogAuditoria`,
                                 {
                                     method:
                                         "POST",
@@ -650,7 +603,6 @@ async function carregarSemestres() {
                             carregarSemestres();
 
                         } catch (erro) {
-
                             console.error(
                                 "Erro:",
                                 erro
@@ -670,14 +622,12 @@ async function carregarSemestres() {
         );
 
     } catch (erro) {
-
         console.error(
             "Erro:",
             erro
         );
     }
 }
-
 
 carregarUsuarioTopo();
 carregarSemestres();
