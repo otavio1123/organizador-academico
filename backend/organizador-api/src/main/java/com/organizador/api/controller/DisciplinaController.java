@@ -85,6 +85,11 @@ public class DisciplinaController {
 
             return "A média final deve estar entre 0 e 10.";
         }
+        if (disciplina.getLimiteFaltas() != null
+        && disciplina.getLimiteFaltas() <= 0) {
+
+    return "O limite de faltas deve ser maior que zero.";
+}
 
         return null;
     }
@@ -390,7 +395,82 @@ public class DisciplinaController {
                 horarios
         );
     }
+@PutMapping("/Disciplinas/{id}/Faltas/Adicionar")
+public ResponseEntity<?> adicionarFalta(
+        @PathVariable Integer id,
+        @RequestHeader("Authorization")
+        String authorization) {
 
+    Usuario usuario =
+            obterUsuario(authorization);
+
+    if (usuario == null) {
+
+        return ResponseEntity
+                .status(HttpStatus.UNAUTHORIZED)
+                .body(Map.of(
+                        "mensagem",
+                        "Usuário não encontrado."
+                ));
+    }
+
+    Disciplina disciplina =
+            disciplinaService.adicionarFalta(
+                    id,
+                    usuario
+            );
+
+    if (disciplina == null) {
+
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(Map.of(
+                        "mensagem",
+                        "Disciplina não encontrada."
+                ));
+    }
+
+    return ResponseEntity.ok(disciplina);
+}
+
+
+@PutMapping("/Disciplinas/{id}/Faltas/Remover")
+public ResponseEntity<?> removerFalta(
+        @PathVariable Integer id,
+        @RequestHeader("Authorization")
+        String authorization) {
+
+    Usuario usuario =
+            obterUsuario(authorization);
+
+    if (usuario == null) {
+
+        return ResponseEntity
+                .status(HttpStatus.UNAUTHORIZED)
+                .body(Map.of(
+                        "mensagem",
+                        "Usuário não encontrado."
+                ));
+    }
+
+    Disciplina disciplina =
+            disciplinaService.removerFalta(
+                    id,
+                    usuario
+            );
+
+    if (disciplina == null) {
+
+        return ResponseEntity
+                .badRequest()
+                .body(Map.of(
+                        "mensagem",
+                        "Não foi possível remover a falta."
+                ));
+    }
+
+    return ResponseEntity.ok(disciplina);
+}
     @PostMapping("/Disciplinas/{idDisciplina}/Horarios")
     public ResponseEntity<?> cadastrarHorario(
             @PathVariable Integer idDisciplina,

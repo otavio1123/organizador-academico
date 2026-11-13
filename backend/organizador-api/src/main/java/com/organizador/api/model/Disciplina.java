@@ -30,6 +30,9 @@ public class Disciplina {
     @Column(name = "\"Faltas\"")
     private Integer faltas;
 
+    @Column(name = "\"LimiteFaltas\"")
+    private Integer limiteFaltas;
+
     @Column(name = "\"MediaMinima\"")
     private BigDecimal mediaMinima;
 
@@ -45,6 +48,7 @@ public class Disciplina {
             String nome,
             String nomeProfessor,
             Integer faltas,
+            Integer limiteFaltas,
             BigDecimal mediaMinima,
             BigDecimal mediaFinal
     ) {
@@ -53,6 +57,7 @@ public class Disciplina {
         this.nome = nome;
         this.nomeProfessor = nomeProfessor;
         this.faltas = faltas;
+        this.limiteFaltas = limiteFaltas;
         this.mediaMinima = mediaMinima;
         this.mediaFinal = mediaFinal;
     }
@@ -95,6 +100,14 @@ public class Disciplina {
 
     public void setFaltas(Integer faltas) {
         this.faltas = faltas;
+    }
+
+    public Integer getLimiteFaltas() {
+        return limiteFaltas;
+    }
+
+    public void setLimiteFaltas(Integer limiteFaltas) {
+        this.limiteFaltas = limiteFaltas;
     }
 
     public BigDecimal getMediaMinima() {

@@ -74,6 +74,18 @@ public class DisciplinaService {
             return null;
         }
 
+        if (disciplina.getFaltas() != null
+                && disciplina.getFaltas() < 0) {
+
+            return null;
+        }
+
+        if (disciplina.getLimiteFaltas() != null
+                && disciplina.getLimiteFaltas() <= 0) {
+
+            return null;
+        }
+
         disciplina.setIdDisciplina(null);
         disciplina.setIdSemestre(idSemestre);
 
@@ -132,6 +144,18 @@ public class DisciplinaService {
             return null;
         }
 
+        if (novosDados.getFaltas() != null
+                && novosDados.getFaltas() < 0) {
+
+            return null;
+        }
+
+        if (novosDados.getLimiteFaltas() != null
+                && novosDados.getLimiteFaltas() <= 0) {
+
+            return null;
+        }
+
         Disciplina disciplina =
                 disciplinaEncontrada.get();
 
@@ -147,6 +171,10 @@ public class DisciplinaService {
                 novosDados.getFaltas() == null
                         ? 0
                         : novosDados.getFaltas()
+        );
+
+        disciplina.setLimiteFaltas(
+                novosDados.getLimiteFaltas()
         );
 
         disciplina.setMediaMinima(
@@ -168,6 +196,86 @@ public class DisciplinaService {
 
         return disciplinaAtualizada;
     }
+
+    public Disciplina adicionarFalta(
+        Integer idDisciplina,
+        Usuario usuario) {
+
+    Optional<Disciplina> disciplinaEncontrada =
+            buscarDoUsuario(
+                    idDisciplina,
+                    usuario
+            );
+
+    if (disciplinaEncontrada.isEmpty()) {
+        return null;
+    }
+
+    Disciplina disciplina =
+            disciplinaEncontrada.get();
+
+    int faltasAtuais =
+            disciplina.getFaltas() == null
+                    ? 0
+                    : disciplina.getFaltas();
+
+    disciplina.setFaltas(
+            faltasAtuais + 1
+    );
+
+    Disciplina disciplinaAtualizada =
+            disciplinaRepository.save(disciplina);
+
+    registrarAuditoria(
+            usuario,
+            "Adicionou falta na disciplina "
+                    + disciplinaAtualizada.getNome()
+    );
+
+    return disciplinaAtualizada;
+}
+
+public Disciplina removerFalta(
+        Integer idDisciplina,
+        Usuario usuario) {
+
+    Optional<Disciplina> disciplinaEncontrada =
+            buscarDoUsuario(
+                    idDisciplina,
+                    usuario
+            );
+
+    if (disciplinaEncontrada.isEmpty()) {
+        return null;
+    }
+
+    Disciplina disciplina =
+            disciplinaEncontrada.get();
+
+    int faltasAtuais =
+            disciplina.getFaltas() == null
+                    ? 0
+                    : disciplina.getFaltas();
+
+    if (faltasAtuais <= 0) {
+        return null;
+    }
+
+    disciplina.setFaltas(
+            faltasAtuais - 1
+    );
+
+    Disciplina disciplinaAtualizada =
+            disciplinaRepository.save(disciplina);
+
+    registrarAuditoria(
+            usuario,
+            "Removeu falta da disciplina "
+                    + disciplinaAtualizada.getNome()
+    );
+
+    return disciplinaAtualizada;
+}
 
     public List<HorarioDisciplina> listarHorarios(
             Integer idDisciplina,
