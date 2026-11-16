@@ -56,8 +56,8 @@ public class Disciplina {
         this.idSemestre = idSemestre;
         this.nome = nome;
         this.nomeProfessor = nomeProfessor;
-        this.faltas = faltas;
-        this.limiteFaltas = limiteFaltas;
+        setFaltas(faltas);
+        setLimiteFaltas(limiteFaltas);
         this.mediaMinima = mediaMinima;
         this.mediaFinal = mediaFinal;
     }
@@ -99,6 +99,12 @@ public class Disciplina {
     }
 
     public void setFaltas(Integer faltas) {
+        if (faltas != null && faltas < 0) {
+            throw new IllegalArgumentException(
+                "As faltas não podem ser negativas."
+            );
+        }
+
         this.faltas = faltas;
     }
 
@@ -107,6 +113,12 @@ public class Disciplina {
     }
 
     public void setLimiteFaltas(Integer limiteFaltas) {
+        if (limiteFaltas != null && limiteFaltas <= 0) {
+            throw new IllegalArgumentException(
+                "O limite de faltas deve ser maior que zero."
+            );
+        }
+
         this.limiteFaltas = limiteFaltas;
     }
 

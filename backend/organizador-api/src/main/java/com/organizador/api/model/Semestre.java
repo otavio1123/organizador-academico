@@ -1,5 +1,7 @@
 package com.organizador.api.model;
 
+import java.time.LocalDate;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -7,10 +9,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
-import java.time.LocalDate;
-
 @Entity
-@Table(name =  "\"Semestre\"")
+@Table(name = "\"Semestre\"")
 public class Semestre {
 
     @Id
@@ -18,9 +18,13 @@ public class Semestre {
     @Column(name = "\"IDSemestre\"")
     private Integer idSemestre;
 
-  @Column(name = "\"idusuario\"")
+    @Column(name = "\"idusuario\"")
     private Integer idusuario;
-   @Column(name = "\"Nome\"")
+
+    @Column(name = "\"IDCurso\"")
+    private Integer idCurso;
+
+    @Column(name = "\"Nome\"")
     private String nome;
 
     @Column(name = "\"DataINICIO\"")
@@ -32,22 +36,25 @@ public class Semestre {
     @Column(name = "\"Ano\"")
     private Integer ano;
 
-  @Column(name = "\"ativo\"")
-private String ativo;
+    @Column(name = "\"ativo\"")
+    private String ativo;
 
     public Semestre() {
     }
 
     public Semestre(
             Integer idSemestre,
+            Integer idusuario,
+            Integer idCurso,
             String nome,
             LocalDate dataInicio,
             LocalDate dataFim,
             Integer ano,
-            String ativo
-        ) {
+            String ativo) {
 
         this.idSemestre = idSemestre;
+        this.idusuario = idusuario;
+        this.idCurso = idCurso;
         this.nome = nome;
         this.dataInicio = dataInicio;
         this.dataFim = dataFim;
@@ -62,12 +69,21 @@ private String ativo;
     public void setIdSemestre(Integer idSemestre) {
         this.idSemestre = idSemestre;
     }
+
     public Integer getIdusuario() {
         return idusuario;
     }
 
     public void setIdusuario(Integer idusuario) {
         this.idusuario = idusuario;
+    }
+
+    public Integer getIdCurso() {
+        return idCurso;
+    }
+
+    public void setIdCurso(Integer idCurso) {
+        this.idCurso = idCurso;
     }
 
     public String getNome() {
@@ -95,18 +111,18 @@ private String ativo;
     }
 
     public Integer getAno() {
-    return ano;
-}
+        return ano;
+    }
 
-public void setAno(Integer ano) {
-    this.ano = ano;
-}
+    public void setAno(Integer ano) {
+        this.ano = ano;
+    }
 
     public String getAtivo() {
-    return ativo;
-   }
+        return ativo;
+    }
 
-public void setAtivo(String ativo) {
-    this.ativo = ativo;
-}
+    public void setAtivo(String ativo) {
+        this.ativo = ativo;
+    }
 }

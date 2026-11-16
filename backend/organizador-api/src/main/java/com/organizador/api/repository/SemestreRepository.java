@@ -14,11 +14,24 @@ import com.organizador.api.model.Semestre;
 public interface SemestreRepository
         extends JpaRepository<Semestre, Integer> {
 
-    List<Semestre> findByIdusuario(Integer idusuario);
+    List<Semestre> findByIdusuario(
+            Integer idusuario
+    );
+
+    List<Semestre> findByIdusuarioAndIdCurso(
+            Integer idusuario,
+            Integer idCurso
+    );
 
     Optional<Semestre> findByIdSemestreAndIdusuario(
             Integer idSemestre,
             Integer idusuario
+    );
+
+    Optional<Semestre> findByIdSemestreAndIdusuarioAndIdCurso(
+            Integer idSemestre,
+            Integer idusuario,
+            Integer idCurso
     );
 
     boolean existsByIdusuarioAndAtivo(
@@ -26,8 +39,20 @@ public interface SemestreRepository
             String ativo
     );
 
+    boolean existsByIdCursoAndAtivo(
+            Integer idCurso,
+            String ativo
+    );
+
+    Optional<Semestre> findFirstByIdCursoAndAtivo(
+            Integer idCurso,
+            String ativo
+    );
+
     @Transactional
-    void deleteByIdusuario(Integer idusuario);
+    void deleteByIdusuario(
+            Integer idusuario
+    );
 
     @Transactional
     @Modifying
