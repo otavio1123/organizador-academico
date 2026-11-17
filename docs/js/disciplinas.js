@@ -8,17 +8,6 @@ if (!token || !usuarioLogado) {
 const parametros = new URLSearchParams(window.location.search);
 const idSemestre = parametros.get("idSemestre");
 
-if (!idSemestre) {
-    Swal.fire({
-        icon: "error",
-        title: "Semestre não informado",
-        text: "Não foi possível identificar o semestre selecionado.",
-        confirmButtonText: "Voltar"
-    }).then(() => {
-        window.location.href = "semestres.html";
-    });
-}
-
 const listaDisciplinas =
     document.getElementById("listaDisciplinas");
 
@@ -48,6 +37,9 @@ const nomeProfessor =
 
 const faltasDisciplina =
     document.getElementById("faltasDisciplina");
+
+const limiteFaltasDisciplina =
+    document.getElementById("limiteFaltasDisciplina");
 
 const mediaMinima =
     document.getElementById("mediaMinima");
@@ -234,7 +226,9 @@ async function carregarSemestre() {
             });
 
             window.location.href =
-                "semestres.html";
+                document.getElementById(
+                    "linkVoltarSemestres"
+                ).href;
 
             return;
         }
@@ -362,6 +356,49 @@ async function carregarDisciplinas() {
     }
 }
 
+async function alterarFalta(
+    idDisciplina,
+    acao
+) {
+
+    try {
+
+        const resposta = await fetch(
+            `${API_URL}/Disciplinas/${idDisciplina}/Faltas/${acao}`,
+            {
+                method: "PUT",
+                headers: {
+                    "Authorization":
+                        `Bearer ${token}`
+                }
+            }
+        );
+
+        const dados =
+            await resposta
+                .json()
+                .catch(() => ({}));
+
+        if (!resposta.ok) {
+
+            throw new Error(
+                dados.mensagem ||
+                "Não foi possível alterar as faltas."
+            );
+        }
+
+        await carregarDisciplinas();
+
+    } catch (erro) {
+
+        Swal.fire({
+            icon: "error",
+            title: "Não foi possível alterar",
+            text: erro.message
+        });
+    }
+}
+
 async function renderizarDisciplinas(
     disciplinas
 ) {
@@ -417,6 +454,31 @@ async function renderizarDisciplinas(
                 ".quantidade-faltas"
             );
 
+        const limiteFaltas =
+          fragmento.querySelector(
+        ".limite-faltas"
+            );
+
+        const progressoFaltas =
+          fragmento.querySelector(
+        ".progresso-faltas"
+            );
+
+        const situacaoFaltas =
+         fragmento.querySelector(
+        ".situacao-faltas"
+             );
+
+        const botaoAdicionarFalta =
+         fragmento.querySelector(
+        ".botaoAdicionarFalta"
+             );
+
+        const botaoRemoverFalta =
+         fragmento.querySelector(
+        ".botaoRemoverFalta"
+             );
+
         const linhaMediaMinima =
             fragmento.querySelector(
                 ".linha-media-minima"
@@ -470,8 +532,97 @@ async function renderizarDisciplinas(
             );
         }
 
-        quantidadeFaltas.textContent =
-            disciplina.faltas ?? 0;
+        const faltasAtuais =
+    disciplina.faltas ?? 0;
+
+const limite =
+    disciplina.limiteFaltas;
+
+quantidadeFaltas.textContent =
+    faltasAtuais;
+
+limiteFaltas.textContent =
+    limite ?? "-";
+
+if (limite && limite > 0) {
+
+    const percentual =
+        Math.round(
+            (faltasAtuais / limite) * 100
+        );
+
+    progressoFaltas.style.width =
+        `${Math.min(percentual, 100)}%`;
+
+if (percentual > 100) {
+
+    situacaoFaltas.textContent =
+        `${percentual}% — Limite ultrapassado`;
+
+    situacaoFaltas.className =
+        "situacao-faltas text-danger fw-semibold";
+
+    progressoFaltas.className =
+        "progress-bar progresso-faltas bg-danger";
+
+} else if (percentual === 100) {
+
+    situacaoFaltas.textContent =
+        `${percentual}% — Limite atingido`;
+
+    situacaoFaltas.className =
+        "situacao-faltas text-danger fw-semibold";
+
+    progressoFaltas.className =
+        "progress-bar progresso-faltas bg-danger";
+
+        situacaoFaltas.className =
+            "situacao-faltas text-danger fw-semibold";
+
+        progressoFaltas.className =
+            "progress-bar progresso-faltas bg-danger";
+
+    } else if (percentual >= 75) {
+
+        situacaoFaltas.textContent =
+            `${percentual}% — Risco`;
+
+        situacaoFaltas.className =
+            "situacao-faltas text-danger";
+
+        progressoFaltas.className =
+            "progress-bar progresso-faltas bg-danger";
+
+    } else if (percentual >= 50) {
+
+        situacaoFaltas.textContent =
+            `${percentual}% — Atenção`;
+
+        situacaoFaltas.className =
+            "situacao-faltas text-warning";
+
+        progressoFaltas.className =
+            "progress-bar progresso-faltas bg-warning";
+
+    } else {
+
+        situacaoFaltas.textContent =
+            `${percentual}% do limite utilizado`;
+
+        situacaoFaltas.className =
+            "situacao-faltas text-muted";
+
+        progressoFaltas.className =
+            "progress-bar progresso-faltas";
+    }
+
+} else {
+
+    progressoFaltas.style.width = "0%";
+
+    situacaoFaltas.textContent =
+        "Nenhum limite definido";
+         }
 
         if (disciplina.mediaMinima !== null
             && disciplina.mediaMinima !== undefined) {
@@ -529,6 +680,28 @@ async function renderizarDisciplinas(
                 );
             }
         );
+
+        botaoAdicionarFalta.addEventListener(
+    "click",
+    () => {
+
+        alterarFalta(
+            disciplina.idDisciplina,
+            "Adicionar"
+        );
+    }
+);
+
+botaoRemoverFalta.addEventListener(
+    "click",
+    () => {
+
+        alterarFalta(
+            disciplina.idDisciplina,
+            "Remover"
+        );
+    }
+);
 
         botaoEditar.addEventListener(
             "click",
@@ -649,6 +822,9 @@ async function abrirEdicao(
     faltasDisciplina.value =
         disciplina.faltas ?? 0;
 
+limiteFaltasDisciplina.value =
+    disciplina.limiteFaltas ?? "";
+
     mediaMinima.value =
         disciplina.mediaMinima ?? "";
 
@@ -701,6 +877,8 @@ function limparModal() {
     nomeProfessor.value = "";
 
     faltasDisciplina.value = "0";
+
+    limiteFaltasDisciplina.value = "";
 
     mediaMinima.value = "";
 
@@ -905,6 +1083,11 @@ salvarDisciplina.addEventListener(
                 faltasDisciplina.value
             );
 
+            const limiteFaltas =
+    converterNumero(
+        limiteFaltasDisciplina.value
+    );
+
         const minima =
             converterNumero(
                 mediaMinima.value
@@ -925,18 +1108,31 @@ salvarDisciplina.addEventListener(
 
             return;
         }
+if (faltas !== null
+    && faltas < 0) {
 
-        if (faltas !== null
-            && faltas < 0) {
+    Swal.fire({
+        icon: "warning",
+        title: "Faltas inválidas",
+        text: "A quantidade de faltas não pode ser negativa."
+    });
 
-            Swal.fire({
-                icon: "warning",
-                title: "Faltas inválidas",
-                text: "A quantidade de faltas não pode ser negativa."
-            });
+    return;
+}
 
-            return;
-        }
+if (limiteFaltas !== null
+    && limiteFaltas <= 0) {
+
+    Swal.fire({
+        icon: "warning",
+        title: "Limite inválido",
+        text: "O limite de faltas deve ser maior que zero."
+    });
+
+    return;
+}
+
+
 
         if (minima !== null
             && (minima < 0 || minima > 10)) {
@@ -988,17 +1184,19 @@ salvarDisciplina.addEventListener(
 
             let resposta;
 
-            const dadosDisciplina = {
-                nome: nome,
-                nomeProfessor:
-                    professor || null,
-                faltas:
-                    faltas ?? 0,
-                mediaMinima:
-                    minima,
-                mediaFinal:
-                    final
-            };
+const dadosDisciplina = {
+    nome: nome,
+    nomeProfessor:
+        professor || null,
+    faltas:
+        faltas ?? 0,
+    limiteFaltas:
+        limiteFaltas,
+    mediaMinima:
+        minima,
+    mediaFinal:
+        final
+};
 
             if (disciplinaEmEdicao) {
 
@@ -1192,6 +1390,63 @@ document
         }
     );
 
-carregarUsuarioTopo();
-carregarSemestre();
-carregarDisciplinas();
+async function iniciarPagina() {
+
+    const idCursoUrl =
+        CursoContexto.obterIdCursoUrl();
+
+    if (idCursoUrl) {
+        CursoContexto.salvarCursoSelecionado(
+            idCursoUrl
+        );
+    }
+
+    if (!idSemestre) {
+
+        await Swal.fire({
+            icon: "error",
+            title: "Semestre não informado",
+            text: "Não foi possível identificar o semestre selecionado.",
+            confirmButtonText: "Voltar"
+        });
+
+        const idCursoSelecionado =
+            CursoContexto.obterCursoSelecionadoId();
+
+        window.location.href = idCursoSelecionado
+            ? `semestres.html?idCurso=${idCursoSelecionado}`
+            : "semestres.html";
+
+        return;
+    }
+
+    const inicializacaoCurso = (async () => {
+
+        try {
+
+            await CursoContexto
+                .inicializarSeletorGlobal({
+                    aoAlterar: curso => {
+                        window.location.href =
+                            `semestres.html?idCurso=${curso.idCurso}`;
+                    }
+                });
+
+        } catch (erro) {
+
+            console.error(
+                "Erro ao carregar cursos:",
+                erro
+            );
+        }
+    })();
+
+    await Promise.all([
+        carregarUsuarioTopo(),
+        carregarSemestre(),
+        carregarDisciplinas(),
+        inicializacaoCurso
+    ]);
+}
+
+iniciarPagina();

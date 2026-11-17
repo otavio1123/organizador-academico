@@ -140,39 +140,39 @@
                     <li class="nav-item">
 
                         <a
-                            class="nav-link ativo"
-                            href="semestres.html"
-                        >
-                            <i class="fa-solid fa-calendar-days me-2"></i>
-                            Semestres
-                        </a>
-
-                    </li>
-
-                    <li class="nav-item">
-
-                        <a
                             class="nav-link"
-                            href="disciplinas.html"
+                            href="cursos.html"
                         >
-                            <i class="fa-solid fa-book me-2"></i>
-                            Disciplinas
+                            <i class="fa-solid fa-graduation-cap me-2"></i>
+                            Cursos
                         </a>
 
                     </li>
+<li class="nav-item">
 
-                    <li class="nav-item">
+    <a
+        id="linkSemestresNav"
+        class="nav-link ativo"
+        href="semestres.html"
+    >
+        <i class="fa-solid fa-calendar-days me-2"></i>
+        Semestres
+    </a>
 
-                        <a
-                            class="nav-link"
-                            href="#"
-                        >
-                            <i class="fa-solid fa-list-check me-2"></i>
-                            Atividades
-                        </a>
+</li>
 
-                    </li>
+<li class="nav-item">
 
+    <a
+        id="linkDisciplinasNav"
+        class="nav-link"
+        href="disciplinas.html"
+    >
+        <i class="fa-solid fa-book me-2"></i>
+        Disciplinas
+    </a>
+
+</li>
                 </ul>
 
             </div>
@@ -180,6 +180,29 @@
         </div>
 
     </nav>
+
+    <div class="bg-body-tertiary border-bottom">
+
+        <div
+            class="container-fluid px-4 py-2 d-flex flex-column flex-sm-row align-items-sm-center gap-2"
+        >
+
+            <label
+                for="seletorCursoGlobal"
+                class="small fw-semibold text-secondary"
+            >
+                Curso atual
+            </label>
+
+            <select
+                id="seletorCursoGlobal"
+                class="form-select form-select-sm w-auto"
+                aria-label="Selecionar curso atual"
+            ></select>
+
+        </div>
+
+    </div>
 
 </header>
 
@@ -200,8 +223,17 @@
             </h1>
 
             <p>
-                Gerencie os semestres letivos e suas disciplinas
+                Gerencie os semestres de
+                <strong id="nomeCursoAtual">curso selecionado</strong>
             </p>
+
+            <a
+                href="cursos.html"
+                class="voltar-cursos"
+            >
+                <i class="fa-solid fa-arrow-left me-2"></i>
+                Voltar para cursos
+            </a>
 
         </div>
 
@@ -210,6 +242,7 @@
             class="form-select filtro-semestres"
             aria-label="Filtrar semestres por status"
         >
+
             <option value="S">
                 Ativos
             </option>
@@ -217,6 +250,7 @@
             <option value="N">
                 Inativos
             </option>
+
         </select>
 
         <button
@@ -226,9 +260,11 @@
             data-bs-toggle="modal"
             data-bs-target="#modalCriarSemestre"
         >
+
             <i class="fa-solid fa-plus"></i>
 
             Criar semestre
+
         </button>
 
     </div>
@@ -257,7 +293,9 @@
                             type="button"
                             aria-label="Editar semestre"
                         >
+
                             <i class="fa-solid fa-ellipsis-vertical"></i>
+
                         </button>
 
                     </div>
@@ -269,7 +307,7 @@
                             <i class="fa-regular fa-calendar me-2"></i>
 
                             <strong>
-                                Ano:
+                                Período:
                             </strong>
 
                             <span class="ano-semestre"></span>
@@ -302,24 +340,28 @@
 
                     </div>
 
-  <div class="mt-auto d-grid gap-2">
+                    <div class="mt-auto d-grid gap-2">
 
-    <a
-        href="disciplinas.html"
-        class="btn btn-primary botao-disciplinas"
-    >
-        <i class="fa-solid fa-book me-2"></i>
+                        <a
+                            href="disciplinas.html"
+                            class="btn btn-primary botao-disciplinas"
+                        >
 
-        Disciplinas
-    </a>
+                            <i class="fa-solid fa-book me-2"></i>
+
+                            Ver disciplinas
+
+                        </a>
 
                         <button
                             class="botao-excluir-semestre btn btn-outline-danger"
                             type="button"
                         >
+
                             <i class="fa-regular fa-trash-can me-2"></i>
 
                             Excluir
+
                         </button>
 
                     </div>
@@ -363,72 +405,53 @@
 
                 <div class="modal-body">
 
-                    <label
-                        for="nomeSemestre"
-                        class="form-label"
-                    >
-                        Nome do semestre
-                    </label>
+                    <div class="mb-3">
 
-                    <input
-                        type="text"
-                        class="form-control"
-                        id="nomeSemestre"
-                        placeholder="Ex: Semestre 2026.1"
-                    >
+                        <label
+                            for="nomeSemestre"
+                            class="form-label"
+                        >
+                            Nome do semestre
+                        </label>
 
-                    <div
-                        id="linhaAnoStatus"
-                        class="row g-3 mt-1"
-                    >
+                        <input
+                            type="text"
+                            class="form-control"
+                            id="nomeSemestre"
+                            placeholder="Ex: 8º semestre"
+                        >
 
-                        <div class="col-md-6">
+                    </div>
 
-                            <label
-                                for="anoSemestre"
-                                class="form-label"
-                            >
-                                Ano
-                            </label>
+                    <div class="mb-3">
 
-                            <input
-                                type="number"
-                                class="form-control"
-                                id="anoSemestre"
-                                placeholder="Ex: 2026"
-                            >
+                        <label
+                            for="ativoSemestre"
+                            class="form-label"
+                        >
+                            Status
+                        </label>
 
-                        </div>
+                        <select
+                            id="ativoSemestre"
+                            class="form-select"
+                        >
 
-                        <div class="col-md-6">
+                            <option value="S">
+                                Ativo
+                            </option>
 
-                            <label
-                                for="ativoSemestre"
-                                class="form-label"
-                            >
-                                Status
-                            </label>
+                            <option value="N">
+                                Inativo
+                            </option>
 
-                            <select
-                                id="ativoSemestre"
-                                class="form-select"
-                            >
-                                <option value="S">
-                                    Ativo
-                                </option>
-
-                                <option value="N">
-                                    Inativo
-                                </option>
-                            </select>
-
-                        </div>
+                        </select>
 
                     </div>
 
                     <div
                         id="datasSemestre"
-                        class="row g-3 mt-1"
+                        class="row g-3"
                     >
 
                         <div class="col-md-6">
@@ -437,7 +460,7 @@
                                 for="inicioSemestre"
                                 class="form-label"
                             >
-                                Início
+                                Data de início
                             </label>
 
                             <input
@@ -454,7 +477,7 @@
                                 for="fimSemestre"
                                 class="form-label"
                             >
-                                Fim
+                                Data de término
                             </label>
 
                             <input
@@ -464,6 +487,17 @@
                             >
 
                         </div>
+
+                    </div>
+
+                    <div class="mt-3">
+
+                        <small class="text-muted">
+
+                            O período acadêmico será definido
+                            automaticamente pelas datas informadas.
+
+                        </small>
 
                     </div>
 
@@ -496,7 +530,6 @@
     </div>
 
 </main>
-
 <footer class="rodape">
 
     <p>
@@ -511,6 +544,16 @@
             Política de Privacidade
         </a>
 
+        <span>|</span>
+
+        <a href="suporte.html">
+            Suporte
+        </a>
+
+    </p>
+
+    <p class="mb-0">
+        © 2026 Organizador Acadêmico
     </p>
 
 </footer>
@@ -520,7 +563,10 @@
 ></script>
 
 <script src="js/config.js"></script>
+<script src="js/curso-contexto.js"></script>
+<script src="js/navegacao-academica.js"></script>
 <script src="js/semestres.js"></script>
+
 </body>
 
 </html>

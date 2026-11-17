@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    >
+
+    <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="css/cursos.css">
+
+    <title>Cursos - Organizador Acadêmico</title>
+</head>
+
+<body>
+
+<header class="cabecalho-app">
+
+    <nav class="navbar navbar-dark navbar-expand-lg">
+
+        <div class="container-fluid px-4">
+
+            <a
+                class="navbar-brand d-flex align-items-center gap-2"
+                href="home.html"
+            >
+
+                <img
+                    src="img/logo.png"
+                    alt="Organizador Acadêmico"
+                    class="logo-app"
+                >
+
+                <span class="nome-app">
+                    Organizador Acadêmico
+                </span>
+
+            </a>
+
+            <a
+                href="perfil.html"
+                class="usuario-topo d-none d-md-flex"
+                title="Acessar perfil"
+            >
+
+                <div class="text-end">
+
+                    <span
+                        class="nome-usuario"
+                        id="nomeUsuarioLogado"
+                    >
+                        Usuário
+                    </span>
+
+                    <small
+                        class="identificacao-usuario"
+                        id="emailUsuarioLogado"
+                    ></small>
+
+                </div>
+
+                <div class="icone-usuario">
+
+                    <img
+                        id="imagemUsuarioTopo"
+                        src=""
+                        alt="Foto do usuário"
+                        class="d-none"
+                    >
+
+                    <i
+                        id="iconeUsuarioTopo"
+                        class="fa-solid fa-user"
+                    ></i>
+
+                </div>
+
+            </a>
+
+            <button
+                class="navbar-toggler"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#menuPrincipal"
+                aria-controls="menuPrincipal"
+                aria-expanded="false"
+                aria-label="Abrir menu"
+            >
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+        </div>
+
+    </nav>
+
+    <nav class="navbar navbar-expand-lg navbar-menu-app">
+
+        <div class="container-fluid px-4">
+
+            <div
+                class="collapse navbar-collapse"
+                id="menuPrincipal"
+            >
+
+                <ul class="navbar-nav">
+
+                    <li class="nav-item">
+
+                        <a
+                            class="nav-link"
+                            href="home.html"
+                        >
+                            <i class="fa-solid fa-house me-2"></i>
+                            Dashboard
+                        </a>
+
+                    </li>
+
+                    <li class="nav-item">
+
+                        <a
+                            class="nav-link"
+                            href="perfil.html"
+                        >
+                            <i class="fa-solid fa-user me-2"></i>
+                            Perfil
+                        </a>
+
+                    </li>
+
+                    <li class="nav-item">
+
+                        <a
+                            class="nav-link ativo"
+                            href="cursos.html"
+                        >
+                            <i class="fa-solid fa-graduation-cap me-2"></i>
+                            Cursos
+                        </a>
+
+                    </li>
+
+<li class="nav-item">
+
+    <a
+        id="linkSemestresNav"
+        class="nav-link"
+        href="semestres.html"
+    >
+        <i class="fa-solid fa-calendar-days me-2"></i>
+        Semestres
+    </a>
+
+</li>
+
+<li class="nav-item">
+
+    <a
+        id="linkDisciplinasNav"
+        class="nav-link"
+        href="disciplinas.html"
+    >
+        <i class="fa-solid fa-book me-2"></i>
+        Disciplinas
+    </a>
+
+</li>
+
+                </ul>
+
+            </div>
+
+        </div>
+
+    </nav>
+
+    <div class="bg-body-tertiary border-bottom">
+
+        <div
+            class="container-fluid px-4 py-2 d-flex flex-column flex-sm-row align-items-sm-center gap-2"
+        >
+
+            <label
+                for="seletorCursoGlobal"
+                class="small fw-semibold text-secondary"
+            >
+                Curso atual
+            </label>
+
+            <select
+                id="seletorCursoGlobal"
+                class="form-select form-select-sm w-auto"
+                aria-label="Selecionar curso atual"
+            ></select>
+
+        </div>
+
+    </div>
+
+</header>
+
+<main class="container-fluid px-4 py-4 flex-grow-1">
+
+    <div
+        class="d-flex flex-column flex-md-row align-items-md-center gap-3 mb-4"
+    >
+
+        <div class="me-md-auto">
+
+            <h1>
+                Meus cursos
+            </h1>
+
+            <p class="text-muted">
+                Gerencie seus cursos e acompanhe os semestres de cada formação.
+            </p>
+
+        </div>
+
+        <button
+            id="botaoNovoCurso"
+            type="button"
+            class="btn btn-primary d-flex align-items-center gap-2"
+            data-bs-toggle="modal"
+            data-bs-target="#modalCurso"
+        >
+
+            <i class="fa-solid fa-plus"></i>
+
+            Novo curso
+
+        </button>
+
+    </div>
+
+    <div
+        id="listaCursos"
+        class="row g-4"
+    ></div>
+
+    <div
+        id="estadoVazioCursos"
+        class="text-center py-5 d-none"
+    >
+
+        <i
+            class="fa-solid fa-graduation-cap fa-3x text-muted mb-3"
+        ></i>
+
+        <h3>
+            Nenhum curso cadastrado
+        </h3>
+
+        <p class="text-muted">
+            Cadastre seu primeiro curso para começar a organizar sua rotina acadêmica.
+        </p>
+
+    </div>
+
+    <template id="modeloCurso">
+
+        <div class="col-12 col-md-6 col-xl-4">
+
+            <article class="card h-100 shadow-sm border-0">
+
+                <div class="card-body d-flex flex-column p-4">
+
+                    <div
+                        class="d-flex justify-content-between align-items-start gap-3 mb-3"
+                    >
+
+                        <div
+                            class="d-flex align-items-center justify-content-center bg-primary-subtle text-primary rounded-3"
+                            style="width: 52px; height: 52px;"
+                        >
+
+                            <i class="fa-solid fa-graduation-cap"></i>
+
+                        </div>
+
+                        <button
+                            type="button"
+                            class="btn btn-light btn-sm rounded-circle botaoEditarCurso"
+                            aria-label="Editar curso"
+                        >
+
+                            <i class="fa-solid fa-pencil"></i>
+
+                        </button>
+
+                    </div>
+
+                    <h2
+                        class="nome-curso fs-4"
+                    ></h2>
+
+                    <p class="mb-2">
+
+                        <i
+                            class="fa-solid fa-building-columns me-2 text-muted"
+                        ></i>
+
+                        <span class="instituicao-curso"></span>
+
+                    </p>
+
+                    <p class="mb-2">
+
+                        <i
+                            class="fa-solid fa-book-open me-2 text-muted"
+                        ></i>
+
+                        <span class="tipo-curso"></span>
+
+                    </p>
+
+                    <p class="mb-4">
+
+                        <i
+                            class="fa-solid fa-circle-check me-2 text-muted"
+                        ></i>
+
+                        <span class="status-curso"></span>
+
+                    </p>
+
+                    <div class="mt-auto d-grid gap-2">
+
+                        <a
+                            class="btn btn-primary botaoSemestres"
+                            href="#"
+                        >
+
+                            <i class="fa-solid fa-calendar-days me-2"></i>
+
+                            Ver semestres
+
+                        </a>
+
+                        <button
+                            type="button"
+                            class="btn btn-outline-danger botaoExcluirCurso"
+                        >
+
+                            <i class="fa-regular fa-trash-can me-2"></i>
+
+                            Excluir
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </article>
+
+        </div>
+
+    </template>
+
+    <div
+        class="modal fade"
+        id="modalCurso"
+        tabindex="-1"
+        aria-hidden="true"
+    >
+
+        <div class="modal-dialog modal-dialog-centered">
+
+            <div class="modal-content">
+
+                <div class="modal-header">
+
+                    <h5
+                        class="modal-title"
+                        id="tituloModalCurso"
+                    >
+                        Novo curso
+                    </h5>
+
+                    <button
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Fechar"
+                    ></button>
+
+                </div>
+
+                <div class="modal-body">
+
+                    <div class="mb-3">
+
+                        <label
+                            for="nomeCurso"
+                            class="form-label"
+                        >
+                            Nome do curso
+                        </label>
+
+                        <input
+                            type="text"
+                            class="form-control"
+                            id="nomeCurso"
+                            placeholder="Ex: Sistemas de Informação"
+                        >
+
+                    </div>
+
+                    <div class="mb-3">
+
+                        <label
+                            for="instituicaoCurso"
+                            class="form-label"
+                        >
+                            Instituição
+                        </label>
+
+                        <input
+                            type="text"
+                            class="form-control"
+                            id="instituicaoCurso"
+                            placeholder="Ex: UMC"
+                        >
+
+                    </div>
+
+                    <div class="mb-3">
+
+                        <label
+                            for="tipoCurso"
+                            class="form-label"
+                        >
+                            Tipo
+                        </label>
+
+                        <select
+                            id="tipoCurso"
+                            class="form-select"
+                        >
+
+                            <option value="GRADUACAO">
+                                Graduação
+                            </option>
+
+                            <option value="POS_GRADUACAO">
+                                Pós-graduação
+                            </option>
+
+                            <option value="TECNICO">
+                                Técnico
+                            </option>
+
+                            <option value="EXTENSAO">
+                                Extensão
+                            </option>
+
+                            <option value="OUTRO">
+                                Outro
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                    <div class="mb-3">
+
+                        <label
+                            for="statusCurso"
+                            class="form-label"
+                        >
+                            Status
+                        </label>
+
+                        <select
+                            id="statusCurso"
+                            class="form-select"
+                        >
+
+                            <option value="ATIVO">
+                                Ativo
+                            </option>
+
+                            <option value="CONCLUIDO">
+                                Concluído
+                            </option>
+
+                            <option value="TRANCADO">
+                                Trancado
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+                <div class="modal-footer">
+
+                    <button
+                        type="button"
+                        class="btn btn-secondary"
+                        data-bs-dismiss="modal"
+                    >
+                        Cancelar
+                    </button>
+
+                    <button
+                        type="button"
+                        class="btn btn-primary"
+                        id="salvarCurso"
+                    >
+                        Confirmar
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</main>
+<footer class="rodape">
+
+    <p>
+
+        <a href="termos.html">
+            Termos de Uso
+        </a>
+
+        <span>|</span>
+
+        <a href="privacidade.html">
+            Política de Privacidade
+        </a>
+
+        <span>|</span>
+
+        <a href="suporte.html">
+            Suporte
+        </a>
+
+    </p>
+
+    <p class="mb-0">
+        © 2026 Organizador Acadêmico
+    </p>
+
+</footer>
+
+<script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+></script>
+
+<script src="js/config.js"></script>
+<script src="js/curso-contexto.js"></script>
+<script src="js/navegacao-academica.js"></script>
+<script src="js/cursos.js"></script>
+</body>
+
+</html>

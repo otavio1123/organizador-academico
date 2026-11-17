@@ -1,1 +1,1 @@
-const API_URL = "https://api.organizadoracademico.com.br";
+const API_URL = "https://organizador-academico-v2em.onrender.com";

@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.organizador.api.model.Usuario;
@@ -52,7 +53,10 @@ public class DashboardController {
     @GetMapping("/Dashboard")
     public ResponseEntity<?> obterDashboard(
             @RequestHeader("Authorization")
-            String authorization) {
+            String authorization,
+
+            @RequestParam
+            Integer idCurso) {
 
         Usuario usuario =
                 obterUsuario(
@@ -75,7 +79,10 @@ public class DashboardController {
 
         return ResponseEntity.ok(
                 dashboardService
-                        .obterDashboard(usuario)
+                        .obterDashboard(
+                                usuario,
+                                idCurso
+                        )
         );
     }
 }

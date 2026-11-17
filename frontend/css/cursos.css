@@ -1,0 +1,173 @@
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    width: 100%;
+}
+
+#listaCursos {
+    align-items: stretch;
+}
+
+#listaCursos > div {
+    display: flex;
+}
+
+#listaCursos .card {
+    width: 100%;
+    border-radius: 18px;
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+#listaCursos .card:hover {
+    transform: translateY(-4px);
+    box-shadow:
+        0 12px 28px
+        rgba(0, 0, 0, 0.1) !important;
+}
+
+.nome-curso {
+    font-weight: 700;
+    color: #1f2937;
+    word-break: break-word;
+}
+
+.instituicao-curso,
+.tipo-curso,
+.status-curso {
+    color: #4b5563;
+}
+
+.botaoEditarCurso {
+    width: 38px;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.botaoEditarCurso:hover {
+    background-color: #e9ecef;
+}
+
+.botaoSemestres {
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.botaoExcluirCurso {
+    min-height: 44px;
+}
+
+#estadoVazioCursos {
+    max-width: 600px;
+    margin: 40px auto;
+}
+
+#estadoVazioCursos h3 {
+    font-size: 1.35rem;
+    font-weight: 700;
+}
+
+#estadoVazioCursos p {
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#modalCurso .modal-content {
+    border: none;
+    border-radius: 18px;
+    overflow: hidden;
+}
+
+#modalCurso .modal-header {
+    padding: 20px 24px;
+}
+
+#modalCurso .modal-body {
+    padding: 24px;
+}
+
+#modalCurso .modal-footer {
+    padding: 16px 24px 20px;
+}
+
+#modalCurso .modal-title {
+    font-weight: 700;
+}
+
+#modalCurso .form-label {
+    font-weight: 600;
+    color: #374151;
+}
+
+#modalCurso .form-control,
+#modalCurso .form-select {
+    min-height: 46px;
+    border-radius: 10px;
+}
+
+#modalCurso .form-control:focus,
+#modalCurso .form-select:focus {
+    box-shadow:
+        0 0 0 0.2rem
+        rgba(13, 110, 253, 0.15);
+}
+
+#botaoNovoCurso {
+    min-height: 44px;
+    white-space: nowrap;
+}
+
+.rodape {
+    margin-top: auto;
+}
+
+@media (max-width: 767px) {
+
+    main {
+        padding-left: 16px !important;
+        padding-right: 16px !important;
+    }
+
+    #botaoNovoCurso {
+        width: 100%;
+        justify-content: center;
+    }
+
+    #listaCursos .card-body {
+        padding: 20px !important;
+    }
+
+    .nome-curso {
+        font-size: 1.2rem !important;
+    }
+
+    #modalCurso .modal-dialog {
+        margin: 16px;
+    }
+}
+
+@media (max-width: 480px) {
+
+    #listaCursos {
+        --bs-gutter-y: 1rem;
+    }
+
+    #listaCursos .card {
+        border-radius: 14px;
+    }
+
+    #modalCurso .modal-content {
+        border-radius: 14px;
+    }
+}

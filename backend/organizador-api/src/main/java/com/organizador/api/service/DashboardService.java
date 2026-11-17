@@ -31,15 +31,41 @@ public class DashboardService {
     }
 
     public Map<String, Object> obterDashboard(
-            Usuario usuario) {
+            Usuario usuario,
+            Integer idCurso) {
 
         Map<String, Object> resposta =
                 new LinkedHashMap<>();
 
+        if (idCurso == null) {
+
+            return criarDashboardVazio(
+                    resposta,
+                    null
+            );
+        }
+
+        /*
+         * Primeiro busca somente os semestres
+         * pertencentes ao usuário autenticado.
+         *
+         * Depois filtra pelo curso selecionado.
+         *
+         * Isso evita misturar semestres e disciplinas
+         * de cursos diferentes.
+         */
         Optional<Semestre> semestreAtivo =
                 semestreRepository
-                        .findByIdusuario(usuario.getId())
+                        .findByIdusuario(
+                                usuario.getId()
+                        )
                         .stream()
+                        .filter(semestre ->
+                                semestre.getIdCurso() != null
+                                        && semestre
+                                                .getIdCurso()
+                                                .equals(idCurso)
+                        )
                         .filter(semestre ->
                                 "S".equalsIgnoreCase(
                                         semestre.getAtivo()
@@ -49,42 +75,10 @@ public class DashboardService {
 
         if (semestreAtivo.isEmpty()) {
 
-            resposta.put(
-                    "possuiSemestreAtivo",
-                    false
+            return criarDashboardVazio(
+                    resposta,
+                    idCurso
             );
-
-            resposta.put(
-                    "semestre",
-                    null
-            );
-
-            resposta.put(
-                    "totalDisciplinas",
-                    0
-            );
-
-            resposta.put(
-                    "totalFaltas",
-                    0
-            );
-
-            resposta.put(
-                    "mediaGeral",
-                    null
-            );
-
-            resposta.put(
-                    "disciplinasAbaixoMedia",
-                    0
-            );
-
-            resposta.put(
-                    "disciplinas",
-                    List.of()
-            );
-
-            return resposta;
         }
 
         Semestre semestre =
@@ -201,8 +195,18 @@ public class DashboardService {
         }
 
         resposta.put(
+                "idCurso",
+                idCurso
+        );
+
+        resposta.put(
                 "possuiSemestreAtivo",
                 true
+        );
+
+        resposta.put(
+                "idSemestre",
+                semestre.getIdSemestre()
         );
 
         resposta.put(
@@ -233,6 +237,58 @@ public class DashboardService {
         resposta.put(
                 "disciplinas",
                 dadosDisciplinas
+        );
+
+        return resposta;
+    }
+
+    private Map<String, Object> criarDashboardVazio(
+            Map<String, Object> resposta,
+            Integer idCurso) {
+
+        resposta.put(
+                "idCurso",
+                idCurso
+        );
+
+        resposta.put(
+                "possuiSemestreAtivo",
+                false
+        );
+
+        resposta.put(
+                "idSemestre",
+                null
+        );
+
+        resposta.put(
+                "semestre",
+                null
+        );
+
+        resposta.put(
+                "totalDisciplinas",
+                0
+        );
+
+        resposta.put(
+                "totalFaltas",
+                0
+        );
+
+        resposta.put(
+                "mediaGeral",
+                null
+        );
+
+        resposta.put(
+                "disciplinasAbaixoMedia",
+                0
+        );
+
+        resposta.put(
+                "disciplinas",
+                List.of()
         );
 
         return resposta;

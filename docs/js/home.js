@@ -50,11 +50,6 @@ const statusSemestreAtual =
         "statusSemestreAtual"
     );
 
-const linkDisciplinasMenu =
-    document.getElementById(
-        "linkDisciplinasMenu"
-    );
-
 const linkDisciplinasRapido =
     document.getElementById(
         "linkDisciplinasRapido"
@@ -113,6 +108,7 @@ const estadoVazioDisciplinas =
 let graficoMediasInstancia = null;
 let graficoFaltasInstancia = null;
 
+
 if (nomeUsuario) {
 
     nomeUsuario.textContent =
@@ -124,6 +120,7 @@ if (emailUsuario) {
     emailUsuario.textContent =
         usuarioLogado.email || "";
 }
+
 
 async function carregarUsuarioTopo() {
 
@@ -227,6 +224,7 @@ async function carregarUsuarioTopo() {
     }
 }
 
+
 function formatarData(data) {
 
     if (!data) {
@@ -243,10 +241,13 @@ function formatarData(data) {
     return `${partes[2]}/${partes[1]}/${partes[0]}`;
 }
 
+
 function formatarMedia(media) {
 
-    if (media === null
-        || media === undefined) {
+    if (
+        media === null ||
+        media === undefined
+    ) {
 
         return "-";
     }
@@ -256,36 +257,97 @@ function formatarMedia(media) {
         .replace(".", ",");
 }
 
-function configurarLinksDisciplinas(
-    semestreAtivo
+
+function configurarLinkDisciplinasRapido(
+    semestreAtivo,
+    idCurso
 ) {
 
-    if (!semestreAtivo) {
+    if (!linkDisciplinasRapido) {
         return;
     }
 
-    const destino =
-        `disciplinas.html?idSemestre=${semestreAtivo.idSemestre}`;
-
-    if (linkDisciplinasMenu) {
-
-        linkDisciplinasMenu.href =
-            destino;
-    }
-
-    if (linkDisciplinasRapido) {
+    if (!idCurso) {
 
         linkDisciplinasRapido.href =
-            destino;
+            "cursos.html";
+
+        return;
+    }
+
+    if (!semestreAtivo) {
+
+        linkDisciplinasRapido.href =
+            `semestres.html?idCurso=${idCurso}`;
+
+        return;
+    }
+
+    linkDisciplinasRapido.href =
+        `disciplinas.html?idSemestre=${semestreAtivo.idSemestre}&idCurso=${idCurso}`;
+}
+
+
+function limparSemestreAtual() {
+
+    if (nomeSemestreAtual) {
+
+        nomeSemestreAtual.textContent =
+            "Nenhum semestre ativo";
+    }
+
+    if (periodoSemestreAtual) {
+
+        periodoSemestreAtual.textContent =
+            "Cadastre ou ative um semestre para começar.";
+    }
+
+    if (statusSemestreAtual) {
+
+        statusSemestreAtual.textContent =
+            "Sem semestre";
     }
 }
+
 
 async function carregarSemestreAtual() {
 
     try {
 
+        const idCurso =
+            CursoContexto
+                .obterCursoSelecionadoId();
+
+        if (!idCurso) {
+
+            if (nomeSemestreAtual) {
+
+                nomeSemestreAtual.textContent =
+                    "Nenhum curso selecionado";
+            }
+
+            if (periodoSemestreAtual) {
+
+                periodoSemestreAtual.textContent =
+                    "Selecione um curso para visualizar o semestre atual.";
+            }
+
+            if (statusSemestreAtual) {
+
+                statusSemestreAtual.textContent =
+                    "Sem curso";
+            }
+
+            configurarLinkDisciplinasRapido(
+                null,
+                null
+            );
+
+            return;
+        }
+
         const resposta = await fetch(
-            `${API_URL}/Semestres`,
+            `${API_URL}/Cursos/${idCurso}/Semestres`,
             {
                 method: "GET",
 
@@ -318,23 +380,12 @@ async function carregarSemestreAtual() {
 
         if (!semestreAtivo) {
 
-            if (nomeSemestreAtual) {
+            limparSemestreAtual();
 
-                nomeSemestreAtual.textContent =
-                    "Nenhum semestre ativo";
-            }
-
-            if (periodoSemestreAtual) {
-
-                periodoSemestreAtual.textContent =
-                    "Cadastre ou ative um semestre para começar.";
-            }
-
-            if (statusSemestreAtual) {
-
-                statusSemestreAtual.textContent =
-                    "Sem semestre";
-            }
+            configurarLinkDisciplinasRapido(
+                null,
+                idCurso
+            );
 
             return;
         }
@@ -361,8 +412,9 @@ async function carregarSemestreAtual() {
                 "Ativo";
         }
 
-        configurarLinksDisciplinas(
-            semestreAtivo
+        configurarLinkDisciplinasRapido(
+            semestreAtivo,
+            idCurso
         );
 
     } catch (erro) {
@@ -384,8 +436,28 @@ async function carregarDashboard() {
 
     try {
 
+        const idCurso =
+            CursoContexto
+                .obterCursoSelecionadoId();
+
+        if (!idCurso) {
+
+            atualizarBigNumbers({
+                totalDisciplinas: 0,
+                totalFaltas: 0,
+                mediaGeral: null,
+                disciplinasAbaixoMedia: 0
+            });
+
+            renderizarGraficoMedias([]);
+            renderizarGraficoFaltas([]);
+            renderizarResumoDisciplinas([]);
+
+            return;
+        }
+
         const resposta = await fetch(
-            `${API_URL}/Dashboard`,
+            `${API_URL}/Dashboard?idCurso=${idCurso}`,
             {
                 method: "GET",
 
@@ -436,6 +508,7 @@ async function carregarDashboard() {
     }
 }
 
+
 function atualizarBigNumbers(
     dados
 ) {
@@ -455,8 +528,8 @@ function atualizarBigNumbers(
     if (mediaGeral) {
 
         mediaGeral.textContent =
-            dados.mediaGeral !== null
-                && dados.mediaGeral !== undefined
+            dados.mediaGeral !== null &&
+            dados.mediaGeral !== undefined
                 ? formatarMedia(
                     dados.mediaGeral
                 )
@@ -469,6 +542,7 @@ function atualizarBigNumbers(
             dados.disciplinasAbaixoMedia ?? 0;
     }
 }
+
 
 function definirIndicadoresComoErro() {
 
@@ -489,6 +563,7 @@ function definirIndicadoresComoErro() {
     }
 }
 
+
 function renderizarGraficoMedias(
     disciplinas
 ) {
@@ -496,8 +571,8 @@ function renderizarGraficoMedias(
     const disciplinasComMedia =
         disciplinas.filter(
             disciplina =>
-                disciplina.mediaFinal !== null
-                && disciplina.mediaFinal !== undefined
+                disciplina.mediaFinal !== null &&
+                disciplina.mediaFinal !== undefined
         );
 
     if (graficoMediasInstancia) {
@@ -557,8 +632,8 @@ function renderizarGraficoMedias(
     const mediasMinimas =
         disciplinasComMedia.map(
             disciplina =>
-                disciplina.mediaMinima !== null
-                && disciplina.mediaMinima !== undefined
+                disciplina.mediaMinima !== null &&
+                disciplina.mediaMinima !== undefined
                     ? Number(
                         disciplina.mediaMinima
                     )
@@ -578,20 +653,26 @@ function renderizarGraficoMedias(
                         {
                             label: "Média final",
                             data: medias,
+
                             backgroundColor:
                                 "rgba(37, 99, 235, 0.75)",
+
                             borderColor:
                                 "rgba(37, 99, 235, 1)",
+
                             borderWidth: 1,
                             borderRadius: 6
                         },
                         {
                             label: "Média mínima",
                             data: mediasMinimas,
+
                             backgroundColor:
                                 "rgba(148, 163, 184, 0.45)",
+
                             borderColor:
                                 "rgba(100, 116, 139, 0.8)",
+
                             borderWidth: 1,
                             borderRadius: 6
                         }
@@ -606,6 +687,7 @@ function renderizarGraficoMedias(
                         y: {
                             beginAtZero: true,
                             max: 10,
+
                             ticks: {
                                 stepSize: 2
                             }
@@ -621,6 +703,8 @@ function renderizarGraficoMedias(
             }
         );
 }
+
+
 function renderizarGraficoFaltas(
     disciplinas
 ) {
@@ -635,13 +719,14 @@ function renderizarGraficoFaltas(
     const totalFaltasRegistradas =
         disciplinas.reduce(
             (total, disciplina) =>
-                total + (disciplina.faltas ?? 0),
+                total +
+                (disciplina.faltas ?? 0),
             0
         );
 
     if (
-        disciplinas.length === 0
-        || totalFaltasRegistradas === 0
+        disciplinas.length === 0 ||
+        totalFaltasRegistradas === 0
     ) {
 
         if (graficoFaltas) {
@@ -700,6 +785,7 @@ function renderizarGraficoFaltas(
                         {
                             label: "Faltas",
                             data: faltas,
+
                             backgroundColor: [
                                 "#2563eb",
                                 "#7c3aed",
@@ -710,6 +796,7 @@ function renderizarGraficoFaltas(
                                 "#dc2626",
                                 "#475569"
                             ],
+
                             borderWidth: 2
                         }
                     ]
@@ -728,6 +815,8 @@ function renderizarGraficoFaltas(
             }
         );
 }
+
+
 function renderizarResumoDisciplinas(
     disciplinas
 ) {
@@ -778,17 +867,17 @@ function renderizarResumoDisciplinas(
                 "item-resumo-disciplina";
 
             const possuiMedia =
-                disciplina.mediaFinal !== null
-                && disciplina.mediaFinal !== undefined;
+                disciplina.mediaFinal !== null &&
+                disciplina.mediaFinal !== undefined;
 
             const possuiMediaMinima =
-                disciplina.mediaMinima !== null
-                && disciplina.mediaMinima !== undefined;
+                disciplina.mediaMinima !== null &&
+                disciplina.mediaMinima !== undefined;
 
             const abaixoDaMedia =
-                possuiMedia
-                && possuiMediaMinima
-                && Number(
+                possuiMedia &&
+                possuiMediaMinima &&
+                Number(
                     disciplina.mediaFinal
                 ) <
                 Number(
@@ -837,8 +926,8 @@ function renderizarResumoDisciplinas(
                                     Abaixo da média
                                 </span>
                             `
-                            : possuiMedia
-                                && possuiMediaMinima
+                            : possuiMedia &&
+                              possuiMediaMinima
                                 ? `
                                     <span class="badge-desempenho badge-ok">
                                         Na média
@@ -885,7 +974,23 @@ function renderizarResumoDisciplinas(
     );
 }
 
+
 async function iniciarDashboard() {
+
+    try {
+
+        await CursoContexto
+            .inicializarSeletorGlobal({
+                dispararEvento: true
+            });
+
+    } catch (erro) {
+
+        console.error(
+            "Erro ao carregar cursos:",
+            erro
+        );
+    }
 
     await carregarUsuarioTopo();
 
@@ -893,6 +998,32 @@ async function iniciarDashboard() {
         carregarSemestreAtual(),
         carregarDashboard()
     ]);
+}
+const seletorCursoGlobal =
+    document.getElementById(
+        "seletorCursoGlobal"
+    );
+
+if (seletorCursoGlobal) {
+
+    seletorCursoGlobal.addEventListener(
+        "change",
+        async () => {
+
+            const idCursoSelecionado =
+                seletorCursoGlobal.value;
+
+            CursoContexto
+                .salvarCursoSelecionado(
+                    idCursoSelecionado
+                );
+
+            await Promise.all([
+                carregarSemestreAtual(),
+                carregarDashboard()
+            ]);
+        }
+    );
 }
 
 iniciarDashboard();

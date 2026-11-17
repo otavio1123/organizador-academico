@@ -35,11 +35,11 @@
                 href="home.html"
             >
 
-<img
-    src="img/logo.png"
-    alt="Organizador Acadêmico"
-    class="logo-app"
->
+                <img
+                    src="img/logo.png"
+                    alt="Organizador Acadêmico"
+                    class="logo-app"
+                >
 
                 <span class="nome-app">
                     Organizador Acadêmico
@@ -48,44 +48,44 @@
             </a>
 
             <a
-    href="perfil.html"
-    class="usuario-topo d-none d-md-flex"
-    title="Acessar perfil"
->
+                href="perfil.html"
+                class="usuario-topo d-none d-md-flex"
+                title="Acessar perfil"
+            >
 
-    <div class="text-end">
+                <div class="text-end">
 
-        <span
-            class="nome-usuario"
-            id="nomeUsuarioLogado"
-        >
-            Usuário
-        </span>
+                    <span
+                        class="nome-usuario"
+                        id="nomeUsuarioLogado"
+                    >
+                        Usuário
+                    </span>
 
-        <small
-            class="identificacao-usuario"
-            id="emailUsuarioLogado"
-        ></small>
+                    <small
+                        class="identificacao-usuario"
+                        id="emailUsuarioLogado"
+                    ></small>
 
-    </div>
+                </div>
 
-    <div class="icone-usuario">
+                <div class="icone-usuario">
 
-        <img
-            id="imagemUsuarioTopo"
-            src=""
-            alt="Foto do usuário"
-            class="d-none"
-        >
+                    <img
+                        id="imagemUsuarioTopo"
+                        src=""
+                        alt="Foto do usuário"
+                        class="d-none"
+                    >
 
-        <i
-            id="iconeUsuarioTopo"
-            class="fa-solid fa-user"
-        ></i>
+                    <i
+                        id="iconeUsuarioTopo"
+                        class="fa-solid fa-user"
+                    ></i>
 
-    </div>
+                </div>
 
-</a>
+            </a>
 
             <button
                 class="navbar-toggler"
@@ -115,6 +115,7 @@
                 <ul class="navbar-nav">
 
                     <li class="nav-item">
+
                         <a
                             class="nav-link"
                             href="home.html"
@@ -122,9 +123,11 @@
                             <i class="fa-solid fa-house me-2"></i>
                             Dashboard
                         </a>
+
                     </li>
 
                     <li class="nav-item">
+
                         <a
                             class="nav-link ativo"
                             href="perfil.html"
@@ -132,36 +135,45 @@
                             <i class="fa-solid fa-user me-2"></i>
                             Perfil
                         </a>
+
                     </li>
 
                     <li class="nav-item">
+
                         <a
+                            class="nav-link"
+                            href="cursos.html"
+                        >
+                            <i class="fa-solid fa-graduation-cap me-2"></i>
+                            Cursos
+                        </a>
+
+                    </li>
+
+                    <li class="nav-item">
+
+                        <a
+                            id="linkSemestresNav"
                             class="nav-link"
                             href="semestres.html"
                         >
                             <i class="fa-solid fa-calendar-days me-2"></i>
                             Semestres
                         </a>
+
                     </li>
 
                     <li class="nav-item">
+
                         <a
+                            id="linkDisciplinasNav"
                             class="nav-link"
-                            href="#"
+                            href="disciplinas.html"
                         >
                             <i class="fa-solid fa-book me-2"></i>
                             Disciplinas
                         </a>
-                    </li>
 
-                    <li class="nav-item">
-                        <a
-                            class="nav-link"
-                            href="#"
-                        >
-                            <i class="fa-solid fa-list-check me-2"></i>
-                            Atividades
-                        </a>
                     </li>
 
                 </ul>
@@ -446,10 +458,10 @@
     </div>
 
 </main>
-
 <footer class="rodape">
 
     <p>
+
         <a href="termos.html">
             Termos de Uso
         </a>
@@ -459,6 +471,17 @@
         <a href="privacidade.html">
             Política de Privacidade
         </a>
+
+        <span>|</span>
+
+        <a href="suporte.html">
+            Suporte
+        </a>
+
+    </p>
+
+    <p class="mb-0">
+        © 2026 Organizador Acadêmico
     </p>
 
 </footer>
@@ -470,8 +493,9 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <script src="js/config.js"></script>
+<script src="js/navegacao-academica.js"></script>
 <script src="js/perfil.js"></script>
 
 </body>
-</html>
 
+</html>
