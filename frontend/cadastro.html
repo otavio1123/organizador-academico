@@ -166,10 +166,19 @@
                                 id="senha"
                                 class="form-control"
                                 placeholder="Crie uma senha"
+                                minlength="8"
+                                aria-describedby="ajudaSenha"
                                 required
                             >
 
                         </div>
+
+                        <small
+                            id="ajudaSenha"
+                            class="text-secondary d-block mt-2"
+                        >
+                            A senha deve ter no mínimo 8 caracteres.
+                        </small>
 
                     </div>
 
@@ -191,6 +200,7 @@
                                 id="ConfirmarSenha"
                                 class="form-control"
                                 placeholder="Digite novamente sua senha"
+                                minlength="8"
                                 required
                             >
 

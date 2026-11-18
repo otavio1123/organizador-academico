@@ -20,6 +20,12 @@ import com.organizador.api.repository.UsuarioRepository;
 @Service
 public class AuthService {
 
+    public enum ResultadoRedefinicaoSenha {
+        SUCESSO,
+        CODIGO_INVALIDO,
+        SENHA_IGUAL_ATUAL
+    }
+
     private static final int LIMITE_SOLICITACOES = 3;
     private static final int TEMPO_LIMITE_MINUTOS = 15;
     private static final int TEMPO_EXPIRACAO_CODIGO_MINUTOS = 15;
@@ -30,7 +36,8 @@ public class AuthService {
     private final EmailService emailService;
     private final LogAuditoriaRepository logAuditoriaRepository;
 
-    private final SecureRandom secureRandom = new SecureRandom();
+    private final SecureRandom secureRandom =
+            new SecureRandom();
 
     private final BCryptPasswordEncoder passwordEncoder =
             new BCryptPasswordEncoder();
@@ -41,13 +48,21 @@ public class AuthService {
             EmailService emailService,
             LogAuditoriaRepository logAuditoriaRepository) {
 
-        this.usuarioRepository = usuarioRepository;
-        this.recuperacaoSenhaRepository = recuperacaoSenhaRepository;
-        this.emailService = emailService;
-        this.logAuditoriaRepository = logAuditoriaRepository;
+        this.usuarioRepository =
+                usuarioRepository;
+
+        this.recuperacaoSenhaRepository =
+                recuperacaoSenhaRepository;
+
+        this.emailService =
+                emailService;
+
+        this.logAuditoriaRepository =
+                logAuditoriaRepository;
     }
 
-    public void solicitarRecuperacao(String email) {
+    public void solicitarRecuperacao(
+            String email) {
 
         var usuarioEncontrado =
                 usuarioRepository.findByEmail(email);
@@ -116,9 +131,8 @@ public class AuthService {
         emailService.enviarCodigoRecuperacao(
                 usuario.getEmail(),
                 codigo,
-                 "RECUPERACAO"
+                "RECUPERACAO"
         );
-
 
         LogAuditoria log =
                 new LogAuditoria();
@@ -206,7 +220,7 @@ public class AuthService {
     }
 
     @Transactional
-    public boolean redefinirSenha(
+    public ResultadoRedefinicaoSenha redefinirSenha(
             String email,
             String codigo,
             String novaSenha) {
@@ -221,14 +235,18 @@ public class AuthService {
                         );
 
         if (recuperacaoEncontrada.isEmpty()) {
-            return false;
+
+            return ResultadoRedefinicaoSenha
+                    .CODIGO_INVALIDO;
         }
 
         var recuperacao =
                 recuperacaoEncontrada.get();
 
         if (recuperacao.getUsadoEm() != null) {
-            return false;
+
+            return ResultadoRedefinicaoSenha
+                    .CODIGO_INVALIDO;
         }
 
         if (recuperacao
@@ -237,7 +255,8 @@ public class AuthService {
                         LocalDateTime.now()
                 )) {
 
-            return false;
+            return ResultadoRedefinicaoSenha
+                    .CODIGO_INVALIDO;
         }
 
         int tentativas =
@@ -248,7 +267,8 @@ public class AuthService {
         if (tentativas >=
                 LIMITE_TENTATIVAS_CODIGO) {
 
-            return false;
+            return ResultadoRedefinicaoSenha
+                    .CODIGO_INVALIDO;
         }
 
         if (!recuperacao
@@ -263,11 +283,24 @@ public class AuthService {
                     recuperacao
             );
 
-            return false;
+            return ResultadoRedefinicaoSenha
+                    .CODIGO_INVALIDO;
         }
 
         var usuario =
                 recuperacao.getUsuario();
+
+        boolean senhaIgualAtual =
+                passwordEncoder.matches(
+                        novaSenha,
+                        usuario.getSenha()
+                );
+
+        if (senhaIgualAtual) {
+
+            return ResultadoRedefinicaoSenha
+                    .SENHA_IGUAL_ATUAL;
+        }
 
         String senhaCriptografada =
                 passwordEncoder.encode(
@@ -290,7 +323,6 @@ public class AuthService {
                 recuperacao
         );
 
-
         LogAuditoria log =
                 new LogAuditoria();
 
@@ -312,7 +344,8 @@ public class AuthService {
                 log
         );
 
-        return true;
+        return ResultadoRedefinicaoSenha
+                .SUCESSO;
     }
 
     private String gerarCodigoRecuperacao() {

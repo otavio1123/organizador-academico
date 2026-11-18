@@ -210,15 +210,34 @@ public class UsuarioController {
                         usuarioBanco.getSenha()
                 );
 
-        if (!senhaCorreta) {
+if (!senhaCorreta) {
 
-            return ResponseEntity
-                    .status(HttpStatus.UNAUTHORIZED)
-                    .body(Map.of(
-                            "mensagem",
-                            "E-mail ou senha inválidos."
-                    ));
-        }
+    LogAuditoria log =
+            new LogAuditoria();
+
+    log.setIdUsuario(
+            Long.valueOf(
+                    usuarioBanco.getId()
+            )
+    );
+
+    log.setNomeUsuario(
+            usuarioBanco.getNome()
+    );
+
+    log.setAcao(
+            "Tentativa de login com senha incorreta"
+    );
+
+    logAuditoriaRepository.save(log);
+
+    return ResponseEntity
+            .status(HttpStatus.UNAUTHORIZED)
+            .body(Map.of(
+                    "mensagem",
+                    "E-mail ou senha inválidos."
+            ));
+}
 
         String codigo =
                 tokenService.gerarCodigo2FA(
@@ -491,94 +510,109 @@ public ResponseEntity<?> buscarPerfil(
                 )
         );
     }
+@PutMapping("/usuarios/senha")
+public ResponseEntity<?> alterarSenha(
+        @RequestHeader("Authorization")
+        String authorization,
 
-    @PutMapping("/usuarios/senha")
-    public ResponseEntity<?> alterarSenha(
-            @RequestHeader("Authorization")
-            String authorization,
+        @Valid
+        @RequestBody
+        AlterarSenhaRequest request) {
 
-            @Valid
-            @RequestBody
-            AlterarSenhaRequest request) {
+    String token =
+            authorization.replace(
+                    "Bearer ",
+                    ""
+            );
 
-        String token =
-                authorization.replace(
-                        "Bearer ",
-                        ""
-                );
+    String email =
+            tokenService.obterEmail(token);
 
-        String email =
-                tokenService.obterEmail(token);
+    var usuarioEncontrado =
+            usuarioRepository.findByEmail(email);
 
-        var usuarioEncontrado =
-                usuarioRepository.findByEmail(email);
+    if (usuarioEncontrado.isEmpty()) {
 
-        if (usuarioEncontrado.isEmpty()) {
-
-            return ResponseEntity
-                    .status(HttpStatus.UNAUTHORIZED)
-                    .body(Map.of(
-                            "mensagem",
-                            "Usuário não encontrado."
-                    ));
-        }
-
-        Usuario usuario =
-                usuarioEncontrado.get();
-
-        boolean senhaCorreta =
-                passwordEncoder.matches(
-                        request.getSenhaAtual(),
-                        usuario.getSenha()
-                );
-
-        if (!senhaCorreta) {
-
-            return ResponseEntity
-                    .status(HttpStatus.UNAUTHORIZED)
-                    .body(Map.of(
-                            "mensagem",
-                            "Senha atual incorreta."
-                    ));
-        }
-
-        String novaSenhaCriptografada =
-                passwordEncoder.encode(
-                        request.getNovaSenha()
-                );
-
-        usuario.setSenha(
-                novaSenhaCriptografada
-        );
-
-        usuarioRepository.save(usuario);
-
-        LogAuditoria log =
-                new LogAuditoria();
-
-        log.setIdUsuario(
-                Long.valueOf(
-                        usuario.getId()
-                )
-        );
-
-        log.setNomeUsuario(
-                usuario.getNome()
-        );
-
-        log.setAcao(
-                "Alterou a senha"
-        );
-
-        logAuditoriaRepository.save(log);
-
-        return ResponseEntity.ok(
-                Map.of(
+        return ResponseEntity
+                .status(HttpStatus.UNAUTHORIZED)
+                .body(Map.of(
                         "mensagem",
-                        "Senha alterada com sucesso."
-                )
-        );
+                        "Usuário não encontrado."
+                ));
     }
+
+    Usuario usuario =
+            usuarioEncontrado.get();
+
+    boolean senhaCorreta =
+            passwordEncoder.matches(
+                    request.getSenhaAtual(),
+                    usuario.getSenha()
+            );
+
+    if (!senhaCorreta) {
+
+        return ResponseEntity
+                .status(HttpStatus.UNAUTHORIZED)
+                .body(Map.of(
+                        "mensagem",
+                        "Senha atual incorreta."
+                ));
+    }
+
+    boolean novaSenhaIgualAtual =
+            passwordEncoder.matches(
+                    request.getNovaSenha(),
+                    usuario.getSenha()
+            );
+
+    if (novaSenhaIgualAtual) {
+
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(Map.of(
+                        "mensagem",
+                        "A nova senha deve ser diferente da senha atual."
+                ));
+    }
+
+    String novaSenhaCriptografada =
+            passwordEncoder.encode(
+                    request.getNovaSenha()
+            );
+
+    usuario.setSenha(
+            novaSenhaCriptografada
+    );
+
+    usuarioRepository.save(usuario);
+
+    LogAuditoria log =
+            new LogAuditoria();
+
+    log.setIdUsuario(
+            Long.valueOf(
+                    usuario.getId()
+            )
+    );
+
+    log.setNomeUsuario(
+            usuario.getNome()
+    );
+
+    log.setAcao(
+            "Alterou a senha"
+    );
+
+    logAuditoriaRepository.save(log);
+
+    return ResponseEntity.ok(
+            Map.of(
+                    "mensagem",
+                    "Senha alterada com sucesso."
+            )
+    );
+}
 
     @DeleteMapping("/usuarios")
     public ResponseEntity<?> excluirConta(

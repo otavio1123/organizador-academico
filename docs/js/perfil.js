@@ -345,6 +345,16 @@ formAlterarSenha.addEventListener("submit", async function (event) {
         return;
     }
 
+    if (senhaAtualValor === novaSenhaValor) {
+    Swal.fire({
+        icon: "warning",
+        title: "Senha inválida",
+        text: "A nova senha deve ser diferente da senha atual."
+    });
+
+    return;
+}
+
     if (novaSenhaValor.length < 8) {
         Swal.fire({
             icon: "warning",

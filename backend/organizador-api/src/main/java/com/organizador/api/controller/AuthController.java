@@ -46,14 +46,18 @@ public class AuthController {
 
     @PostMapping("/recuperar-senha")
     public ResponseEntity<?> recuperarSenha(
-            @Valid @RequestBody RecuperarSenhaRequest request) {
+            @Valid
+            @RequestBody
+            RecuperarSenhaRequest request) {
 
         String email =
                 request.getEmail()
                         .trim()
                         .toLowerCase();
 
-        authService.solicitarRecuperacao(email);
+        authService.solicitarRecuperacao(
+                email
+        );
 
         return ResponseEntity.ok(
                 Map.of(
@@ -65,7 +69,9 @@ public class AuthController {
 
     @PostMapping("/verificar-codigo")
     public ResponseEntity<?> verificarCodigo(
-            @Valid @RequestBody VerificarCodigoRequest request) {
+            @Valid
+            @RequestBody
+            VerificarCodigoRequest request) {
 
         String email =
                 request.getEmail()
@@ -100,21 +106,39 @@ public class AuthController {
 
     @PostMapping("/redefinir-senha")
     public ResponseEntity<?> redefinirSenha(
-            @Valid @RequestBody RedefinirSenhaRequest request) {
+            @Valid
+            @RequestBody
+            RedefinirSenhaRequest request) {
 
         String email =
                 request.getEmail()
                         .trim()
                         .toLowerCase();
 
-        boolean senhaRedefinida =
+        AuthService.ResultadoRedefinicaoSenha resultado =
                 authService.redefinirSenha(
                         email,
                         request.getCodigo(),
                         request.getNovaSenha()
                 );
 
-        if (!senhaRedefinida) {
+        if (resultado ==
+                AuthService.ResultadoRedefinicaoSenha
+                        .SENHA_IGUAL_ATUAL) {
+
+            return ResponseEntity
+                    .badRequest()
+                    .body(
+                            Map.of(
+                                    "mensagem",
+                                    "A nova senha deve ser diferente da senha atual."
+                            )
+                    );
+        }
+
+        if (resultado ==
+                AuthService.ResultadoRedefinicaoSenha
+                        .CODIGO_INVALIDO) {
 
             return ResponseEntity
                     .badRequest()
@@ -136,7 +160,8 @@ public class AuthController {
 
     @PostMapping("/verificar-2fa")
     public ResponseEntity<?> verificar2FA(
-            @RequestBody Map<String, String> dados) {
+            @RequestBody
+            Map<String, String> dados) {
 
         String emailRecebido =
                 dados.get("email");
@@ -170,6 +195,38 @@ public class AuthController {
 
         if (!codigoValido) {
 
+            var usuarioFalha =
+                    usuarioRepository.findByEmail(
+                            email
+                    );
+
+            if (usuarioFalha.isPresent()) {
+
+                Usuario usuario =
+                        usuarioFalha.get();
+
+                LogAuditoria logFalha =
+                        new LogAuditoria();
+
+                logFalha.setIdUsuario(
+                        Long.valueOf(
+                                usuario.getId()
+                        )
+                );
+
+                logFalha.setNomeUsuario(
+                        usuario.getNome()
+                );
+
+                logFalha.setAcao(
+                        "Falha na validação do 2FA"
+                );
+
+                logAuditoriaRepository.save(
+                        logFalha
+                );
+            }
+
             return ResponseEntity
                     .badRequest()
                     .body(
@@ -181,12 +238,16 @@ public class AuthController {
         }
 
         var usuarioEncontrado =
-                usuarioRepository.findByEmail(email);
+                usuarioRepository.findByEmail(
+                        email
+                );
 
         if (usuarioEncontrado.isEmpty()) {
 
             return ResponseEntity
-                    .status(HttpStatus.UNAUTHORIZED)
+                    .status(
+                            HttpStatus.UNAUTHORIZED
+                    )
                     .body(
                             Map.of(
                                     "mensagem",
@@ -217,15 +278,19 @@ public class AuthController {
         );
 
         log.setAcao(
-                "Realizou login"
+                "Realizou login com 2FA"
         );
 
-        logAuditoriaRepository.save(log);
+        logAuditoriaRepository.save(
+                log
+        );
 
         return ResponseEntity.ok(
                 Map.of(
-                        "usuario", usuario,
-                        "token", token
+                        "usuario",
+                        usuario,
+                        "token",
+                        token
                 )
         );
     }
