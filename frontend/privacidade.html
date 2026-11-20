@@ -33,7 +33,7 @@
         >
 
             <img
-                src="img/Logo.png"
+                src="img/logo.png"
                 alt="Organizador Acadêmico"
                 class="logo-documento"
             >
@@ -84,57 +84,52 @@
                 das informações acadêmicas cadastradas pelos próprios usuários.
             </p>
 
-            <h2>2. Dados coletados</h2>
+            <h2>2. Dados tratados pelo sistema</h2>
 
             <p>
-                Para criação e utilização da conta, o Organizador Acadêmico coleta
+                Para a criação e utilização da conta, o Organizador Acadêmico trata
                 informações como nome e endereço de e-mail.
             </p>
 
             <p>
                 O endereço de e-mail também é utilizado para autenticação,
-                recuperação de senha e envio de códigos temporários de autenticação
-                em duas etapas.
+                recuperação de senha e envio de códigos temporários utilizados
+                na autenticação em duas etapas.
             </p>
 
             <p>
-                A senha cadastrada pelo usuário também é utilizada para autenticação,
-                porém não é armazenada em texto puro. O sistema mantém apenas o hash
-                da senha gerado por meio do BCrypt.
+                A senha cadastrada pelo usuário é utilizada para autenticação,
+                porém não é armazenada em texto puro. O sistema mantém apenas
+                o hash da senha gerado por meio do BCrypt.
             </p>
 
             <p>
-                Também são armazenadas informações relacionadas ao aceite dos Termos
-                de Uso, incluindo a confirmação do aceite, a data e hora em que ele
-                ocorreu e a versão dos Termos aceita pelo usuário.
+                Também são armazenadas informações relacionadas ao aceite dos
+                Termos de Uso, incluindo a confirmação do aceite, a data e hora
+                em que ele ocorreu e a versão dos Termos aceita pelo usuário.
             </p>
 
             <p>
                 Durante a utilização do sistema, poderão ser armazenados dados
-                acadêmicos cadastrados pelo próprio usuário, como semestres,
-                disciplinas, atividades, prazos e documentos relacionados às
-                atividades acadêmicas.
-            </p>
-
-            <p>
-                Caso o usuário escolha utilizar uma foto de perfil, o sistema
-                armazenará a imagem necessária para apresentação do perfil e da
-                identificação visual da conta.
+                acadêmicos cadastrados pelo próprio usuário, como cursos,
+                semestres, disciplinas, atividades, avaliações, notas, faltas,
+                prazos e demais informações necessárias à organização da rotina
+                acadêmica.
             </p>
 
             <p>
                 Para o processo de recuperação de senha, o sistema também poderá
                 armazenar temporariamente informações necessárias à validação do
-                código de recuperação, como o identificador do usuário, o hash do
-                código, a data de criação, a data de expiração, o número de tentativas
-                e a informação de utilização do código.
+                código de recuperação, como o identificador do usuário, o hash
+                do código, a data de criação, a data de expiração, o número de
+                tentativas e a informação de utilização do código.
             </p>
 
             <p>
                 Para a autenticação em duas etapas, o sistema gera um código
                 temporário de 6 dígitos vinculado ao endereço de e-mail do usuário.
-                Esse código é mantido somente durante o período necessário para sua
-                validação.
+                Esse código permanece disponível somente durante o período
+                necessário para sua validação.
             </p>
 
             <h2>3. Finalidade do tratamento dos dados</h2>
@@ -148,14 +143,9 @@
 
             <p>
                 Os dados acadêmicos cadastrados pelo usuário são utilizados para
-                possibilitar a organização de semestres, disciplinas, atividades,
-                prazos e documentos relacionados à sua rotina acadêmica.
-            </p>
-
-            <p>
-                A foto de perfil, quando fornecida voluntariamente pelo usuário,
-                é utilizada para personalização e identificação visual da conta
-                dentro do sistema.
+                possibilitar a organização de cursos, semestres, disciplinas,
+                atividades, avaliações, notas, faltas, prazos e demais informações
+                relacionadas à sua rotina acadêmica.
             </p>
 
             <p>
@@ -180,24 +170,14 @@
 
             <p>
                 Os dados do Organizador Acadêmico são armazenados em banco de dados
-                PostgreSQL utilizando o Supabase como serviço de infraestrutura.
+                PostgreSQL, utilizando o Supabase como serviço de hospedagem e
+                gerenciamento do banco.
             </p>
 
             <p>
-                As imagens utilizadas como foto de perfil são armazenadas no
-                Supabase Storage em área de armazenamento configurada como privada.
-            </p>
-
-            <p>
-                O acesso às fotos privadas ocorre por meio de mecanismos controlados
-                pelo backend, utilizando endereços temporários para apresentação
-                das imagens no sistema.
-            </p>
-
-            <p>
-                As senhas dos usuários não são armazenadas em texto puro. O sistema
-                utiliza BCrypt para gerar hashes seguros das senhas antes de seu
-                armazenamento.
+                As senhas dos usuários não são armazenadas em texto puro.
+                O sistema utiliza BCrypt para gerar hashes das senhas antes de
+                seu armazenamento.
             </p>
 
             <p>
@@ -208,8 +188,8 @@
 
             <p>
                 O código utilizado na autenticação em duas etapas possui validade
-                de 15 minutos e, após uma validação realizada com sucesso, não poderá
-                ser reutilizado.
+                de 15 minutos e, após uma validação realizada com sucesso,
+                não poderá ser reutilizado.
             </p>
 
             <p>
@@ -225,22 +205,24 @@
 
             <p>
                 O backend realiza verificações para que o usuário tenha acesso
-                apenas às informações relacionadas à própria conta.
+                apenas às informações relacionadas à própria conta. Identificadores
+                enviados pelo frontend não são utilizados como única forma de
+                determinar a propriedade dos dados.
             </p>
 
             <p>
-                As credenciais de banco de dados, chaves de APIs externas e demais
+                As credenciais do banco de dados, chaves de APIs externas e demais
                 segredos utilizados pelo sistema são mantidos em variáveis de
-                ambiente e não devem ser armazenados diretamente no código-fonte
-                ou disponibilizados publicamente no repositório do projeto.
+                ambiente, evitando seu armazenamento direto no código-fonte ou
+                sua disponibilização pública no repositório do projeto.
             </p>
 
             <h2>5. Recuperação de senha e autenticação em duas etapas</h2>
 
             <p>
                 O Organizador Acadêmico disponibiliza uma funcionalidade de
-                recuperação de senha por meio de código de verificação enviado ao
-                endereço de e-mail cadastrado.
+                recuperação de senha por meio de código de verificação enviado
+                ao endereço de e-mail cadastrado pelo usuário.
             </p>
 
             <p>
@@ -250,9 +232,9 @@
             </p>
 
             <p>
-                Também são aplicados controles de tentativas e de solicitações para
-                reduzir o risco de uso indevido da funcionalidade de recuperação
-                de senha.
+                Também são aplicados controles de tentativas e de solicitações
+                com o objetivo de reduzir o risco de uso indevido da funcionalidade
+                de recuperação de senha.
             </p>
 
             <p>
@@ -261,15 +243,21 @@
             </p>
 
             <p>
-                Durante o login, após a validação do e-mail e da senha, o sistema
-                envia um código temporário de 6 dígitos para o endereço de e-mail
-                cadastrado como segunda etapa de autenticação.
+                A autenticação em duas etapas possui finalidade diferente da
+                recuperação de senha. Durante o login, após a validação do e-mail
+                e da senha, o sistema envia um código temporário de 6 dígitos para
+                o endereço de e-mail cadastrado.
             </p>
 
             <p>
                 O código de autenticação em duas etapas possui validade de
-                15 minutos. Após sua utilização com sucesso, ele é invalidado e
-                não poderá ser reutilizado.
+                15 minutos. Após sua utilização com sucesso, ele é invalidado
+                e não poderá ser reutilizado.
+            </p>
+
+            <p>
+                Somente após a validação desse código o login é concluído e o
+                token JWT de acesso é gerado.
             </p>
 
             <h2>6. Serviços de terceiros</h2>
@@ -280,16 +268,15 @@
             </p>
 
             <p>
-                O Supabase é utilizado para hospedagem e gerenciamento do banco de
-                dados PostgreSQL e para armazenamento privado de arquivos utilizados
-                pelo sistema.
+                O Supabase é utilizado para hospedagem e gerenciamento do banco
+                de dados PostgreSQL do sistema.
             </p>
 
             <p>
                 A Resend é utilizada para o envio de e-mails relacionados à
                 recuperação de senha e à autenticação em duas etapas. Nesse processo,
-                o endereço de e-mail do usuário e o conteúdo necessário ao envio da
-                mensagem poderão ser tratados pelo serviço.
+                o endereço de e-mail do usuário e o conteúdo necessário ao envio
+                da mensagem poderão ser tratados pelo serviço.
             </p>
 
             <p>
@@ -311,7 +298,7 @@
             </p>
 
             <p>
-                O tratamento dessas informações deve ocorrer de forma limitada às
+                O tratamento dessas informações deverá permanecer limitado às
                 finalidades apresentadas nesta Política de Privacidade.
             </p>
 
@@ -324,10 +311,10 @@
             </p>
 
             <p>
-                Informações temporárias utilizadas para recuperação de senha serão
-                mantidas somente pelo período necessário para controle e validação
-                da solicitação, conforme as regras de segurança definidas pelo
-                sistema.
+                As informações temporárias utilizadas para recuperação de senha
+                serão mantidas somente pelo período necessário para controle e
+                validação da solicitação, conforme as regras de segurança definidas
+                pelo sistema.
             </p>
 
             <p>
@@ -338,28 +325,46 @@
 
             <p>
                 Quando o usuário solicitar a exclusão da conta, os dados diretamente
-                vinculados a ela deverão ser tratados conforme as regras de exclusão
-                e retenção definidas pelo sistema.
+                vinculados a ela serão tratados de acordo com os relacionamentos
+                existentes no sistema e com as regras estabelecidas no Plano de
+                Retenção e Descarte de Dados. Esses dados podem incluir informações
+                da conta, cursos, semestres, disciplinas, atividades e demais
+                registros acadêmicos associados ao usuário.
             </p>
 
             <p>
-                Os registros de auditoria poderão ser mantidos após a exclusão da
-                conta para preservar o histórico das ações realizadas e auxiliar no
-                controle de segurança do sistema.
+                Os registros de auditoria e determinados registros técnicos de
+                segurança poderão ser mantidos quando sua conservação for necessária
+                para preservar o histórico das operações, auxiliar na rastreabilidade,
+                no diagnóstico de falhas e no controle de segurança. Esses registros
+                devem observar os princípios de necessidade e minimização, não
+                devendo conter senhas, códigos temporários, tokens JWT ou outras
+                credenciais sensíveis.
+            </p>
+
+            <p>
+                Os critérios específicos relacionados aos períodos de retenção,
+                exclusão e descarte das informações seguem o Plano de Retenção e
+                Descarte de Dados do Organizador Acadêmico.
             </p>
 
             <h2>9. Direitos do usuário</h2>
 
             <p>
                 O usuário poderá acessar informações relacionadas à própria conta
-                e solicitar a correção de dados pessoais que estejam incorretos ou
-                desatualizados, conforme as funcionalidades disponibilizadas pelo
-                sistema.
+                e utilizar os recursos de gerenciamento disponibilizados pelo
+                Organizador Acadêmico.
             </p>
 
             <p>
-                O usuário também poderá alterar seu nome, sua foto de perfil,
-                sua senha e solicitar a exclusão da própria conta.
+                Quando disponível por meio das funcionalidades do sistema, o usuário
+                poderá solicitar a correção de dados pessoais que estejam incorretos
+                ou desatualizados.
+            </p>
+
+            <p>
+                O usuário também poderá alterar sua senha e solicitar a exclusão da
+                própria conta.
             </p>
 
             <p>
@@ -369,8 +374,14 @@
 
             <p>
                 O usuário poderá consultar a Política de Privacidade e os Termos de
-                Uso disponibilizados pelo Organizador Acadêmico a qualquer momento
-                por meio das páginas acessíveis no sistema.
+                Uso disponibilizados pelo Organizador Acadêmico por meio das páginas
+                acessíveis dentro do sistema.
+            </p>
+
+            <p>
+                Os demais procedimentos relacionados ao exercício dos direitos dos
+                titulares deverão observar as funcionalidades e a documentação de
+                privacidade adotadas pelo projeto.
             </p>
 
             <h2>10. Controle de acesso aos dados</h2>
@@ -381,9 +392,9 @@
             </p>
 
             <p>
-                O sistema utiliza autenticação em duas etapas no processo de login.
-                Somente após a validação dessa etapa o token JWT é gerado para
-                identificar o usuário nas requisições protegidas.
+                O sistema utiliza autenticação em duas etapas durante o processo
+                de login. Somente após a validação dessa etapa o token JWT é gerado
+                para identificar o usuário nas requisições protegidas.
             </p>
 
             <p>
@@ -393,12 +404,75 @@
             </p>
 
             <p>
-                Um usuário não deverá conseguir consultar, alterar ou excluir dados
-                pertencentes a outro usuário por meio da alteração de identificadores
-                enviados na URL, no corpo da requisição ou pelo frontend.
+                O backend realiza verificações de propriedade dos dados com o
+                objetivo de impedir que um usuário consulte, altere ou exclua
+                informações pertencentes a outro usuário por meio da alteração de
+                identificadores enviados pela URL, pelo corpo da requisição ou pelo
+                frontend.
             </p>
 
-            <h2>11. Alterações desta Política de Privacidade</h2>
+            <h2>11. Exclusão da conta</h2>
+
+            <p>
+                O Organizador Acadêmico disponibiliza uma funcionalidade para
+                exclusão da conta do usuário.
+            </p>
+
+            <p>
+                A operação exige autenticação válida e confirmação da senha atual.
+                O backend identifica a conta por meio do token de autenticação,
+                evitando depender exclusivamente de identificadores fornecidos
+                pelo frontend.
+            </p>
+
+            <p>
+                Após a exclusão válida da conta, as informações utilizadas para
+                manter a autenticação do usuário são removidas do navegador.
+            </p>
+
+            <p>
+                Os dados diretamente vinculados à conta serão tratados conforme
+                as regras de exclusão e retenção adotadas pelo projeto.
+            </p>
+
+            <p>
+                Os registros de auditoria poderão ser mantidos de acordo com os
+                prazos e critérios estabelecidos no Plano de Retenção e Descarte
+                de Dados, quando necessários para preservar o histórico das
+                operações realizadas e auxiliar no controle de segurança do sistema.
+            </p>
+
+            <h2>12. Termos de Uso e registro do aceite</h2>
+
+            <p>
+                Durante o cadastro no Organizador Acadêmico, o usuário deve registrar
+                o aceite dos Termos de Uso.
+            </p>
+
+            <p>
+                Além da confirmação do aceite, o sistema registra a data e hora em
+                que ele ocorreu e a versão dos Termos vigente naquele momento.
+                Essas informações permitem identificar as condições apresentadas
+                ao usuário no momento do cadastro.
+            </p>
+
+            <p>
+                Os Termos de Uso podem ser consultados a qualquer momento por meio
+                da página disponibilizada no sistema.
+            </p>
+
+            <h2>13. Canal de contato</h2>
+
+            <p>
+                Para dúvidas relacionadas à utilização do sistema, à privacidade,
+                ao tratamento de dados pessoais ou ao exercício dos direitos do
+                usuário, poderá ser utilizado o endereço eletrônico
+                <a href="mailto:suporte@organizadoracademico.com.br">
+                    suporte@organizadoracademico.com.br
+                </a>.
+            </p>
+
+            <h2>14. Alterações desta Política de Privacidade</h2>
 
             <p>
                 Esta Política de Privacidade poderá ser atualizada sempre que houver
@@ -414,7 +488,7 @@
             </p>
 
             <p>
-                A versão mais recente desta Política de Privacidade permanecerá
+                A versão mais recente da Política de Privacidade permanecerá
                 disponível no sistema para consulta dos usuários.
             </p>
 
@@ -426,7 +500,7 @@
                     <strong>Política de Privacidade</strong>
 
                     <span>
-                        Última atualização: 27 de setembro de 2026.
+                        Última atualização: 14 de novembro de 2026.
                     </span>
                 </div>
 

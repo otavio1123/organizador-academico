@@ -6,10 +6,13 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.organizador.api.model.Curso;
 import com.organizador.api.model.Disciplina;
 import com.organizador.api.model.HorarioDisciplina;
 import com.organizador.api.model.LogAuditoria;
+import com.organizador.api.model.Semestre;
 import com.organizador.api.model.Usuario;
+import com.organizador.api.repository.CursoRepository;
 import com.organizador.api.repository.DisciplinaRepository;
 import com.organizador.api.repository.HorarioDisciplinaRepository;
 import com.organizador.api.repository.LogAuditoriaRepository;
@@ -20,17 +23,20 @@ public class DisciplinaService {
 
     private final DisciplinaRepository disciplinaRepository;
     private final SemestreRepository semestreRepository;
+    private final CursoRepository cursoRepository;
     private final LogAuditoriaRepository logAuditoriaRepository;
     private final HorarioDisciplinaRepository horarioDisciplinaRepository;
 
     public DisciplinaService(
             DisciplinaRepository disciplinaRepository,
             SemestreRepository semestreRepository,
+            CursoRepository cursoRepository,
             LogAuditoriaRepository logAuditoriaRepository,
             HorarioDisciplinaRepository horarioDisciplinaRepository) {
 
         this.disciplinaRepository = disciplinaRepository;
         this.semestreRepository = semestreRepository;
+        this.cursoRepository = cursoRepository;
         this.logAuditoriaRepository = logAuditoriaRepository;
         this.horarioDisciplinaRepository = horarioDisciplinaRepository;
     }
@@ -74,6 +80,11 @@ public class DisciplinaService {
             return null;
         }
 
+        validarCursoAtivoDoSemestre(
+                idSemestre,
+                usuario
+        );
+
         if (disciplina.getFaltas() != null
                 && disciplina.getFaltas() < 0) {
 
@@ -87,14 +98,20 @@ public class DisciplinaService {
         }
 
         disciplina.setIdDisciplina(null);
-        disciplina.setIdSemestre(idSemestre);
+
+        disciplina.setIdSemestre(
+                idSemestre
+        );
 
         if (disciplina.getFaltas() == null) {
+
             disciplina.setFaltas(0);
         }
 
         Disciplina disciplinaSalva =
-                disciplinaRepository.save(disciplina);
+                disciplinaRepository.save(
+                        disciplina
+                );
 
         registrarAuditoria(
                 usuario,
@@ -110,9 +127,12 @@ public class DisciplinaService {
             Usuario usuario) {
 
         Optional<Disciplina> disciplinaEncontrada =
-                disciplinaRepository.findById(idDisciplina);
+                disciplinaRepository.findById(
+                        idDisciplina
+                );
 
         if (disciplinaEncontrada.isEmpty()) {
+
             return Optional.empty();
         }
 
@@ -126,7 +146,9 @@ public class DisciplinaService {
             return Optional.empty();
         }
 
-        return Optional.of(disciplina);
+        return Optional.of(
+                disciplina
+        );
     }
 
     public Disciplina atualizar(
@@ -141,8 +163,17 @@ public class DisciplinaService {
                 );
 
         if (disciplinaEncontrada.isEmpty()) {
+
             return null;
         }
+
+        Disciplina disciplina =
+                disciplinaEncontrada.get();
+
+        validarCursoAtivoDoSemestre(
+                disciplina.getIdSemestre(),
+                usuario
+        );
 
         if (novosDados.getFaltas() != null
                 && novosDados.getFaltas() < 0) {
@@ -155,9 +186,6 @@ public class DisciplinaService {
 
             return null;
         }
-
-        Disciplina disciplina =
-                disciplinaEncontrada.get();
 
         disciplina.setNome(
                 novosDados.getNome()
@@ -186,7 +214,9 @@ public class DisciplinaService {
         );
 
         Disciplina disciplinaAtualizada =
-                disciplinaRepository.save(disciplina);
+                disciplinaRepository.save(
+                        disciplina
+                );
 
         registrarAuditoria(
                 usuario,
@@ -198,84 +228,101 @@ public class DisciplinaService {
     }
 
     public Disciplina adicionarFalta(
-        Integer idDisciplina,
-        Usuario usuario) {
+            Integer idDisciplina,
+            Usuario usuario) {
 
-    Optional<Disciplina> disciplinaEncontrada =
-            buscarDoUsuario(
-                    idDisciplina,
-                    usuario
-            );
+        Optional<Disciplina> disciplinaEncontrada =
+                buscarDoUsuario(
+                        idDisciplina,
+                        usuario
+                );
 
-    if (disciplinaEncontrada.isEmpty()) {
-        return null;
+        if (disciplinaEncontrada.isEmpty()) {
+
+            return null;
+        }
+
+        Disciplina disciplina =
+                disciplinaEncontrada.get();
+
+        validarCursoAtivoDoSemestre(
+                disciplina.getIdSemestre(),
+                usuario
+        );
+
+        int faltasAtuais =
+                disciplina.getFaltas() == null
+                        ? 0
+                        : disciplina.getFaltas();
+
+        disciplina.setFaltas(
+                faltasAtuais + 1
+        );
+
+        Disciplina disciplinaAtualizada =
+                disciplinaRepository.save(
+                        disciplina
+                );
+
+        registrarAuditoria(
+                usuario,
+                "Adicionou falta na disciplina "
+                        + disciplinaAtualizada.getNome()
+        );
+
+        return disciplinaAtualizada;
     }
 
-    Disciplina disciplina =
-            disciplinaEncontrada.get();
+    public Disciplina removerFalta(
+            Integer idDisciplina,
+            Usuario usuario) {
 
-    int faltasAtuais =
-            disciplina.getFaltas() == null
-                    ? 0
-                    : disciplina.getFaltas();
+        Optional<Disciplina> disciplinaEncontrada =
+                buscarDoUsuario(
+                        idDisciplina,
+                        usuario
+                );
 
-    disciplina.setFaltas(
-            faltasAtuais + 1
-    );
+        if (disciplinaEncontrada.isEmpty()) {
 
-    Disciplina disciplinaAtualizada =
-            disciplinaRepository.save(disciplina);
+            return null;
+        }
 
-    registrarAuditoria(
-            usuario,
-            "Adicionou falta na disciplina "
-                    + disciplinaAtualizada.getNome()
-    );
+        Disciplina disciplina =
+                disciplinaEncontrada.get();
 
-    return disciplinaAtualizada;
-}
+        validarCursoAtivoDoSemestre(
+                disciplina.getIdSemestre(),
+                usuario
+        );
 
-public Disciplina removerFalta(
-        Integer idDisciplina,
-        Usuario usuario) {
+        int faltasAtuais =
+                disciplina.getFaltas() == null
+                        ? 0
+                        : disciplina.getFaltas();
 
-    Optional<Disciplina> disciplinaEncontrada =
-            buscarDoUsuario(
-                    idDisciplina,
-                    usuario
-            );
+        if (faltasAtuais <= 0) {
 
-    if (disciplinaEncontrada.isEmpty()) {
-        return null;
+            return null;
+        }
+
+        disciplina.setFaltas(
+                faltasAtuais - 1
+        );
+
+        Disciplina disciplinaAtualizada =
+                disciplinaRepository.save(
+                        disciplina
+                );
+
+        registrarAuditoria(
+                usuario,
+                "Removeu falta da disciplina "
+                        + disciplinaAtualizada.getNome()
+        );
+
+        return disciplinaAtualizada;
     }
-
-    Disciplina disciplina =
-            disciplinaEncontrada.get();
-
-    int faltasAtuais =
-            disciplina.getFaltas() == null
-                    ? 0
-                    : disciplina.getFaltas();
-
-    if (faltasAtuais <= 0) {
-        return null;
-    }
-
-    disciplina.setFaltas(
-            faltasAtuais - 1
-    );
-
-    Disciplina disciplinaAtualizada =
-            disciplinaRepository.save(disciplina);
-
-    registrarAuditoria(
-            usuario,
-            "Removeu falta da disciplina "
-                    + disciplinaAtualizada.getNome()
-    );
-
-    return disciplinaAtualizada;
-}
 
     public List<HorarioDisciplina> listarHorarios(
             Integer idDisciplina,
@@ -288,6 +335,7 @@ public Disciplina removerFalta(
                 );
 
         if (disciplinaEncontrada.isEmpty()) {
+
             return List.of();
         }
 
@@ -309,8 +357,17 @@ public Disciplina removerFalta(
                 );
 
         if (disciplinaEncontrada.isEmpty()) {
+
             return null;
         }
+
+        Disciplina disciplina =
+                disciplinaEncontrada.get();
+
+        validarCursoAtivoDoSemestre(
+                disciplina.getIdSemestre(),
+                usuario
+        );
 
         if (horario.getDiaSemana() == null
                 || horario.getDiaSemana()
@@ -331,7 +388,10 @@ public Disciplina removerFalta(
         }
 
         horario.setIdHorario(null);
-        horario.setIdDisciplina(idDisciplina);
+
+        horario.setIdDisciplina(
+                idDisciplina
+        );
 
         HorarioDisciplina horarioSalvo =
                 horarioDisciplinaRepository.save(
@@ -341,9 +401,7 @@ public Disciplina removerFalta(
         registrarAuditoria(
                 usuario,
                 "Adicionou horário à disciplina "
-                        + disciplinaEncontrada
-                                .get()
-                                .getNome()
+                        + disciplina.getNome()
         );
 
         return horarioSalvo;
@@ -356,9 +414,12 @@ public Disciplina removerFalta(
 
         Optional<HorarioDisciplina> horarioEncontrado =
                 horarioDisciplinaRepository
-                        .findById(idHorario);
+                        .findById(
+                                idHorario
+                        );
 
         if (horarioEncontrado.isEmpty()) {
+
             return false;
         }
 
@@ -372,8 +433,17 @@ public Disciplina removerFalta(
                 );
 
         if (disciplinaEncontrada.isEmpty()) {
+
             return false;
         }
+
+        Disciplina disciplina =
+                disciplinaEncontrada.get();
+
+        validarCursoAtivoDoSemestre(
+                disciplina.getIdSemestre(),
+                usuario
+        );
 
         horarioDisciplinaRepository.delete(
                 horario
@@ -382,9 +452,7 @@ public Disciplina removerFalta(
         registrarAuditoria(
                 usuario,
                 "Excluiu horário da disciplina "
-                        + disciplinaEncontrada
-                                .get()
-                                .getNome()
+                        + disciplina.getNome()
         );
 
         return true;
@@ -402,11 +470,17 @@ public Disciplina removerFalta(
                 );
 
         if (disciplinaEncontrada.isEmpty()) {
+
             return false;
         }
 
         Disciplina disciplina =
                 disciplinaEncontrada.get();
+
+        validarCursoAtivoDoSemestre(
+                disciplina.getIdSemestre(),
+                usuario
+        );
 
         String nomeDisciplina =
                 disciplina.getNome();
@@ -427,6 +501,55 @@ public Disciplina removerFalta(
         );
 
         return true;
+    }
+
+    private void validarCursoAtivoDoSemestre(
+            Integer idSemestre,
+            Usuario usuario) {
+
+        Semestre semestre =
+                semestreRepository
+                        .findByIdSemestreAndIdusuario(
+                                idSemestre,
+                                usuario.getId()
+                        )
+                        .orElseThrow(
+                                () ->
+                                        new IllegalArgumentException(
+                                                "Semestre não encontrado."
+                                        )
+                        );
+
+        Curso curso =
+                cursoRepository
+                        .findByIdCursoAndIdUsuario(
+                                semestre.getIdCurso(),
+                                usuario.getId()
+                        )
+                        .orElseThrow(
+                                () ->
+                                        new IllegalArgumentException(
+                                                "Curso não encontrado."
+                                        )
+                        );
+
+        if ("TRANCADO".equals(
+                curso.getStatus()
+        )) {
+
+            throw new IllegalStateException(
+                    "Não é possível alterar disciplinas de um curso trancado."
+            );
+        }
+
+        if ("CONCLUIDO".equals(
+                curso.getStatus()
+        )) {
+
+            throw new IllegalStateException(
+                    "Não é possível alterar disciplinas de um curso concluído."
+            );
+        }
     }
 
     private void registrarAuditoria(

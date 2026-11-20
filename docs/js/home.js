@@ -95,6 +95,36 @@ const estadoVazioFaltas =
         "estadoVazioFaltas"
     );
 
+const graficoAtividades =
+    document.getElementById(
+        "graficoAtividades"
+    );
+
+const estadoVazioAtividadesDashboard =
+    document.getElementById(
+        "estadoVazioAtividadesDashboard"
+    );
+
+const filtrosAtividadesDashboard =
+    document.getElementById(
+        "filtrosAtividadesDashboard"
+    );
+
+const listaAtividadesDashboard =
+    document.getElementById(
+        "listaAtividadesDashboard"
+    );
+
+const estadoVazioAtividadesFiltro =
+    document.getElementById(
+        "estadoVazioAtividadesFiltro"
+    );
+
+const mensagemEstadoVazioAtividades =
+    document.getElementById(
+        "mensagemEstadoVazioAtividades"
+    );
+
 const listaResumoDisciplinas =
     document.getElementById(
         "listaResumoDisciplinas"
@@ -107,7 +137,13 @@ const estadoVazioDisciplinas =
 
 let graficoMediasInstancia = null;
 let graficoFaltasInstancia = null;
+let graficoAtividadesInstancia = null;
 
+let atividadesDashboard = [];
+let proximasEntregasDashboard = [];
+let idCursoDashboard = null;
+let idSemestreDashboard = null;
+let filtroAtividadesAtual = "PROXIMAS";
 
 if (nomeUsuario) {
 
@@ -120,7 +156,6 @@ if (emailUsuario) {
     emailUsuario.textContent =
         usuarioLogado.email || "";
 }
-
 
 async function carregarUsuarioTopo() {
 
@@ -224,7 +259,6 @@ async function carregarUsuarioTopo() {
     }
 }
 
-
 function formatarData(data) {
 
     if (!data) {
@@ -241,7 +275,6 @@ function formatarData(data) {
     return `${partes[2]}/${partes[1]}/${partes[0]}`;
 }
 
-
 function formatarMedia(media) {
 
     if (
@@ -257,6 +290,52 @@ function formatarMedia(media) {
         .replace(".", ",");
 }
 
+function formatarStatusAtividade(
+    status
+) {
+
+    const statusNormalizado =
+        status || "PENDENTE";
+
+    const textos = {
+        PENDENTE:
+            "Pendente",
+
+        EM_ANDAMENTO:
+            "Em andamento",
+
+        ATRASADA:
+            "Atrasada",
+
+        CONCLUIDA:
+            "Concluída"
+    };
+
+    return textos[statusNormalizado]
+        || statusNormalizado;
+}
+
+function obterClasseStatusAtividade(
+    status
+) {
+
+    const classes = {
+        PENDENTE:
+            "status-atividade-pendente",
+
+        EM_ANDAMENTO:
+            "status-atividade-andamento",
+
+        ATRASADA:
+            "status-atividade-atrasada",
+
+        CONCLUIDA:
+            "status-atividade-concluida"
+    };
+
+    return classes[status]
+        || "status-atividade-pendente";
+}
 
 function configurarLinkDisciplinasRapido(
     semestreAtivo,
@@ -287,8 +366,57 @@ function configurarLinkDisciplinasRapido(
         `disciplinas.html?idSemestre=${semestreAtivo.idSemestre}&idCurso=${idCurso}`;
 }
 
+function limparSemestreAtual(
+    statusCurso = "ATIVO"
+) {
 
-function limparSemestreAtual() {
+    if (statusCurso === "TRANCADO") {
+
+        if (nomeSemestreAtual) {
+
+            nomeSemestreAtual.textContent =
+                "Curso trancado";
+        }
+
+        if (periodoSemestreAtual) {
+
+            periodoSemestreAtual.textContent =
+                "Este curso está temporariamente trancado. " +
+                "Os dados acadêmicos continuam disponíveis para consulta.";
+        }
+
+        if (statusSemestreAtual) {
+
+            statusSemestreAtual.textContent =
+                "Trancado";
+        }
+
+        return;
+    }
+
+    if (statusCurso === "CONCLUIDO") {
+
+        if (nomeSemestreAtual) {
+
+            nomeSemestreAtual.textContent =
+                "Curso concluído";
+        }
+
+        if (periodoSemestreAtual) {
+
+            periodoSemestreAtual.textContent =
+                "Este curso foi concluído. " +
+                "O histórico acadêmico permanece disponível para consulta.";
+        }
+
+        if (statusSemestreAtual) {
+
+            statusSemestreAtual.textContent =
+                "Concluído";
+        }
+
+        return;
+    }
 
     if (nomeSemestreAtual) {
 
@@ -308,7 +436,6 @@ function limparSemestreAtual() {
             "Sem semestre";
     }
 }
-
 
 async function carregarSemestreAtual() {
 
@@ -346,17 +473,57 @@ async function carregarSemestreAtual() {
             return;
         }
 
-        const resposta = await fetch(
-            `${API_URL}/Cursos/${idCurso}/Semestres`,
-            {
-                method: "GET",
+        const cursos =
+            await CursoContexto
+                .carregarCursos();
 
-                headers: {
-                    "Authorization":
-                        "Bearer " + token
-                }
+        const cursoSelecionado =
+            CursoContexto
+                .encontrarCurso(
+                    cursos,
+                    idCurso
+                );
+
+        if (!cursoSelecionado) {
+
+            if (nomeSemestreAtual) {
+
+                nomeSemestreAtual.textContent =
+                    "Curso não encontrado";
             }
-        );
+
+            return;
+        }
+
+        if (
+            cursoSelecionado.status === "TRANCADO"
+            || cursoSelecionado.status === "CONCLUIDO"
+        ) {
+
+            limparSemestreAtual(
+                cursoSelecionado.status
+            );
+
+            configurarLinkDisciplinasRapido(
+                null,
+                idCurso
+            );
+
+            return;
+        }
+
+        const resposta =
+            await fetch(
+                `${API_URL}/Cursos/${idCurso}/Semestres`,
+                {
+                    method: "GET",
+
+                    headers: {
+                        "Authorization":
+                            "Bearer " + token
+                    }
+                }
+            );
 
         if (!resposta.ok) {
 
@@ -380,7 +547,9 @@ async function carregarSemestreAtual() {
 
         if (!semestreAtivo) {
 
-            limparSemestreAtual();
+            limparSemestreAtual(
+                "ATIVO"
+            );
 
             configurarLinkDisciplinasRapido(
                 null,
@@ -449,9 +618,30 @@ async function carregarDashboard() {
                 disciplinasAbaixoMedia: 0
             });
 
-            renderizarGraficoMedias([]);
-            renderizarGraficoFaltas([]);
-            renderizarResumoDisciplinas([]);
+            renderizarGraficoMedias(
+                []
+            );
+
+            renderizarGraficoFaltas(
+                []
+            );
+
+            renderizarGraficoAtividades({
+                atividadesPendentes: 0,
+                atividadesEmAndamento: 0,
+                atividadesAtrasadas: 0,
+                atividadesConcluidas: 0
+            });
+
+atualizarDadosAtividadesDashboard(
+    [],
+    [],
+    null,
+    null
+);
+            renderizarResumoDisciplinas(
+                []
+            );
 
             return;
         }
@@ -493,9 +683,20 @@ async function carregarDashboard() {
             dados.disciplinas || []
         );
 
-        renderizarResumoDisciplinas(
-            dados.disciplinas || []
-        );
+renderizarGraficoAtividades(
+    dados
+);
+
+atualizarDadosAtividadesDashboard(
+    dados.atividades || [],
+    dados.proximasEntregas || [],
+    dados.idCurso,
+    dados.idSemestre
+);
+
+renderizarResumoDisciplinas(
+    dados.disciplinas || []
+);
 
     } catch (erro) {
 
@@ -505,9 +706,22 @@ async function carregarDashboard() {
         );
 
         definirIndicadoresComoErro();
+
+        renderizarGraficoAtividades({
+            atividadesPendentes: 0,
+            atividadesEmAndamento: 0,
+            atividadesAtrasadas: 0,
+            atividadesConcluidas: 0
+        });
+
+atualizarDadosAtividadesDashboard(
+    [],
+    [],
+    null,
+    null
+);
     }
 }
-
 
 function atualizarBigNumbers(
     dados
@@ -543,26 +757,32 @@ function atualizarBigNumbers(
     }
 }
 
-
 function definirIndicadoresComoErro() {
 
     if (totalDisciplinas) {
-        totalDisciplinas.textContent = "-";
+
+        totalDisciplinas.textContent =
+            "-";
     }
 
     if (totalFaltas) {
-        totalFaltas.textContent = "-";
+
+        totalFaltas.textContent =
+            "-";
     }
 
     if (mediaGeral) {
-        mediaGeral.textContent = "-";
+
+        mediaGeral.textContent =
+            "-";
     }
 
     if (disciplinasAbaixoMedia) {
-        disciplinasAbaixoMedia.textContent = "-";
+
+        disciplinasAbaixoMedia.textContent =
+            "-";
     }
 }
-
 
 function renderizarGraficoMedias(
     disciplinas
@@ -652,7 +872,9 @@ function renderizarGraficoMedias(
                     datasets: [
                         {
                             label: "Média final",
-                            data: medias,
+
+                            data:
+                                medias,
 
                             backgroundColor:
                                 "rgba(37, 99, 235, 0.75)",
@@ -664,8 +886,11 @@ function renderizarGraficoMedias(
                             borderRadius: 6
                         },
                         {
-                            label: "Média mínima",
-                            data: mediasMinimas,
+                            label:
+                                "Média mínima",
+
+                            data:
+                                mediasMinimas,
 
                             backgroundColor:
                                 "rgba(148, 163, 184, 0.45)",
@@ -703,7 +928,6 @@ function renderizarGraficoMedias(
             }
         );
 }
-
 
 function renderizarGraficoFaltas(
     disciplinas
@@ -784,7 +1008,9 @@ function renderizarGraficoFaltas(
                     datasets: [
                         {
                             label: "Faltas",
-                            data: faltas,
+
+                            data:
+                                faltas,
 
                             backgroundColor: [
                                 "#2563eb",
@@ -816,7 +1042,464 @@ function renderizarGraficoFaltas(
         );
 }
 
+function renderizarGraficoAtividades(
+    dados
+) {
 
+    if (graficoAtividadesInstancia) {
+
+        graficoAtividadesInstancia.destroy();
+
+        graficoAtividadesInstancia = null;
+    }
+
+    const valores = [
+        dados.atividadesPendentes ?? 0,
+        dados.atividadesEmAndamento ?? 0,
+        dados.atividadesAtrasadas ?? 0,
+        dados.atividadesConcluidas ?? 0
+    ];
+
+    const totalAtividades =
+        valores.reduce(
+            (total, valor) =>
+                total + valor,
+            0
+        );
+
+    if (totalAtividades === 0) {
+
+        if (graficoAtividades) {
+
+            graficoAtividades
+                .classList
+                .add("d-none");
+        }
+
+        if (
+            estadoVazioAtividadesDashboard
+        ) {
+
+            estadoVazioAtividadesDashboard
+                .classList
+                .remove("d-none");
+        }
+
+        return;
+    }
+
+    if (!graficoAtividades) {
+        return;
+    }
+
+    graficoAtividades
+        .classList
+        .remove("d-none");
+
+    if (
+        estadoVazioAtividadesDashboard
+    ) {
+
+        estadoVazioAtividadesDashboard
+            .classList
+            .add("d-none");
+    }
+
+    graficoAtividadesInstancia =
+        new Chart(
+            graficoAtividades,
+            {
+                type: "doughnut",
+
+                data: {
+                    labels: [
+                        "Pendente",
+                        "Em andamento",
+                        "Atrasada",
+                        "Concluída"
+                    ],
+
+                    datasets: [
+                        {
+                            label:
+                                "Atividades",
+
+                            data:
+                                valores,
+
+                            backgroundColor: [
+                                "#f59e0b",
+                                "#2563eb",
+                                "#dc2626",
+                                "#16a34a"
+                            ],
+
+                            borderWidth: 2
+                        }
+                    ]
+                },
+options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    cutout: "68%",
+
+    onClick: (
+        evento,
+        elementos
+    ) => {
+
+        if (
+            !elementos ||
+            elementos.length === 0
+        ) {
+            return;
+        }
+
+        const filtros = [
+            "PENDENTE",
+            "EM_ANDAMENTO",
+            "ATRASADA",
+            "CONCLUIDA"
+        ];
+
+        const indice =
+            elementos[0].index;
+
+        const filtro =
+            filtros[indice];
+
+        if (filtro) {
+
+            selecionarFiltroAtividades(
+                filtro
+            );
+        }
+    },
+
+    plugins: {
+        legend: {
+            position: "bottom"
+        }
+    }
+}
+            }
+        );
+}
+function atualizarDadosAtividadesDashboard(
+    atividades,
+    proximasEntregas,
+    idCurso,
+    idSemestre
+) {
+
+    atividadesDashboard =
+        atividades || [];
+
+    proximasEntregasDashboard =
+        proximasEntregas || [];
+
+    idCursoDashboard =
+        idCurso;
+
+    idSemestreDashboard =
+        idSemestre;
+
+    selecionarFiltroAtividades(
+        "PROXIMAS"
+    );
+}
+
+function selecionarFiltroAtividades(
+    filtro
+) {
+
+    filtroAtividadesAtual =
+        filtro;
+
+    if (
+        filtrosAtividadesDashboard
+    ) {
+
+        const botoes =
+            filtrosAtividadesDashboard
+                .querySelectorAll(
+                    "[data-filtro]"
+                );
+
+        botoes.forEach(
+            botao => {
+
+                botao.classList.toggle(
+                    "ativo",
+                    botao.dataset.filtro === filtro
+                );
+            }
+        );
+    }
+
+    let atividades = [];
+
+    if (filtro === "PROXIMAS") {
+
+        atividades =
+            proximasEntregasDashboard;
+
+    } else {
+
+        atividades =
+            atividadesDashboard.filter(
+                atividade => {
+
+                    const status =
+                        atividade.statusVisual ||
+                        atividade.status ||
+                        "PENDENTE";
+
+                    return status === filtro;
+                }
+            );
+    }
+
+    renderizarListaAtividadesDashboard(
+        atividades,
+        filtro
+    );
+}
+
+function obterMensagemEstadoVazio(
+    filtro
+) {
+
+    const mensagens = {
+        PROXIMAS:
+            "Nenhuma entrega futura encontrada.",
+
+        PENDENTE:
+            "Nenhuma atividade pendente.",
+
+        EM_ANDAMENTO:
+            "Nenhuma atividade em andamento.",
+
+        ATRASADA:
+            "Nenhuma atividade atrasada.",
+
+        CONCLUIDA:
+            "Nenhuma atividade concluída."
+    };
+
+    return mensagens[filtro]
+        || "Nenhuma atividade encontrada.";
+}
+
+function renderizarListaAtividadesDashboard(
+    atividades,
+    filtro
+) {
+
+    if (!listaAtividadesDashboard) {
+        return;
+    }
+
+    listaAtividadesDashboard.innerHTML =
+        "";
+
+    if (
+        !atividades ||
+        atividades.length === 0
+    ) {
+
+        listaAtividadesDashboard
+            .classList
+            .add("d-none");
+
+        if (
+            estadoVazioAtividadesFiltro
+        ) {
+
+            estadoVazioAtividadesFiltro
+                .classList
+                .remove("d-none");
+        }
+
+        if (
+            mensagemEstadoVazioAtividades
+        ) {
+
+            mensagemEstadoVazioAtividades
+                .textContent =
+                obterMensagemEstadoVazio(
+                    filtro
+                );
+        }
+
+        return;
+    }
+
+    listaAtividadesDashboard
+        .classList
+        .remove("d-none");
+
+    if (
+        estadoVazioAtividadesFiltro
+    ) {
+
+        estadoVazioAtividadesFiltro
+            .classList
+            .add("d-none");
+    }
+
+    atividades.forEach(
+        atividade => {
+
+            const item =
+                document.createElement(
+                    "a"
+                );
+
+            item.className =
+                "item-proxima-entrega";
+
+            item.href =
+                `atividades.html?idCurso=${encodeURIComponent(
+                    idCursoDashboard
+                )}` +
+                `&idSemestre=${encodeURIComponent(
+                    idSemestreDashboard
+                )}` +
+                `&idDisciplina=${encodeURIComponent(
+                    atividade.idDisciplina
+                )}` +
+                `&idAtividade=${encodeURIComponent(
+                    atividade.idAtividade
+                )}`;
+
+            const conteudo =
+                document.createElement(
+                    "div"
+                );
+
+            conteudo.className =
+                "proxima-entrega-conteudo";
+
+            const nome =
+                document.createElement(
+                    "h3"
+                );
+
+            nome.className =
+                "proxima-entrega-nome";
+
+            nome.textContent =
+                atividade.nome ||
+                "Atividade";
+
+            const disciplina =
+                document.createElement(
+                    "p"
+                );
+
+            disciplina.className =
+                "proxima-entrega-disciplina";
+
+            const icone =
+                document.createElement(
+                    "i"
+                );
+
+            icone.className =
+                "fa-solid fa-book";
+
+            const texto =
+                document.createTextNode(
+                    ` ${
+                        atividade.disciplina ||
+                        "Disciplina"
+                    }`
+                );
+
+            disciplina.appendChild(
+                icone
+            );
+
+            disciplina.appendChild(
+                texto
+            );
+
+            conteudo.appendChild(
+                nome
+            );
+
+            conteudo.appendChild(
+                disciplina
+            );
+
+            const lateral =
+                document.createElement(
+                    "div"
+                );
+
+            lateral.className =
+                "proxima-entrega-lateral";
+
+            const data =
+                document.createElement(
+                    "span"
+                );
+
+            data.className =
+                "proxima-entrega-data";
+
+            data.textContent =
+                atividade.dataDeEntrega
+                    ? formatarData(
+                        atividade.dataDeEntrega
+                    )
+                    : "Sem prazo";
+
+            const status =
+                atividade.statusVisual ||
+                atividade.status ||
+                "PENDENTE";
+
+            const badge =
+                document.createElement(
+                    "span"
+                );
+
+            badge.className =
+                "badge-status-atividade-dashboard " +
+                obterClasseStatusAtividade(
+                    status
+                );
+
+            badge.textContent =
+                formatarStatusAtividade(
+                    status
+                );
+
+            lateral.appendChild(
+                data
+            );
+
+            lateral.appendChild(
+                badge
+            );
+
+            item.appendChild(
+                conteudo
+            );
+
+            item.appendChild(
+                lateral
+            );
+
+            listaAtividadesDashboard
+                .appendChild(
+                    item
+                );
+        }
+    );
+}
 function renderizarResumoDisciplinas(
     disciplinas
 ) {
@@ -830,9 +1513,9 @@ function renderizarResumoDisciplinas(
 
     if (disciplinas.length === 0) {
 
-        listaResumoDisciplinas.classList.add(
-            "d-none"
-        );
+        listaResumoDisciplinas
+            .classList
+            .add("d-none");
 
         if (estadoVazioDisciplinas) {
 
@@ -844,9 +1527,9 @@ function renderizarResumoDisciplinas(
         return;
     }
 
-    listaResumoDisciplinas.classList.remove(
-        "d-none"
-    );
+    listaResumoDisciplinas
+        .classList
+        .remove("d-none");
 
     if (estadoVazioDisciplinas) {
 
@@ -967,13 +1650,36 @@ function renderizarResumoDisciplinas(
                 </div>
             `;
 
-            listaResumoDisciplinas.appendChild(
-                item
-            );
+            listaResumoDisciplinas
+                .appendChild(
+                    item
+                );
         }
     );
 }
 
+if (filtrosAtividadesDashboard) {
+
+    filtrosAtividadesDashboard
+        .addEventListener(
+            "click",
+            evento => {
+
+                const botao =
+                    evento.target.closest(
+                        "[data-filtro]"
+                    );
+
+                if (!botao) {
+                    return;
+                }
+
+                selecionarFiltroAtividades(
+                    botao.dataset.filtro
+                );
+            }
+        );
+}
 
 async function iniciarDashboard() {
 
@@ -999,6 +1705,7 @@ async function iniciarDashboard() {
         carregarDashboard()
     ]);
 }
+
 const seletorCursoGlobal =
     document.getElementById(
         "seletorCursoGlobal"

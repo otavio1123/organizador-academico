@@ -251,103 +251,113 @@ public class SemestreController {
                     ));
         }
     }
+@PutMapping("/Semestres/{id}/ativo")
+public ResponseEntity<?> atualizarAtivo(
+        @PathVariable Integer id,
+        @RequestHeader("Authorization")
+        String authorization,
+        @RequestBody String ativo) {
 
-    @PutMapping("/Semestres/{id}/ativo")
-    public ResponseEntity<?> atualizarAtivo(
-            @PathVariable Integer id,
-            @RequestHeader("Authorization")
-            String authorization,
-            @RequestBody String ativo) {
-
-        Usuario usuario =
-                obterUsuario(
-                        authorization
-                );
-
-        if (usuario == null) {
-
-            return ResponseEntity
-                    .status(HttpStatus.UNAUTHORIZED)
-                    .body(Map.of(
-                            "mensagem",
-                            "Usuário não encontrado."
-                    ));
-        }
-
-        ativo = ativo
-                .replace("\"", "")
-                .trim()
-                .toUpperCase();
-
-        if (!"S".equals(ativo)
-                && !"N".equals(ativo)) {
-
-            return ResponseEntity
-                    .badRequest()
-                    .body(Map.of(
-                            "mensagem",
-                            "Status inválido."
-                    ));
-        }
-
-        try {
-
-            boolean atualizou =
-                    semestreService
-                            .atualizarAtivo(
-                                    id,
-                                    ativo,
-                                    usuario
-                            );
-
-            if (!atualizou) {
-
-                return ResponseEntity
-                        .status(HttpStatus.NOT_FOUND)
-                        .body(Map.of(
-                                "mensagem",
-                                "Semestre não encontrado."
-                        ));
-            }
-
-            return ResponseEntity.ok(
-                    Map.of(
-                            "mensagem",
-                            "Status atualizado com sucesso."
-                    )
+    Usuario usuario =
+            obterUsuario(
+                    authorization
             );
 
-        } catch (IllegalStateException erro) {
+    if (usuario == null) {
 
-            return ResponseEntity
-                    .status(HttpStatus.CONFLICT)
-                    .body(Map.of(
-                            "mensagem",
-                            erro.getMessage()
-                    ));
-        }
+        return ResponseEntity
+                .status(HttpStatus.UNAUTHORIZED)
+                .body(Map.of(
+                        "mensagem",
+                        "Usuário não encontrado."
+                ));
     }
 
-    @DeleteMapping("/Semestres/{id}")
-    public ResponseEntity<?> excluir(
-            @PathVariable Integer id,
-            @RequestHeader("Authorization")
-            String authorization) {
+    ativo = ativo
+            .replace("\"", "")
+            .trim()
+            .toUpperCase();
 
-        Usuario usuario =
-                obterUsuario(
-                        authorization
-                );
+    if (!"S".equals(ativo)
+            && !"N".equals(ativo)) {
 
-        if (usuario == null) {
+        return ResponseEntity
+                .badRequest()
+                .body(Map.of(
+                        "mensagem",
+                        "Status inválido."
+                ));
+    }
+
+    try {
+
+        boolean atualizou =
+                semestreService
+                        .atualizarAtivo(
+                                id,
+                                ativo,
+                                usuario
+                        );
+
+        if (!atualizou) {
 
             return ResponseEntity
-                    .status(HttpStatus.UNAUTHORIZED)
+                    .status(HttpStatus.NOT_FOUND)
                     .body(Map.of(
                             "mensagem",
-                            "Usuário não encontrado."
+                            "Semestre não encontrado."
                     ));
         }
+
+        return ResponseEntity.ok(
+                Map.of(
+                        "mensagem",
+                        "Status atualizado com sucesso."
+                )
+        );
+
+    } catch (IllegalArgumentException erro) {
+
+        return ResponseEntity
+                .badRequest()
+                .body(Map.of(
+                        "mensagem",
+                        erro.getMessage()
+                ));
+
+    } catch (IllegalStateException erro) {
+
+        return ResponseEntity
+                .status(HttpStatus.CONFLICT)
+                .body(Map.of(
+                        "mensagem",
+                        erro.getMessage()
+                ));
+    }
+}
+
+@DeleteMapping("/Semestres/{id}")
+public ResponseEntity<?> excluir(
+        @PathVariable Integer id,
+        @RequestHeader("Authorization")
+        String authorization) {
+
+    Usuario usuario =
+            obterUsuario(
+                    authorization
+            );
+
+    if (usuario == null) {
+
+        return ResponseEntity
+                .status(HttpStatus.UNAUTHORIZED)
+                .body(Map.of(
+                        "mensagem",
+                        "Usuário não encontrado."
+                ));
+    }
+
+    try {
 
         boolean excluiu =
                 semestreService.excluir(
@@ -371,5 +381,24 @@ public class SemestreController {
                         "Semestre excluído com sucesso."
                 )
         );
+
+    } catch (IllegalArgumentException erro) {
+
+        return ResponseEntity
+                .badRequest()
+                .body(Map.of(
+                        "mensagem",
+                        erro.getMessage()
+                ));
+
+    } catch (IllegalStateException erro) {
+
+        return ResponseEntity
+                .status(HttpStatus.CONFLICT)
+                .body(Map.of(
+                        "mensagem",
+                        erro.getMessage()
+                ));
     }
+}
 }

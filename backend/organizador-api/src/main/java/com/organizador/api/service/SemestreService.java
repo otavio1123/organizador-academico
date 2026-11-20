@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
+import com.organizador.api.model.Curso;
 import com.organizador.api.model.LogAuditoria;
 import com.organizador.api.model.Semestre;
 import com.organizador.api.model.Usuario;
@@ -94,14 +95,10 @@ public class SemestreService {
             );
         }
 
-        if (!cursoPertenceAoUsuario(
+        validarCursoAtivo(
                 semestre.getIdCurso(),
-                usuario)) {
-
-            throw new IllegalArgumentException(
-                    "Curso não encontrado."
-            );
-        }
+                usuario
+        );
 
         if (semestre.getDataInicio() != null
                 && semestre.getDataFim() != null
@@ -171,17 +168,23 @@ public class SemestreService {
         Semestre semestre =
                 semestreEncontrado.get();
 
+        validarCursoAtivo(
+                semestre.getIdCurso(),
+                usuario
+        );
+
         Integer idCurso =
                 novosDados.getIdCurso() != null
                         ? novosDados.getIdCurso()
                         : semestre.getIdCurso();
 
-        if (!cursoPertenceAoUsuario(
-                idCurso,
-                usuario)) {
+        if (!idCurso.equals(
+                semestre.getIdCurso()
+        )) {
 
-            throw new IllegalArgumentException(
-                    "Curso não encontrado."
+            validarCursoAtivo(
+                    idCurso,
+                    usuario
             );
         }
 
@@ -197,7 +200,9 @@ public class SemestreService {
             );
         }
 
-        if ("S".equals(novosDados.getAtivo())) {
+        if ("S".equals(
+                novosDados.getAtivo()
+        )) {
 
             Optional<Semestre> semestreAtivo =
                     semestreRepository
@@ -278,6 +283,11 @@ public class SemestreService {
         Semestre semestre =
                 semestreEncontrado.get();
 
+        validarCursoAtivo(
+                semestre.getIdCurso(),
+                usuario
+        );
+
         if ("S".equals(ativo)) {
 
             Optional<Semestre> semestreAtivo =
@@ -335,6 +345,11 @@ public class SemestreService {
         Semestre semestre =
                 semestreEncontrado.get();
 
+        validarCursoAtivo(
+                semestre.getIdCurso(),
+                usuario
+        );
+
         String nomeSemestre =
                 semestre.getNome();
 
@@ -349,6 +364,42 @@ public class SemestreService {
         );
 
         return true;
+    }
+
+    private void validarCursoAtivo(
+            Integer idCurso,
+            Usuario usuario) {
+
+        Curso curso =
+                cursoRepository
+                        .findByIdCursoAndIdUsuario(
+                                idCurso,
+                                usuario.getId()
+                        )
+                        .orElseThrow(
+                                () ->
+                                        new IllegalArgumentException(
+                                                "Curso não encontrado."
+                                        )
+                        );
+
+        if ("TRANCADO".equals(
+                curso.getStatus()
+        )) {
+
+            throw new IllegalStateException(
+                    "Não é possível alterar semestres de um curso trancado."
+            );
+        }
+
+        if ("CONCLUIDO".equals(
+                curso.getStatus()
+        )) {
+
+            throw new IllegalStateException(
+                    "Não é possível alterar semestres de um curso concluído."
+            );
+        }
     }
 
     private void registrarAuditoria(

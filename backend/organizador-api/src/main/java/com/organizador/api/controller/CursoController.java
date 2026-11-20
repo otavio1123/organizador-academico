@@ -39,7 +39,8 @@ public class CursoController {
         this.tokenService = tokenService;
     }
 
-    private Usuario obterUsuario(String authorization) {
+    private Usuario obterUsuario(
+            String authorization) {
 
         String token =
                 authorization.replace(
@@ -48,17 +49,22 @@ public class CursoController {
                 );
 
         String email =
-                tokenService.obterEmail(token);
+                tokenService.obterEmail(
+                        token
+                );
 
         return usuarioRepository
                 .findByEmail(email)
                 .orElse(null);
     }
 
-    private String validarCurso(Curso curso) {
+    private String validarCurso(
+            Curso curso) {
 
         if (curso.getNome() == null
-                || curso.getNome().trim().isEmpty()) {
+                || curso.getNome()
+                        .trim()
+                        .isEmpty()) {
 
             return "O nome do curso é obrigatório.";
         }
@@ -72,7 +78,9 @@ public class CursoController {
             String authorization) {
 
         Usuario usuario =
-                obterUsuario(authorization);
+                obterUsuario(
+                        authorization
+                );
 
         if (usuario == null) {
 
@@ -85,9 +93,13 @@ public class CursoController {
         }
 
         List<Curso> cursos =
-                cursoService.listar(usuario);
+                cursoService.listar(
+                        usuario
+                );
 
-        return ResponseEntity.ok(cursos);
+        return ResponseEntity.ok(
+                cursos
+        );
     }
 
     @PostMapping("/Cursos")
@@ -97,7 +109,9 @@ public class CursoController {
             @RequestBody Curso curso) {
 
         Usuario usuario =
-                obterUsuario(authorization);
+                obterUsuario(
+                        authorization
+                );
 
         if (usuario == null) {
 
@@ -110,7 +124,9 @@ public class CursoController {
         }
 
         String erro =
-                validarCurso(curso);
+                validarCurso(
+                        curso
+                );
 
         if (erro != null) {
 
@@ -122,15 +138,36 @@ public class CursoController {
                     ));
         }
 
-        Curso cursoSalvo =
-                cursoService.cadastrar(
-                        curso,
-                        usuario
-                );
+        try {
 
-        return ResponseEntity
-                .status(HttpStatus.CREATED)
-                .body(cursoSalvo);
+            Curso cursoSalvo =
+                    cursoService.cadastrar(
+                            curso,
+                            usuario
+                    );
+
+            return ResponseEntity
+                    .status(HttpStatus.CREATED)
+                    .body(cursoSalvo);
+
+        } catch (IllegalArgumentException erroRegra) {
+
+            return ResponseEntity
+                    .badRequest()
+                    .body(Map.of(
+                            "mensagem",
+                            erroRegra.getMessage()
+                    ));
+
+        } catch (IllegalStateException erroRegra) {
+
+            return ResponseEntity
+                    .status(HttpStatus.CONFLICT)
+                    .body(Map.of(
+                            "mensagem",
+                            erroRegra.getMessage()
+                    ));
+        }
     }
 
     @GetMapping("/Cursos/{id}")
@@ -140,7 +177,9 @@ public class CursoController {
             String authorization) {
 
         Usuario usuario =
-                obterUsuario(authorization);
+                obterUsuario(
+                        authorization
+                );
 
         if (usuario == null) {
 
@@ -181,7 +220,9 @@ public class CursoController {
             @RequestBody Curso curso) {
 
         Usuario usuario =
-                obterUsuario(authorization);
+                obterUsuario(
+                        authorization
+                );
 
         if (usuario == null) {
 
@@ -194,7 +235,9 @@ public class CursoController {
         }
 
         String erro =
-                validarCurso(curso);
+                validarCurso(
+                        curso
+                );
 
         if (erro != null) {
 
@@ -206,26 +249,47 @@ public class CursoController {
                     ));
         }
 
-        Curso cursoAtualizado =
-                cursoService.atualizar(
-                        id,
-                        curso,
-                        usuario
-                );
+        try {
 
-        if (cursoAtualizado == null) {
+            Curso cursoAtualizado =
+                    cursoService.atualizar(
+                            id,
+                            curso,
+                            usuario
+                    );
+
+            if (cursoAtualizado == null) {
+
+                return ResponseEntity
+                        .status(HttpStatus.NOT_FOUND)
+                        .body(Map.of(
+                                "mensagem",
+                                "Curso não encontrado."
+                        ));
+            }
+
+            return ResponseEntity.ok(
+                    cursoAtualizado
+            );
+
+        } catch (IllegalArgumentException erroRegra) {
 
             return ResponseEntity
-                    .status(HttpStatus.NOT_FOUND)
+                    .badRequest()
                     .body(Map.of(
                             "mensagem",
-                            "Curso não encontrado."
+                            erroRegra.getMessage()
+                    ));
+
+        } catch (IllegalStateException erroRegra) {
+
+            return ResponseEntity
+                    .status(HttpStatus.CONFLICT)
+                    .body(Map.of(
+                            "mensagem",
+                            erroRegra.getMessage()
                     ));
         }
-
-        return ResponseEntity.ok(
-                cursoAtualizado
-        );
     }
 
     @DeleteMapping("/Cursos/{id}")
@@ -235,7 +299,9 @@ public class CursoController {
             String authorization) {
 
         Usuario usuario =
-                obterUsuario(authorization);
+                obterUsuario(
+                        authorization
+                );
 
         if (usuario == null) {
 

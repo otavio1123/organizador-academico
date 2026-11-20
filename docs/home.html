@@ -497,7 +497,156 @@
         </div>
 
     </section>
+<section class="row g-4 mb-4">
 
+    <div class="col-12 col-lg-5">
+
+        <div class="card-dashboard h-100">
+
+            <div
+                class="d-flex justify-content-between align-items-center mb-4"
+            >
+
+                <div>
+
+                    <h2 class="titulo-secao-dashboard">
+                        Atividades do semestre
+                    </h2>
+
+                    <p class="descricao-secao-dashboard">
+                        Situação das atividades do curso atual
+                    </p>
+
+                </div>
+
+                <i
+                    class="fa-solid fa-list-check icone-secao"
+                ></i>
+
+            </div>
+
+            <div class="area-grafico-atividades">
+
+                <canvas
+                    id="graficoAtividades"
+                ></canvas>
+
+            </div>
+
+            <div
+                id="estadoVazioAtividadesDashboard"
+                class="estado-vazio-dashboard d-none"
+            >
+
+                <i class="fa-solid fa-list-check"></i>
+
+                <p>
+                    Nenhuma atividade cadastrada no semestre atual.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+   <div class="col-12 col-lg-7">
+
+    <div class="card-dashboard h-100">
+
+        <div
+            class="d-flex justify-content-between align-items-center mb-3"
+        >
+
+            <div>
+
+                <h2 class="titulo-secao-dashboard">
+                    Atividades
+                </h2>
+
+                <p class="descricao-secao-dashboard">
+                    Consulte as atividades do curso atual
+                </p>
+
+            </div>
+
+            <i
+                class="fa-regular fa-calendar-check icone-secao"
+            ></i>
+
+        </div>
+
+        <div
+            class="filtros-atividades-dashboard"
+            id="filtrosAtividadesDashboard"
+        >
+
+            <button
+                type="button"
+                class="filtro-atividade-dashboard ativo"
+                data-filtro="PROXIMAS"
+            >
+                Próximas
+            </button>
+
+            <button
+                type="button"
+                class="filtro-atividade-dashboard"
+                data-filtro="PENDENTE"
+            >
+                Pendentes
+            </button>
+
+            <button
+                type="button"
+                class="filtro-atividade-dashboard"
+                data-filtro="EM_ANDAMENTO"
+            >
+                Em andamento
+            </button>
+
+            <button
+                type="button"
+                class="filtro-atividade-dashboard"
+                data-filtro="ATRASADA"
+            >
+                Atrasadas
+            </button>
+
+            <button
+                type="button"
+                class="filtro-atividade-dashboard"
+                data-filtro="CONCLUIDA"
+            >
+                Concluídas
+            </button>
+
+        </div>
+
+        <div
+            id="listaAtividadesDashboard"
+            class="lista-proximas-entregas"
+        ></div>
+
+        <div
+            id="estadoVazioAtividadesFiltro"
+            class="estado-vazio-dashboard d-none"
+        >
+
+            <i class="fa-regular fa-calendar-check"></i>
+
+            <p id="mensagemEstadoVazioAtividades">
+                Nenhuma atividade encontrada.
+            </p>
+
+        </div>
+
+    </div>
+
+</div>
+    </div>
+
+</section>
     <section class="row g-4">
 
         <div class="col-12 col-lg-8">

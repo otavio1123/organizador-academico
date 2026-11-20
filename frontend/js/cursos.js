@@ -7,10 +7,14 @@ const usuarioLogado =
     );
 
 if (!token || !usuarioLogado) {
+
     localStorage.removeItem("token");
     localStorage.removeItem("usuarioLogado");
-    window.location.href = "index.html";
+
+    window.location.href =
+        "index.html";
 }
+
 
 const listaCursos =
     document.getElementById("listaCursos");
@@ -57,17 +61,25 @@ const imagemUsuarioTopo =
 const iconeUsuarioTopo =
     document.getElementById("iconeUsuarioTopo");
 
+
 let cursoEmEdicao = null;
 
+let statusCursoAnterior = null;
+
+
 if (nomeUsuario) {
+
     nomeUsuario.textContent =
         usuarioLogado.nome || "Usuário";
 }
 
+
 if (emailUsuario) {
+
     emailUsuario.textContent =
         usuarioLogado.email || "";
 }
+
 
 function formatarTipo(tipo) {
 
@@ -79,8 +91,11 @@ function formatarTipo(tipo) {
         OUTRO: "Outro"
     };
 
-    return tipos[tipo] || tipo || "-";
+    return tipos[tipo] ||
+        tipo ||
+        "-";
 }
+
 
 function formatarStatus(status) {
 
@@ -90,10 +105,15 @@ function formatarStatus(status) {
         TRANCADO: "Trancado"
     };
 
-    return statusFormatados[status] || status || "-";
+    return statusFormatados[status] ||
+        status ||
+        "-";
 }
 
-async function obterMensagemErro(resposta) {
+
+async function obterMensagemErro(
+    resposta
+) {
 
     try {
 
@@ -106,12 +126,16 @@ async function obterMensagemErro(resposta) {
     } catch {
 
         try {
+
             return await resposta.text();
+
         } catch {
+
             return "Ocorreu um erro.";
         }
     }
 }
+
 
 async function carregarUsuarioTopo() {
 
@@ -145,17 +169,23 @@ async function carregarUsuarioTopo() {
 
             localStorage.setItem(
                 "usuarioLogado",
-                JSON.stringify(usuarioLogado)
+                JSON.stringify(
+                    usuarioLogado
+                )
             );
 
             if (nomeUsuario) {
+
                 nomeUsuario.textContent =
-                    dados.usuario.nome || "Usuário";
+                    dados.usuario.nome ||
+                    "Usuário";
             }
 
             if (emailUsuario) {
+
                 emailUsuario.textContent =
-                    dados.usuario.email || "";
+                    dados.usuario.email ||
+                    "";
             }
         }
 
@@ -172,6 +202,7 @@ async function carregarUsuarioTopo() {
             }
 
             if (iconeUsuarioTopo) {
+
                 iconeUsuarioTopo
                     .classList
                     .add("d-none");
@@ -180,13 +211,16 @@ async function carregarUsuarioTopo() {
         } else {
 
             if (imagemUsuarioTopo) {
+
                 imagemUsuarioTopo.src = "";
+
                 imagemUsuarioTopo
                     .classList
                     .add("d-none");
             }
 
             if (iconeUsuarioTopo) {
+
                 iconeUsuarioTopo
                     .classList
                     .remove("d-none");
@@ -202,18 +236,354 @@ async function carregarUsuarioTopo() {
     }
 }
 
+
 function limparModal() {
 
     cursoEmEdicao = null;
+
+    statusCursoAnterior = null;
 
     tituloModalCurso.textContent =
         "Novo curso";
 
     nomeCurso.value = "";
+
     instituicaoCurso.value = "";
-    tipoCurso.value = "GRADUACAO";
-    statusCurso.value = "ATIVO";
+
+    tipoCurso.value =
+        "GRADUACAO";
+
+    statusCurso.value =
+        "ATIVO";
 }
+
+
+function montarDadosCurso(
+    curso,
+    novoStatus
+) {
+
+    return {
+        nome:
+            curso.nome,
+
+        instituicao:
+            curso.instituicao || null,
+
+        tipo:
+            curso.tipo,
+
+        status:
+            novoStatus
+    };
+}
+
+
+function transicaoStatusPermitida(
+    statusAnterior,
+    novoStatus
+) {
+
+    if (!statusAnterior ||
+            statusAnterior === novoStatus) {
+
+        return true;
+    }
+
+    if (statusAnterior === "TRANCADO"
+            && novoStatus === "CONCLUIDO") {
+
+        return false;
+    }
+
+    if (statusAnterior === "CONCLUIDO"
+            && novoStatus === "TRANCADO") {
+
+        return false;
+    }
+
+    return true;
+}
+
+
+function obterMensagemTransicao(
+    statusAnterior,
+    novoStatus,
+    nome
+) {
+
+    if (statusAnterior === novoStatus) {
+
+        return null;
+    }
+
+
+    if (novoStatus === "TRANCADO") {
+
+        return (
+            `Trancar o curso "${nome}"?\n\n` +
+            "O semestre ativo será desativado e " +
+            "novas alterações acadêmicas ficarão bloqueadas. " +
+            "Nenhum dado será apagado."
+        );
+    }
+
+
+    if (novoStatus === "CONCLUIDO") {
+
+        return (
+            `Concluir o curso "${nome}"?\n\n` +
+            "O semestre ativo será desativado e " +
+            "o curso ficará disponível somente para consulta. " +
+            "Nenhum dado será apagado."
+        );
+    }
+
+
+    if (novoStatus === "ATIVO"
+            && statusAnterior === "TRANCADO") {
+
+        return (
+            `Reativar o curso "${nome}"?\n\n` +
+            "O curso voltará a aceitar alterações. " +
+            "Nenhum semestre será reativado automaticamente."
+        );
+    }
+
+
+    if (novoStatus === "ATIVO"
+            && statusAnterior === "CONCLUIDO") {
+
+        return (
+            `Reabrir o curso "${nome}"?\n\n` +
+            "O curso voltará ao status Ativo e " +
+            "poderá receber novas alterações. " +
+            "Nenhum semestre será reativado automaticamente."
+        );
+    }
+
+
+    return (
+        `Deseja alterar o status do curso "${nome}"?`
+    );
+}
+
+
+async function atualizarStatusCurso(
+    curso,
+    novoStatus
+) {
+
+    const statusAnterior =
+        curso.status || "ATIVO";
+
+    if (!transicaoStatusPermitida(
+        statusAnterior,
+        novoStatus
+    )) {
+
+        if (statusAnterior === "TRANCADO") {
+
+            alert(
+                "Reative o curso antes de marcá-lo como concluído."
+            );
+
+        } else {
+
+            alert(
+                "Reabra o curso antes de marcá-lo como trancado."
+            );
+        }
+
+        return;
+    }
+
+
+    const mensagem =
+        obterMensagemTransicao(
+            statusAnterior,
+            novoStatus,
+            curso.nome
+        );
+
+
+    if (mensagem &&
+            !confirm(mensagem)) {
+
+        return;
+    }
+
+
+    try {
+
+        const resposta =
+            await fetch(
+                `${API_URL}/Cursos/${curso.idCurso}`,
+                {
+                    method: "PUT",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json",
+
+                        "Authorization":
+                            `Bearer ${token}`
+                    },
+
+                    body:
+                        JSON.stringify(
+                            montarDadosCurso(
+                                curso,
+                                novoStatus
+                            )
+                        )
+                }
+            );
+
+
+        if (!resposta.ok) {
+
+            const mensagemErro =
+                await obterMensagemErro(
+                    resposta
+                );
+
+            throw new Error(
+                mensagemErro ||
+                "Não foi possível alterar o status do curso."
+            );
+        }
+
+
+        if (novoStatus === "ATIVO"
+                && statusAnterior === "TRANCADO") {
+
+            alert(
+                "Curso reativado com sucesso! " +
+                "Nenhum semestre foi ativado automaticamente."
+            );
+
+        } else if (
+            novoStatus === "ATIVO"
+            && statusAnterior === "CONCLUIDO"
+        ) {
+
+            alert(
+                "Curso reaberto com sucesso! " +
+                "Nenhum semestre foi ativado automaticamente."
+            );
+
+        } else if (
+            novoStatus === "TRANCADO"
+        ) {
+
+            alert(
+                "Curso trancado com sucesso!"
+            );
+
+        } else if (
+            novoStatus === "CONCLUIDO"
+        ) {
+
+            alert(
+                "Curso concluído com sucesso!"
+            );
+        }
+
+
+        await carregarCursos();
+
+
+    } catch (erro) {
+
+        console.error(
+            erro
+        );
+
+        alert(
+            erro.message
+        );
+    }
+}
+
+
+function criarBotaoStatus(
+    fragmento,
+    curso
+) {
+
+    if (curso.status !== "TRANCADO"
+            && curso.status !== "CONCLUIDO") {
+
+        return;
+    }
+
+
+    const containerBotoes =
+        fragmento.querySelector(
+            ".mt-auto.d-grid.gap-2"
+        );
+
+
+    const botaoExcluir =
+        fragmento.querySelector(
+            ".botaoExcluirCurso"
+        );
+
+
+    if (!containerBotoes ||
+            !botaoExcluir) {
+
+        return;
+    }
+
+
+    const botao =
+        document.createElement(
+            "button"
+        );
+
+
+    botao.type =
+        "button";
+
+
+    botao.className =
+        "btn btn-outline-success";
+
+
+    if (curso.status === "TRANCADO") {
+
+        botao.innerHTML =
+            '<i class="fa-solid fa-rotate-left me-2"></i>' +
+            "Reativar curso";
+
+    } else {
+
+        botao.innerHTML =
+            '<i class="fa-solid fa-rotate-left me-2"></i>' +
+            "Reabrir curso";
+    }
+
+
+    botao.addEventListener(
+        "click",
+        async () => {
+
+            await atualizarStatusCurso(
+                curso,
+                "ATIVO"
+            );
+        }
+    );
+
+
+    containerBotoes.insertBefore(
+        botao,
+        botaoExcluir
+    );
+}
+
 
 botaoNovoCurso.addEventListener(
     "click",
@@ -223,6 +593,7 @@ botaoNovoCurso.addEventListener(
     }
 );
 
+
 async function carregarCursos() {
 
     try {
@@ -231,30 +602,49 @@ async function carregarCursos() {
             await CursoContexto
                 .inicializarSeletorGlobal();
 
-        const cursos = contexto.cursos;
 
-        listaCursos.innerHTML = "";
+        const cursos =
+            contexto.cursos;
 
-        if (!cursos || cursos.length === 0) {
 
-            listaCursos.classList.add(
-                "d-none"
-            );
+        listaCursos.innerHTML =
+            "";
+
+
+        if (!cursos ||
+                cursos.length === 0) {
+
+            listaCursos
+                .classList
+                .add(
+                    "d-none"
+                );
+
 
             estadoVazioCursos
                 .classList
-                .remove("d-none");
+                .remove(
+                    "d-none"
+                );
+
 
             return;
         }
 
-        listaCursos.classList.remove(
-            "d-none"
-        );
+
+        listaCursos
+            .classList
+            .remove(
+                "d-none"
+            );
+
 
         estadoVazioCursos
             .classList
-            .add("d-none");
+            .add(
+                "d-none"
+            );
+
 
         cursos.forEach(
             curso => {
@@ -262,7 +652,10 @@ async function carregarCursos() {
                 const fragmento =
                     modeloCurso
                         .content
-                        .cloneNode(true);
+                        .cloneNode(
+                            true
+                        );
+
 
                 fragmento
                     .querySelector(
@@ -271,12 +664,15 @@ async function carregarCursos() {
                     .textContent =
                         curso.nome;
 
+
                 fragmento
                     .querySelector(
                         ".instituicao-curso"
                     )
                     .textContent =
-                        curso.instituicao || "-";
+                        curso.instituicao ||
+                        "-";
+
 
                 fragmento
                     .querySelector(
@@ -287,6 +683,7 @@ async function carregarCursos() {
                             curso.tipo
                         );
 
+
                 fragmento
                     .querySelector(
                         ".status-curso"
@@ -296,55 +693,107 @@ async function carregarCursos() {
                             curso.status
                         );
 
+
                 const botaoSemestres =
                     fragmento.querySelector(
                         ".botaoSemestres"
                     );
 
+
                 botaoSemestres.href =
                     `semestres.html?idCurso=${curso.idCurso}`;
 
-                botaoSemestres.addEventListener(
-                    "click",
-                    () => {
-                        CursoContexto
-                            .salvarCursoSelecionado(
-                                curso.idCurso
-                            );
-                    }
-                );
+
+                botaoSemestres
+                    .addEventListener(
+                        "click",
+                        () => {
+
+                            CursoContexto
+                                .salvarCursoSelecionado(
+                                    curso.idCurso
+                                );
+                        }
+                    );
+
 
                 const botaoEditar =
                     fragmento.querySelector(
                         ".botaoEditarCurso"
                     );
 
+
                 const botaoExcluir =
                     fragmento.querySelector(
                         ".botaoExcluirCurso"
                     );
 
+
+                /*
+                 * Curso trancado ou concluído fica
+                 * somente para consulta.
+                 *
+                 * Para voltar a editar, primeiro
+                 * deve ser reativado/reaberto.
+                 */
+                if (curso.status !== "ATIVO") {
+
+                    botaoEditar.disabled =
+                        true;
+
+                    botaoEditar.title =
+                        curso.status === "TRANCADO"
+                            ? "Reative o curso para editá-lo."
+                            : "Reabra o curso para editá-lo.";
+
+                    botaoEditar.classList.add(
+                        "opacity-50"
+                    );
+                }
+
+
                 botaoEditar.addEventListener(
                     "click",
                     () => {
 
+                        if (curso.status !== "ATIVO") {
+
+                            return;
+                        }
+
+
                         cursoEmEdicao =
                             curso.idCurso;
+
+
+                        statusCursoAnterior =
+                            curso.status ||
+                            "ATIVO";
+
 
                         tituloModalCurso.textContent =
                             "Editar curso";
 
+
                         nomeCurso.value =
-                            curso.nome || "";
+                            curso.nome ||
+                            "";
+
 
                         instituicaoCurso.value =
-                            curso.instituicao || "";
+                            curso.instituicao ||
+                            "";
+
 
                         tipoCurso.value =
-                            curso.tipo || "GRADUACAO";
+                            curso.tipo ||
+                            "GRADUACAO";
+
 
                         statusCurso.value =
-                            curso.status || "ATIVO";
+                            curso.status ||
+                            "ATIVO";
+
 
                         const modal =
                             bootstrap.Modal
@@ -352,9 +801,17 @@ async function carregarCursos() {
                                     modalCurso
                                 );
 
+
                         modal.show();
                     }
                 );
+
+
+                criarBotaoStatus(
+                    fragmento,
+                    curso
+                );
+
 
                 botaoExcluir.addEventListener(
                     "click",
@@ -362,12 +819,16 @@ async function carregarCursos() {
 
                         const confirmar =
                             confirm(
-                                `Deseja realmente excluir o curso "${curso.nome}"?`
+                                `Deseja realmente excluir o curso "${curso.nome}"?\n\n` +
+                                "Esta ação pode remover os dados relacionados ao curso."
                             );
 
+
                         if (!confirmar) {
+
                             return;
                         }
+
 
                         try {
 
@@ -375,13 +836,16 @@ async function carregarCursos() {
                                 await fetch(
                                     `${API_URL}/Cursos/${curso.idCurso}`,
                                     {
-                                        method: "DELETE",
+                                        method:
+                                            "DELETE",
+
                                         headers: {
                                             "Authorization":
                                                 `Bearer ${token}`
                                         }
                                     }
                                 );
+
 
                             if (!resposta.ok) {
 
@@ -390,30 +854,40 @@ async function carregarCursos() {
                                         resposta
                                     );
 
+
                                 throw new Error(
                                     mensagem ||
                                     "Não foi possível excluir o curso."
                                 );
                             }
 
+
                             alert(
                                 "Curso excluído com sucesso!"
                             );
 
+
                             if (Number(
                                 CursoContexto
                                     .obterCursoSelecionadoId()
-                            ) === Number(curso.idCurso)) {
+                            ) === Number(
+                                curso.idCurso
+                            )) {
 
                                 CursoContexto
                                     .limparCursoSelecionado();
                             }
 
+
                             await carregarCursos();
+
 
                         } catch (erro) {
 
-                            console.error(erro);
+                            console.error(
+                                erro
+                            );
+
 
                             alert(
                                 erro.message
@@ -422,15 +896,20 @@ async function carregarCursos() {
                     }
                 );
 
+
                 listaCursos.appendChild(
                     fragmento
                 );
             }
         );
 
+
     } catch (erro) {
 
-        console.error(erro);
+        console.error(
+            erro
+        );
+
 
         alert(
             erro.message ||
@@ -439,21 +918,30 @@ async function carregarCursos() {
     }
 }
 
+
 salvarCurso.addEventListener(
     "click",
     async () => {
 
         const nome =
-            nomeCurso.value.trim();
+            nomeCurso
+                .value
+                .trim();
+
 
         const instituicao =
-            instituicaoCurso.value.trim();
+            instituicaoCurso
+                .value
+                .trim();
+
 
         const tipo =
             tipoCurso.value;
 
+
         const status =
             statusCurso.value;
+
 
         if (!nome) {
 
@@ -464,19 +952,85 @@ salvarCurso.addEventListener(
             return;
         }
 
+
+        /*
+         * Impede transição direta:
+         *
+         * TRANCADO -> CONCLUIDO
+         * CONCLUIDO -> TRANCADO
+         */
+        if (cursoEmEdicao
+                && !transicaoStatusPermitida(
+                    statusCursoAnterior,
+                    status
+                )) {
+
+            if (statusCursoAnterior === "TRANCADO") {
+
+                alert(
+                    "Reative o curso antes de marcá-lo como concluído."
+                );
+
+            } else {
+
+                alert(
+                    "Reabra o curso antes de marcá-lo como trancado."
+                );
+            }
+
+            return;
+        }
+
+
+        /*
+         * Confirma mudanças importantes de status.
+         */
+        if (cursoEmEdicao
+                && statusCursoAnterior !== status) {
+
+            const mensagem =
+                obterMensagemTransicao(
+                    statusCursoAnterior,
+                    status,
+                    nome
+                );
+
+
+            if (mensagem
+                    && !confirm(
+                        mensagem
+                    )) {
+
+                return;
+            }
+        }
+
+
         const dadosCurso = {
-            nome: nome,
+
+            nome:
+                nome,
+
             instituicao:
-                instituicao || null,
-            tipo: tipo,
-            status: status
+                instituicao ||
+                null,
+
+            tipo:
+                tipo,
+
+            status:
+                status
         };
 
-        salvarCurso.disabled = true;
+
+        salvarCurso.disabled =
+            true;
+
 
         try {
 
             let resposta;
+
 
             if (cursoEmEdicao) {
 
@@ -484,19 +1038,24 @@ salvarCurso.addEventListener(
                     await fetch(
                         `${API_URL}/Cursos/${cursoEmEdicao}`,
                         {
-                            method: "PUT",
+                            method:
+                                "PUT",
+
                             headers: {
                                 "Content-Type":
                                     "application/json",
+
                                 "Authorization":
                                     `Bearer ${token}`
                             },
+
                             body:
                                 JSON.stringify(
                                     dadosCurso
                                 )
                         }
                     );
+
 
             } else {
 
@@ -504,13 +1063,17 @@ salvarCurso.addEventListener(
                     await fetch(
                         `${API_URL}/Cursos`,
                         {
-                            method: "POST",
+                            method:
+                                "POST",
+
                             headers: {
                                 "Content-Type":
                                     "application/json",
+
                                 "Authorization":
                                     `Bearer ${token}`
                             },
+
                             body:
                                 JSON.stringify(
                                     dadosCurso
@@ -518,6 +1081,7 @@ salvarCurso.addEventListener(
                         }
                     );
             }
+
 
             if (!resposta.ok) {
 
@@ -526,14 +1090,23 @@ salvarCurso.addEventListener(
                         resposta
                     );
 
+
                 throw new Error(
                     mensagem ||
                     "Não foi possível salvar o curso."
                 );
             }
 
+
             const estavaEditando =
-                Boolean(cursoEmEdicao);
+                Boolean(
+                    cursoEmEdicao
+                );
+
+
+            const statusAnterior =
+                statusCursoAnterior;
+
 
             const modal =
                 bootstrap.Modal
@@ -541,34 +1114,73 @@ salvarCurso.addEventListener(
                         modalCurso
                     );
 
+
             if (modal) {
+
                 modal.hide();
             }
 
-            alert(
-                estavaEditando
-                    ? "Curso atualizado com sucesso!"
-                    : "Curso cadastrado com sucesso!"
-            );
+
+            if (!estavaEditando) {
+
+                alert(
+                    "Curso cadastrado com sucesso!"
+                );
+
+            } else if (
+                statusAnterior === "ATIVO"
+                && status === "TRANCADO"
+            ) {
+
+                alert(
+                    "Curso trancado com sucesso! " +
+                    "O semestre ativo foi desativado."
+                );
+
+            } else if (
+                statusAnterior === "ATIVO"
+                && status === "CONCLUIDO"
+            ) {
+
+                alert(
+                    "Curso concluído com sucesso! " +
+                    "O semestre ativo foi desativado."
+                );
+
+            } else {
+
+                alert(
+                    "Curso atualizado com sucesso!"
+                );
+            }
+
 
             limparModal();
 
+
             await carregarCursos();
+
 
         } catch (erro) {
 
-            console.error(erro);
+            console.error(
+                erro
+            );
+
 
             alert(
                 erro.message
             );
 
+
         } finally {
 
-            salvarCurso.disabled = false;
+            salvarCurso.disabled =
+                false;
         }
     }
 );
+
 
 modalCurso.addEventListener(
     "hidden.bs.modal",
@@ -578,5 +1190,7 @@ modalCurso.addEventListener(
     }
 );
 
+
 carregarUsuarioTopo();
+
 carregarCursos();

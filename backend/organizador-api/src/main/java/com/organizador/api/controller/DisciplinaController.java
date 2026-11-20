@@ -41,7 +41,8 @@ public class DisciplinaController {
         this.tokenService = tokenService;
     }
 
-    private Usuario obterUsuario(String authorization) {
+    private Usuario obterUsuario(
+            String authorization) {
 
         String token =
                 authorization.replace(
@@ -50,7 +51,9 @@ public class DisciplinaController {
                 );
 
         String email =
-                tokenService.obterEmail(token);
+                tokenService.obterEmail(
+                        token
+                );
 
         return usuarioRepository
                 .findByEmail(email)
@@ -85,11 +88,12 @@ public class DisciplinaController {
 
             return "A média final deve estar entre 0 e 10.";
         }
-        if (disciplina.getLimiteFaltas() != null
-        && disciplina.getLimiteFaltas() <= 0) {
 
-    return "O limite de faltas deve ser maior que zero.";
-}
+        if (disciplina.getLimiteFaltas() != null
+                && disciplina.getLimiteFaltas() <= 0) {
+
+            return "O limite de faltas deve ser maior que zero.";
+        }
 
         return null;
     }
@@ -116,7 +120,9 @@ public class DisciplinaController {
             String authorization) {
 
         Usuario usuario =
-                obterUsuario(authorization);
+                obterUsuario(
+                        authorization
+                );
 
         if (usuario == null) {
 
@@ -161,7 +167,9 @@ public class DisciplinaController {
             @RequestBody Disciplina disciplina) {
 
         Usuario usuario =
-                obterUsuario(authorization);
+                obterUsuario(
+                        authorization
+                );
 
         if (usuario == null) {
 
@@ -188,26 +196,47 @@ public class DisciplinaController {
                     ));
         }
 
-        Disciplina disciplinaSalva =
-                disciplinaService.cadastrar(
-                        idSemestre,
-                        disciplina,
-                        usuario
-                );
+        try {
 
-        if (disciplinaSalva == null) {
+            Disciplina disciplinaSalva =
+                    disciplinaService.cadastrar(
+                            idSemestre,
+                            disciplina,
+                            usuario
+                    );
+
+            if (disciplinaSalva == null) {
+
+                return ResponseEntity
+                        .status(HttpStatus.NOT_FOUND)
+                        .body(Map.of(
+                                "mensagem",
+                                "Semestre não encontrado."
+                        ));
+            }
 
             return ResponseEntity
-                    .status(HttpStatus.NOT_FOUND)
+                    .status(HttpStatus.CREATED)
+                    .body(disciplinaSalva);
+
+        } catch (IllegalArgumentException erroRegra) {
+
+            return ResponseEntity
+                    .badRequest()
                     .body(Map.of(
                             "mensagem",
-                            "Semestre não encontrado."
+                            erroRegra.getMessage()
+                    ));
+
+        } catch (IllegalStateException erroRegra) {
+
+            return ResponseEntity
+                    .status(HttpStatus.CONFLICT)
+                    .body(Map.of(
+                            "mensagem",
+                            erroRegra.getMessage()
                     ));
         }
-
-        return ResponseEntity
-                .status(HttpStatus.CREATED)
-                .body(disciplinaSalva);
     }
 
     @GetMapping("/Disciplinas/{id}")
@@ -217,7 +246,9 @@ public class DisciplinaController {
             String authorization) {
 
         Usuario usuario =
-                obterUsuario(authorization);
+                obterUsuario(
+                        authorization
+                );
 
         if (usuario == null) {
 
@@ -258,7 +289,9 @@ public class DisciplinaController {
             @RequestBody Disciplina disciplina) {
 
         Usuario usuario =
-                obterUsuario(authorization);
+                obterUsuario(
+                        authorization
+                );
 
         if (usuario == null) {
 
@@ -285,26 +318,47 @@ public class DisciplinaController {
                     ));
         }
 
-        Disciplina disciplinaAtualizada =
-                disciplinaService.atualizar(
-                        id,
-                        disciplina,
-                        usuario
-                );
+        try {
 
-        if (disciplinaAtualizada == null) {
+            Disciplina disciplinaAtualizada =
+                    disciplinaService.atualizar(
+                            id,
+                            disciplina,
+                            usuario
+                    );
+
+            if (disciplinaAtualizada == null) {
+
+                return ResponseEntity
+                        .status(HttpStatus.NOT_FOUND)
+                        .body(Map.of(
+                                "mensagem",
+                                "Disciplina não encontrada."
+                        ));
+            }
+
+            return ResponseEntity.ok(
+                    disciplinaAtualizada
+            );
+
+        } catch (IllegalArgumentException erroRegra) {
 
             return ResponseEntity
-                    .status(HttpStatus.NOT_FOUND)
+                    .badRequest()
                     .body(Map.of(
                             "mensagem",
-                            "Disciplina não encontrada."
+                            erroRegra.getMessage()
+                    ));
+
+        } catch (IllegalStateException erroRegra) {
+
+            return ResponseEntity
+                    .status(HttpStatus.CONFLICT)
+                    .body(Map.of(
+                            "mensagem",
+                            erroRegra.getMessage()
                     ));
         }
-
-        return ResponseEntity.ok(
-                disciplinaAtualizada
-        );
     }
 
     @DeleteMapping("/Disciplinas/{id}")
@@ -314,7 +368,9 @@ public class DisciplinaController {
             String authorization) {
 
         Usuario usuario =
-                obterUsuario(authorization);
+                obterUsuario(
+                        authorization
+                );
 
         if (usuario == null) {
 
@@ -326,28 +382,49 @@ public class DisciplinaController {
                     ));
         }
 
-        boolean excluiu =
-                disciplinaService.excluir(
-                        id,
-                        usuario
-                );
+        try {
 
-        if (!excluiu) {
+            boolean excluiu =
+                    disciplinaService.excluir(
+                            id,
+                            usuario
+                    );
+
+            if (!excluiu) {
+
+                return ResponseEntity
+                        .status(HttpStatus.NOT_FOUND)
+                        .body(Map.of(
+                                "mensagem",
+                                "Disciplina não encontrada."
+                        ));
+            }
+
+            return ResponseEntity.ok(
+                    Map.of(
+                            "mensagem",
+                            "Disciplina excluída com sucesso."
+                    )
+            );
+
+        } catch (IllegalArgumentException erroRegra) {
 
             return ResponseEntity
-                    .status(HttpStatus.NOT_FOUND)
+                    .badRequest()
                     .body(Map.of(
                             "mensagem",
-                            "Disciplina não encontrada."
+                            erroRegra.getMessage()
+                    ));
+
+        } catch (IllegalStateException erroRegra) {
+
+            return ResponseEntity
+                    .status(HttpStatus.CONFLICT)
+                    .body(Map.of(
+                            "mensagem",
+                            erroRegra.getMessage()
                     ));
         }
-
-        return ResponseEntity.ok(
-                Map.of(
-                        "mensagem",
-                        "Disciplina excluída com sucesso."
-                )
-        );
     }
 
     @GetMapping("/Disciplinas/{idDisciplina}/Horarios")
@@ -357,7 +434,9 @@ public class DisciplinaController {
             String authorization) {
 
         Usuario usuario =
-                obterUsuario(authorization);
+                obterUsuario(
+                        authorization
+                );
 
         if (usuario == null) {
 
@@ -395,82 +474,133 @@ public class DisciplinaController {
                 horarios
         );
     }
-@PutMapping("/Disciplinas/{id}/Faltas/Adicionar")
-public ResponseEntity<?> adicionarFalta(
-        @PathVariable Integer id,
-        @RequestHeader("Authorization")
-        String authorization) {
 
-    Usuario usuario =
-            obterUsuario(authorization);
+    @PutMapping("/Disciplinas/{id}/Faltas/Adicionar")
+    public ResponseEntity<?> adicionarFalta(
+            @PathVariable Integer id,
+            @RequestHeader("Authorization")
+            String authorization) {
 
-    if (usuario == null) {
+        Usuario usuario =
+                obterUsuario(
+                        authorization
+                );
 
-        return ResponseEntity
-                .status(HttpStatus.UNAUTHORIZED)
-                .body(Map.of(
-                        "mensagem",
-                        "Usuário não encontrado."
-                ));
-    }
+        if (usuario == null) {
 
-    Disciplina disciplina =
-            disciplinaService.adicionarFalta(
-                    id,
-                    usuario
+            return ResponseEntity
+                    .status(HttpStatus.UNAUTHORIZED)
+                    .body(Map.of(
+                            "mensagem",
+                            "Usuário não encontrado."
+                    ));
+        }
+
+        try {
+
+            Disciplina disciplina =
+                    disciplinaService.adicionarFalta(
+                            id,
+                            usuario
+                    );
+
+            if (disciplina == null) {
+
+                return ResponseEntity
+                        .status(HttpStatus.NOT_FOUND)
+                        .body(Map.of(
+                                "mensagem",
+                                "Disciplina não encontrada."
+                        ));
+            }
+
+            return ResponseEntity.ok(
+                    disciplina
             );
 
-    if (disciplina == null) {
+        } catch (IllegalArgumentException erroRegra) {
 
-        return ResponseEntity
-                .status(HttpStatus.NOT_FOUND)
-                .body(Map.of(
-                        "mensagem",
-                        "Disciplina não encontrada."
-                ));
+            return ResponseEntity
+                    .badRequest()
+                    .body(Map.of(
+                            "mensagem",
+                            erroRegra.getMessage()
+                    ));
+
+        } catch (IllegalStateException erroRegra) {
+
+            return ResponseEntity
+                    .status(HttpStatus.CONFLICT)
+                    .body(Map.of(
+                            "mensagem",
+                            erroRegra.getMessage()
+                    ));
+        }
     }
 
-    return ResponseEntity.ok(disciplina);
-}
+    @PutMapping("/Disciplinas/{id}/Faltas/Remover")
+    public ResponseEntity<?> removerFalta(
+            @PathVariable Integer id,
+            @RequestHeader("Authorization")
+            String authorization) {
 
+        Usuario usuario =
+                obterUsuario(
+                        authorization
+                );
 
-@PutMapping("/Disciplinas/{id}/Faltas/Remover")
-public ResponseEntity<?> removerFalta(
-        @PathVariable Integer id,
-        @RequestHeader("Authorization")
-        String authorization) {
+        if (usuario == null) {
 
-    Usuario usuario =
-            obterUsuario(authorization);
+            return ResponseEntity
+                    .status(HttpStatus.UNAUTHORIZED)
+                    .body(Map.of(
+                            "mensagem",
+                            "Usuário não encontrado."
+                    ));
+        }
 
-    if (usuario == null) {
+        try {
 
-        return ResponseEntity
-                .status(HttpStatus.UNAUTHORIZED)
-                .body(Map.of(
-                        "mensagem",
-                        "Usuário não encontrado."
-                ));
-    }
+            Disciplina disciplina =
+                    disciplinaService.removerFalta(
+                            id,
+                            usuario
+                    );
 
-    Disciplina disciplina =
-            disciplinaService.removerFalta(
-                    id,
-                    usuario
+            if (disciplina == null) {
+
+                return ResponseEntity
+                        .badRequest()
+                        .body(Map.of(
+                                "mensagem",
+                                "Não foi possível remover a falta."
+                        ));
+            }
+
+            return ResponseEntity.ok(
+                    disciplina
             );
 
-    if (disciplina == null) {
+        } catch (IllegalArgumentException erroRegra) {
 
-        return ResponseEntity
-                .badRequest()
-                .body(Map.of(
-                        "mensagem",
-                        "Não foi possível remover a falta."
-                ));
+            return ResponseEntity
+                    .badRequest()
+                    .body(Map.of(
+                            "mensagem",
+                            erroRegra.getMessage()
+                    ));
+
+        } catch (IllegalStateException erroRegra) {
+
+            return ResponseEntity
+                    .status(HttpStatus.CONFLICT)
+                    .body(Map.of(
+                            "mensagem",
+                            erroRegra.getMessage()
+                    ));
+        }
     }
 
-    return ResponseEntity.ok(disciplina);
-}
     @PostMapping("/Disciplinas/{idDisciplina}/Horarios")
     public ResponseEntity<?> cadastrarHorario(
             @PathVariable Integer idDisciplina,
@@ -479,7 +609,9 @@ public ResponseEntity<?> removerFalta(
             @RequestBody HorarioDisciplina horario) {
 
         Usuario usuario =
-                obterUsuario(authorization);
+                obterUsuario(
+                        authorization
+                );
 
         if (usuario == null) {
 
@@ -519,26 +651,47 @@ public ResponseEntity<?> removerFalta(
                     ));
         }
 
-        HorarioDisciplina horarioSalvo =
-                disciplinaService.cadastrarHorario(
-                        idDisciplina,
-                        horario,
-                        usuario
-                );
+        try {
 
-        if (horarioSalvo == null) {
+            HorarioDisciplina horarioSalvo =
+                    disciplinaService.cadastrarHorario(
+                            idDisciplina,
+                            horario,
+                            usuario
+                    );
+
+            if (horarioSalvo == null) {
+
+                return ResponseEntity
+                        .status(HttpStatus.NOT_FOUND)
+                        .body(Map.of(
+                                "mensagem",
+                                "Disciplina não encontrada."
+                        ));
+            }
 
             return ResponseEntity
-                    .status(HttpStatus.NOT_FOUND)
+                    .status(HttpStatus.CREATED)
+                    .body(horarioSalvo);
+
+        } catch (IllegalArgumentException erroRegra) {
+
+            return ResponseEntity
+                    .badRequest()
                     .body(Map.of(
                             "mensagem",
-                            "Disciplina não encontrada."
+                            erroRegra.getMessage()
+                    ));
+
+        } catch (IllegalStateException erroRegra) {
+
+            return ResponseEntity
+                    .status(HttpStatus.CONFLICT)
+                    .body(Map.of(
+                            "mensagem",
+                            erroRegra.getMessage()
                     ));
         }
-
-        return ResponseEntity
-                .status(HttpStatus.CREATED)
-                .body(horarioSalvo);
     }
 
     @DeleteMapping("/HorariosDisciplina/{idHorario}")
@@ -548,7 +701,9 @@ public ResponseEntity<?> removerFalta(
             String authorization) {
 
         Usuario usuario =
-                obterUsuario(authorization);
+                obterUsuario(
+                        authorization
+                );
 
         if (usuario == null) {
 
@@ -560,27 +715,48 @@ public ResponseEntity<?> removerFalta(
                     ));
         }
 
-        boolean excluiu =
-                disciplinaService.excluirHorario(
-                        idHorario,
-                        usuario
-                );
+        try {
 
-        if (!excluiu) {
+            boolean excluiu =
+                    disciplinaService.excluirHorario(
+                            idHorario,
+                            usuario
+                    );
+
+            if (!excluiu) {
+
+                return ResponseEntity
+                        .status(HttpStatus.NOT_FOUND)
+                        .body(Map.of(
+                                "mensagem",
+                                "Horário não encontrado."
+                        ));
+            }
+
+            return ResponseEntity.ok(
+                    Map.of(
+                            "mensagem",
+                            "Horário excluído com sucesso."
+                    )
+            );
+
+        } catch (IllegalArgumentException erroRegra) {
 
             return ResponseEntity
-                    .status(HttpStatus.NOT_FOUND)
+                    .badRequest()
                     .body(Map.of(
                             "mensagem",
-                            "Horário não encontrado."
+                            erroRegra.getMessage()
+                    ));
+
+        } catch (IllegalStateException erroRegra) {
+
+            return ResponseEntity
+                    .status(HttpStatus.CONFLICT)
+                    .body(Map.of(
+                            "mensagem",
+                            erroRegra.getMessage()
                     ));
         }
-
-        return ResponseEntity.ok(
-                Map.of(
-                        "mensagem",
-                        "Horário excluído com sucesso."
-                )
-        );
     }
 }

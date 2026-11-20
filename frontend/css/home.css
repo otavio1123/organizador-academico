@@ -361,10 +361,192 @@
     font-size: 12px;
 }
 
+.area-grafico-atividades {
+    position: relative;
+
+    width: 100%;
+    height: 300px;
+}
+
+.lista-proximas-entregas {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.item-proxima-entrega {
+    padding: 16px 18px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+
+    color: var(--cor-texto);
+
+    text-decoration: none;
+
+    background-color: #f8fafc;
+
+    border: 1px solid var(--cor-borda);
+    border-radius: 11px;
+
+    transition:
+        transform 0.2s ease,
+        border-color 0.2s ease,
+        background-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.item-proxima-entrega:hover {
+    transform: translateY(-1px);
+
+    color: var(--cor-texto);
+
+    border-color: #bfdbfe;
+
+    background-color: #ffffff;
+
+    box-shadow:
+        0 5px 14px rgba(15, 23, 42, 0.07);
+}
+
+.proxima-entrega-conteudo {
+    min-width: 0;
+}
+
+.proxima-entrega-nome {
+    margin: 0 0 5px;
+
+    overflow: hidden;
+
+    color: var(--cor-texto);
+
+    font-size: 15px;
+    font-weight: 700;
+
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.proxima-entrega-disciplina {
+    margin: 0;
+
+    color: var(--cor-texto-secundario);
+
+    font-size: 13px;
+}
+
+.proxima-entrega-disciplina i {
+    width: 16px;
+
+    margin-right: 3px;
+
+    color: #94a3b8;
+
+    text-align: center;
+}
+
+.proxima-entrega-lateral {
+    flex-shrink: 0;
+
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 7px;
+}
+
+.proxima-entrega-data {
+    color: var(--cor-texto-secundario);
+
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.badge-status-atividade-dashboard {
+    padding: 5px 9px;
+
+    border-radius: 20px;
+
+    font-size: 11px;
+    font-weight: 700;
+
+    white-space: nowrap;
+}
+
+.status-atividade-pendente {
+    background-color: #fef3c7;
+    color: #a16207;
+}
+
+.status-atividade-andamento {
+    background-color: #dbeafe;
+    color: #1d4ed8;
+}
+
+.status-atividade-atrasada {
+    background-color: #fee2e2;
+    color: #b91c1c;
+}
+
+.status-atividade-concluida {
+    background-color: #dcfce7;
+    color: #15803d;
+}
+
+.filtros-atividades-dashboard {
+    margin-bottom: 18px;
+
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.filtro-atividade-dashboard {
+    padding: 7px 12px;
+
+    border: 1px solid var(--cor-borda);
+    border-radius: 20px;
+
+    background-color: #f8fafc;
+    color: var(--cor-texto-secundario);
+
+    font-size: 12px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        color 0.2s ease,
+        background-color 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.filtro-atividade-dashboard:hover {
+    transform: translateY(-1px);
+
+    border-color: #bfdbfe;
+
+    background-color: #eff6ff;
+    color: var(--cor-primaria);
+}
+
+.filtro-atividade-dashboard.ativo {
+    border-color: var(--cor-primaria);
+
+    background-color: var(--cor-primaria);
+    color: #ffffff;
+}
+
 @media (max-width: 991px) {
 
     .area-grafico {
         height: 300px;
+    }
+
+    .area-grafico-atividades {
+        height: 280px;
     }
 }
 
@@ -397,6 +579,10 @@
         height: 280px;
     }
 
+    .area-grafico-atividades {
+        height: 260px;
+    }
+
     .resumo-disciplina-principal {
         flex-direction: column;
 
@@ -407,5 +593,29 @@
         flex-direction: column;
 
         gap: 8px;
+    }
+
+    .filtros-atividades-dashboard {
+        gap: 6px;
+    }
+
+    .filtro-atividade-dashboard {
+        padding: 6px 10px;
+
+        font-size: 11px;
+    }
+
+    .item-proxima-entrega {
+        align-items: flex-start;
+
+        padding: 15px;
+    }
+
+    .proxima-entrega-lateral {
+        align-items: flex-end;
+    }
+
+    .proxima-entrega-nome {
+        white-space: normal;
     }
 }

@@ -723,8 +723,11 @@ botaoRemoverFalta.addEventListener(
             }
         );
 
-        botaoAtividades.href =
-            `atividades.html?idDisciplina=${disciplina.idDisciplina}`;
+const idCursoSelecionado =
+    CursoContexto.obterCursoSelecionadoId();
+
+botaoAtividades.href =
+    `atividades.html?idCurso=${idCursoSelecionado}&idSemestre=${idSemestre}&idDisciplina=${disciplina.idDisciplina}`;
 
         listaDisciplinas.appendChild(
             fragmento

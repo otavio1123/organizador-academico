@@ -1,0 +1,1135 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    >
+
+    <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="css/alertas.css">
+    <link rel="stylesheet" href="css/atividades.css">
+
+    <title>Atividades</title>
+</head>
+
+<body>
+
+<header class="cabecalho-app">
+
+    <nav class="navbar navbar-dark navbar-expand-lg">
+
+        <div class="container-fluid px-4">
+
+            <a
+                class="navbar-brand d-flex align-items-center gap-2"
+                href="home.html"
+            >
+
+                <img
+                    src="img/logo.png"
+                    alt="Organizador Acadêmico"
+                    class="logo-app"
+                >
+
+                <span class="nome-app">
+                    Organizador Acadêmico
+                </span>
+
+            </a>
+
+            <a
+                href="perfil.html"
+                class="usuario-topo d-none d-md-flex"
+                title="Acessar perfil"
+            >
+
+                <div class="text-end">
+
+                    <span
+                        class="nome-usuario"
+                        id="nomeUsuarioLogado"
+                    >
+                        Usuário
+                    </span>
+
+                    <small
+                        class="identificacao-usuario"
+                        id="emailUsuarioLogado"
+                    ></small>
+
+                </div>
+
+                <div class="icone-usuario">
+
+                    <img
+                        id="imagemUsuarioTopo"
+                        src=""
+                        alt="Foto do usuário"
+                        class="d-none"
+                    >
+
+                    <i
+                        id="iconeUsuarioTopo"
+                        class="fa-solid fa-user"
+                    ></i>
+
+                </div>
+
+            </a>
+
+            <button
+                class="navbar-toggler"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#menuPrincipal"
+                aria-controls="menuPrincipal"
+                aria-expanded="false"
+                aria-label="Abrir menu"
+            >
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+        </div>
+
+    </nav>
+
+    <nav class="navbar navbar-expand-lg navbar-menu-app">
+
+        <div class="container-fluid px-4">
+
+            <div
+                class="collapse navbar-collapse"
+                id="menuPrincipal"
+            >
+
+                <ul class="navbar-nav">
+
+                    <li class="nav-item">
+
+                        <a
+                            class="nav-link"
+                            href="home.html"
+                        >
+                            <i class="fa-solid fa-house me-2"></i>
+                            Dashboard
+                        </a>
+
+                    </li>
+
+                    <li class="nav-item">
+
+                        <a
+                            class="nav-link"
+                            href="perfil.html"
+                        >
+                            <i class="fa-solid fa-user me-2"></i>
+                            Perfil
+                        </a>
+
+                    </li>
+
+                    <li class="nav-item">
+
+                        <a
+                            class="nav-link"
+                            href="cursos.html"
+                        >
+                            <i class="fa-solid fa-graduation-cap me-2"></i>
+                            Cursos
+                        </a>
+
+                    </li>
+
+                    <li class="nav-item">
+
+                        <a
+                            id="linkSemestresNav"
+                            class="nav-link"
+                            href="semestres.html"
+                        >
+                            <i class="fa-solid fa-calendar-days me-2"></i>
+                            Semestres
+                        </a>
+
+                    </li>
+
+                    <li class="nav-item">
+
+                        <a
+                            id="linkDisciplinasNav"
+                            class="nav-link ativo"
+                            href="disciplinas.html"
+                        >
+                            <i class="fa-solid fa-book me-2"></i>
+                            Disciplinas
+                        </a>
+
+                    </li>
+
+                </ul>
+
+            </div>
+
+        </div>
+
+    </nav>
+
+    <div class="bg-body-tertiary border-bottom">
+
+        <div
+            class="container-fluid px-4 py-2 d-flex flex-column flex-sm-row align-items-sm-center gap-2"
+        >
+
+            <label
+                for="seletorCursoGlobal"
+                class="small fw-semibold text-secondary"
+            >
+                Curso atual
+            </label>
+
+            <select
+                id="seletorCursoGlobal"
+                class="form-select form-select-sm w-auto"
+                aria-label="Selecionar curso atual"
+            ></select>
+
+        </div>
+
+    </div>
+
+</header>
+
+<main class="container-fluid px-4 py-4 flex-grow-1">
+
+    <div class="mb-3">
+
+        <a
+            id="linkVoltarDisciplinas"
+            href="disciplinas.html"
+            class="voltar-disciplinas"
+        >
+            <i class="fa-solid fa-arrow-left me-2"></i>
+            Voltar para disciplinas
+        </a>
+
+    </div>
+
+    <section class="resumo-disciplina mb-4">
+
+        <div>
+
+            <div class="d-flex align-items-center gap-2 flex-wrap mb-2">
+
+                <span class="rotulo-disciplina">
+                    Disciplina selecionada
+                </span>
+
+                <span
+                    id="statusCursoAtual"
+                    class="badge-status-curso d-none"
+                ></span>
+
+            </div>
+
+            <h2 id="nomeDisciplinaAtual">
+                Carregando disciplina...
+            </h2>
+
+            <p class="mb-0">
+
+                <span id="nomeSemestreAtual">
+                    Carregando semestre...
+                </span>
+
+            </p>
+
+        </div>
+
+    </section>
+
+    <div
+        id="avisoSomenteLeitura"
+        class="alert alert-warning d-none"
+        role="alert"
+    >
+
+        <div class="d-flex align-items-start gap-3">
+
+            <i class="fa-solid fa-lock mt-1"></i>
+
+            <div>
+
+                <strong id="tituloSomenteLeitura">
+                    Modo somente leitura
+                </strong>
+
+                <p
+                    id="textoSomenteLeitura"
+                    class="mb-0 mt-1"
+                >
+                    Os dados podem ser consultados, mas não alterados.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div
+        class="d-flex flex-column flex-lg-row align-items-lg-center gap-3 mb-4"
+    >
+
+        <div class="me-lg-auto">
+
+            <h1 class="mb-1">
+                Atividades
+            </h1>
+
+            <p class="text-muted mb-0">
+                Organize avaliações, trabalhos, prazos, notas e documentos.
+            </p>
+
+        </div>
+
+        <button
+            id="botaoNovaAtividade"
+            type="button"
+            class="btn btn-primary d-flex align-items-center justify-content-center gap-2 px-4"
+            data-bs-toggle="modal"
+            data-bs-target="#modalAtividade"
+        >
+            <i class="fa-solid fa-plus"></i>
+            Nova atividade
+        </button>
+
+    </div>
+
+    <section class="filtros-atividades mb-4">
+
+        <div class="row g-3">
+
+            <div class="col-12 col-lg-6">
+
+                <label
+                    for="buscaAtividade"
+                    class="form-label"
+                >
+                    Buscar
+                </label>
+
+                <div class="input-group">
+
+                    <span class="input-group-text">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </span>
+
+                    <input
+                        id="buscaAtividade"
+                        type="text"
+                        class="form-control"
+                        placeholder="Buscar atividade pelo nome"
+                        autocomplete="off"
+                    >
+
+                </div>
+
+            </div>
+
+            <div class="col-12 col-md-6 col-lg-3">
+
+                <label
+                    for="filtroTipo"
+                    class="form-label"
+                >
+                    Tipo
+                </label>
+
+               <select
+    id="filtroTipo"
+    class="form-select"
+>
+
+    <option value="">
+        Todos
+    </option>
+
+    <option value="ATIVIDADE">
+        Atividade
+    </option>
+
+    <option value="PROVA">
+        Prova
+    </option>
+
+    <option value="TRABALHO">
+        Trabalho
+    </option>
+
+    <option value="OUTRA">
+        Outra
+    </option>
+
+</select>
+
+            </div>
+
+            <div class="col-12 col-md-6 col-lg-3">
+
+                <label
+                    for="filtroStatus"
+                    class="form-label"
+                >
+                    Status
+                </label>
+
+                <select
+                    id="filtroStatus"
+                    class="form-select"
+                >
+
+                    <option value="">
+                        Todos
+                    </option>
+
+                    <option value="PENDENTE">
+                        Pendente
+                    </option>
+
+                    <option value="EM_ANDAMENTO">
+                        Em andamento
+                    </option>
+
+                    <option value="CONCLUIDA">
+                        Concluída
+                    </option>
+
+                    <option value="ATRASADA">
+                        Atrasada
+                    </option>
+
+                </select>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <div
+        id="listaAtividades"
+        class="row g-4"
+    ></div>
+
+    <div
+        id="estadoVazioAtividades"
+        class="estado-vazio d-none"
+    >
+
+        <div class="icone-estado-vazio">
+
+            <i class="fa-solid fa-list-check"></i>
+
+        </div>
+
+        <h3>
+            Nenhuma atividade cadastrada
+        </h3>
+
+        <p>
+            Cadastre uma atividade para acompanhar prazos,
+            notas e documentos desta disciplina.
+        </p>
+
+        <button
+            id="botaoNovaAtividadeVazio"
+            type="button"
+            class="btn btn-primary"
+            data-bs-toggle="modal"
+            data-bs-target="#modalAtividade"
+        >
+            <i class="fa-solid fa-plus me-2"></i>
+            Criar atividade
+        </button>
+
+    </div>
+
+    <div
+        id="estadoSemResultado"
+        class="estado-vazio d-none"
+    >
+
+        <div class="icone-estado-vazio">
+
+            <i class="fa-solid fa-filter"></i>
+
+        </div>
+
+        <h3>
+            Nenhuma atividade encontrada
+        </h3>
+
+        <p>
+            Altere os filtros para visualizar outras atividades.
+        </p>
+
+    </div>
+
+    <template id="modeloAtividade">
+
+        <div class="col-12 col-md-6 col-xl-4">
+
+            <article class="card card-atividade h-100">
+
+                <div class="card-body d-flex flex-column">
+
+                    <div
+                        class="d-flex justify-content-between align-items-start gap-3 mb-3"
+                    >
+
+                        <div class="d-flex gap-2 flex-wrap">
+
+                            <span class="badge tipo-atividade"></span>
+
+                            <span class="badge status-atividade"></span>
+
+                        </div>
+
+                        <button
+                            type="button"
+                            class="btn btn-light btn-sm rounded-circle botaoEditarAtividade"
+                            title="Editar atividade"
+                        >
+                            <i class="fa-solid fa-pen"></i>
+                        </button>
+
+                    </div>
+
+                    <h2 class="nome-atividade"></h2>
+
+                    <p class="descricao-atividade text-muted"></p>
+
+                    <div class="dados-atividade">
+
+                        <p class="linha-data-entrega">
+
+                            <i class="fa-regular fa-calendar me-2"></i>
+
+                            <strong>Entrega:</strong>
+
+                            <span class="data-entrega"></span>
+
+                        </p>
+
+                        <p class="linha-nota d-none">
+
+                            <i class="fa-solid fa-star me-2"></i>
+
+                            <strong>Nota:</strong>
+
+                            <span class="nota-atividade"></span>
+
+                        </p>
+
+                        <p class="linha-peso d-none">
+
+                            <i class="fa-solid fa-scale-balanced me-2"></i>
+
+                            <strong>Peso:</strong>
+
+                            <span class="peso-atividade"></span>
+
+                        </p>
+
+                        <p class="linha-prioridade d-none">
+
+                            <i class="fa-solid fa-flag me-2"></i>
+
+                            <strong>Prioridade:</strong>
+
+                            <span class="prioridade-atividade"></span>
+
+                        </p>
+
+                        <p>
+
+                            <i class="fa-solid fa-paperclip me-2"></i>
+
+                            <strong>Documentos:</strong>
+
+                            <span class="quantidade-documentos">
+                                0
+                            </span>
+
+                        </p>
+
+                    </div>
+
+                   <div class="mt-auto d-grid gap-2">
+
+    <button
+        type="button"
+        class="btn btn-outline-primary botaoDocumentosAtividade"
+    >
+        <i class="fa-solid fa-folder-open me-2"></i>
+        Documentos
+    </button>
+
+    <button
+        type="button"
+        class="btn btn-outline-success botaoAlternarConclusaoAtividade"
+    >
+        <i class="fa-solid fa-circle-check me-2"></i>
+        Concluir atividade
+    </button>
+
+    <button
+        type="button"
+        class="btn btn-outline-danger botaoExcluirAtividade"
+    >
+        <i class="fa-regular fa-trash-can me-2"></i>
+        Excluir
+    </button>
+
+</div>
+                </div>
+
+            </article>
+
+        </div>
+
+    </template>
+
+    <div
+        class="modal fade"
+        id="modalAtividade"
+        tabindex="-1"
+        aria-hidden="true"
+    >
+
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+
+            <div class="modal-content">
+
+                <div class="modal-header">
+
+                    <h5
+                        id="tituloModalAtividade"
+                        class="modal-title"
+                    >
+                        Nova atividade
+                    </h5>
+
+                    <button
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Fechar"
+                    ></button>
+
+                </div>
+
+                <div class="modal-body">
+
+                    <div class="row g-3">
+
+                        <div class="col-12">
+
+                            <label
+                                for="nomeAtividade"
+                                class="form-label"
+                            >
+                                Nome da atividade
+                                <span class="text-danger">*</span>
+                            </label>
+
+                            <input
+                                id="nomeAtividade"
+                                type="text"
+                                class="form-control"
+                                maxlength="255"
+                                placeholder="Ex: Trabalho de Banco de Dados"
+                                autocomplete="off"
+                            >
+
+                        </div>
+
+                        <div class="col-12 col-md-6">
+
+                            <label
+                                for="tipoAtividade"
+                                class="form-label"
+                            >
+                                Tipo
+                            </label>
+
+                    <select
+    id="tipoAtividade"
+    class="form-select"
+>
+
+    <option value="">
+        Selecione
+    </option>
+
+    <option value="ATIVIDADE">
+        Atividade
+    </option>
+
+    <option value="PROVA">
+        Prova
+    </option>
+
+    <option value="TRABALHO">
+        Trabalho
+    </option>
+
+    <option value="OUTRA">
+        Outra
+    </option>
+
+</select>
+
+                        </div>
+
+                        <div class="col-12 col-md-6">
+
+                            <label
+                                for="statusAtividade"
+                                class="form-label"
+                            >
+                                Status
+                            </label>
+
+                            <select
+                                id="statusAtividade"
+                                class="form-select"
+                            >
+
+                                <option value="PENDENTE">
+                                    Pendente
+                                </option>
+
+                                <option value="EM_ANDAMENTO">
+                                    Em andamento
+                                </option>
+
+                                <option value="CONCLUIDA">
+                                    Concluída
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                        <div class="col-12">
+
+                            <label
+                                for="descricaoAtividade"
+                                class="form-label"
+                            >
+                                Descrição
+                            </label>
+
+                            <textarea
+                                id="descricaoAtividade"
+                                class="form-control"
+                                rows="3"
+                                maxlength="255"
+                                placeholder="Descreva a atividade"
+                            ></textarea>
+
+                        </div>
+
+                        <div class="col-12 col-md-6">
+
+                            <label
+                                for="dataEntregaAtividade"
+                                class="form-label"
+                            >
+                                Data de entrega
+                            </label>
+
+                            <input
+                                id="dataEntregaAtividade"
+                                type="date"
+                                class="form-control"
+                            >
+
+                        </div>
+
+                        <div class="col-12 col-md-6">
+
+                            <label
+                                for="prioridadeAtividade"
+                                class="form-label"
+                            >
+                                Prioridade
+                            </label>
+
+                            <select
+                                id="prioridadeAtividade"
+                                class="form-select"
+                            >
+
+                                <option value="">
+                                    Não definida
+                                </option>
+
+                                <option value="BAIXA">
+                                    Baixa
+                                </option>
+
+                                <option value="MEDIA">
+                                    Média
+                                </option>
+
+                                <option value="ALTA">
+                                    Alta
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                        <div class="col-12 col-md-4">
+
+                            <label
+                                for="notaMaximaAtividade"
+                                class="form-label"
+                            >
+                                Nota máxima
+                            </label>
+
+                            <input
+                                id="notaMaximaAtividade"
+                                type="number"
+                                class="form-control"
+                                min="0"
+                                step="0.01"
+                                placeholder="Ex: 10"
+                            >
+
+                        </div>
+
+                        <div class="col-12 col-md-4">
+
+                            <label
+                                for="notaObtidaAtividade"
+                                class="form-label"
+                            >
+                                Nota obtida
+                            </label>
+
+                            <input
+                                id="notaObtidaAtividade"
+                                type="number"
+                                class="form-control"
+                                min="0"
+                                step="0.01"
+                                placeholder="Ex: 8.5"
+                            >
+
+                        </div>
+
+                        <div class="col-12 col-md-4">
+
+                            <label
+                                for="pesoAtividade"
+                                class="form-label"
+                            >
+                                Peso
+                            </label>
+
+                            <input
+                                id="pesoAtividade"
+                                type="number"
+                                class="form-control"
+                                min="0"
+                                step="0.01"
+                                placeholder="Ex: 2"
+                            >
+
+                        </div>
+
+                        <div class="col-12">
+
+                            <label
+                                for="observacoesAtividade"
+                                class="form-label"
+                            >
+                                Observações
+                            </label>
+
+                            <textarea
+                                id="observacoesAtividade"
+                                class="form-control"
+                                rows="3"
+                                maxlength="255"
+                                placeholder="Informações adicionais"
+                            ></textarea>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="modal-footer">
+
+                    <button
+                        type="button"
+                        class="btn btn-secondary"
+                        data-bs-dismiss="modal"
+                    >
+                        Cancelar
+                    </button>
+
+                    <button
+                        type="button"
+                        id="salvarAtividade"
+                        class="btn btn-primary"
+                    >
+                        Confirmar
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div
+        class="modal fade"
+        id="modalDocumentos"
+        tabindex="-1"
+        aria-hidden="true"
+    >
+
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+
+            <div class="modal-content">
+
+                <div class="modal-header">
+
+                    <div>
+
+                        <h5 class="modal-title">
+                            Documentos da atividade
+                        </h5>
+
+                        <small
+                            id="nomeAtividadeDocumentos"
+                            class="text-muted"
+                        ></small>
+
+                    </div>
+
+                    <button
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Fechar"
+                    ></button>
+
+                </div>
+
+                <div class="modal-body">
+
+                    <div
+                        id="areaUploadDocumento"
+                        class="area-upload-documento mb-4"
+                    >
+
+                        <label
+                            for="arquivoDocumento"
+                            class="form-label fw-semibold"
+                        >
+                            Adicionar documento
+                        </label>
+
+                        <div class="row g-2">
+
+                            <div class="col-12 col-md">
+
+                                <input
+                                    id="arquivoDocumento"
+                                    type="file"
+                                    class="form-control"
+                                    accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.png,.jpg,.jpeg"
+                                >
+
+                            </div>
+
+                            <div class="col-12 col-md-auto">
+
+                                <button
+                                    id="enviarDocumento"
+                                    type="button"
+                                    class="btn btn-primary w-100"
+                                >
+                                    <i class="fa-solid fa-upload me-2"></i>
+                                    Enviar
+                                </button>
+
+                            </div>
+
+                        </div>
+
+                        <small class="text-muted d-block mt-2">
+                            Máximo de 10 MB por arquivo.
+                            Formatos: PDF, DOC, DOCX, XLS, XLSX,
+                            PPT, PPTX, PNG, JPG e JPEG.
+                        </small>
+
+                    </div>
+
+                    <div
+                        id="listaDocumentos"
+                        class="lista-documentos"
+                    ></div>
+
+                    <div
+                        id="estadoVazioDocumentos"
+                        class="text-center py-4 d-none"
+                    >
+
+                        <i
+                            class="fa-regular fa-folder-open fa-2x text-muted mb-3"
+                        ></i>
+
+                        <p class="text-muted mb-0">
+                            Nenhum documento adicionado.
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <div class="modal-footer">
+
+                    <button
+                        type="button"
+                        class="btn btn-secondary"
+                        data-bs-dismiss="modal"
+                    >
+                        Fechar
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <template id="modeloDocumento">
+
+        <div
+            class="documento-item d-flex flex-column flex-md-row align-items-md-center gap-3"
+        >
+
+            <div class="icone-documento">
+
+                <i class="fa-solid fa-file"></i>
+
+            </div>
+
+            <div class="flex-grow-1 overflow-hidden">
+
+                <strong
+                    class="nome-documento d-block text-truncate"
+                ></strong>
+
+                <small class="text-muted">
+
+                    <span class="tamanho-documento"></span>
+
+                    <span class="mx-1">•</span>
+
+                    <span class="data-documento"></span>
+
+                </small>
+
+            </div>
+
+            <div class="d-flex gap-2">
+
+                <button
+                    type="button"
+                    class="btn btn-outline-primary btn-sm botaoAbrirDocumento"
+                >
+                    <i class="fa-solid fa-arrow-up-right-from-square me-1"></i>
+                    Abrir
+                </button>
+
+                <button
+                    type="button"
+                    class="btn btn-outline-danger btn-sm botaoExcluirDocumento"
+                >
+                    <i class="fa-regular fa-trash-can"></i>
+                </button>
+
+            </div>
+
+        </div>
+
+    </template>
+
+</main>
+
+<footer class="rodape">
+
+    <p>
+
+        <a href="termos.html">
+            Termos de Uso
+        </a>
+
+        <span>|</span>
+
+        <a href="privacidade.html">
+            Política de Privacidade
+        </a>
+
+        <span>|</span>
+
+        <a href="suporte.html">
+            Suporte
+        </a>
+
+    </p>
+
+    <p class="mb-0">
+        © 2026 Organizador Acadêmico
+    </p>
+
+</footer>
+
+<script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+></script>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script src="js/config.js"></script>
+<script src="js/curso-contexto.js"></script>
+<script src="js/navegacao-academica.js"></script>
+<script src="js/atividades.js"></script>
+
+</body>
+
+</html>
