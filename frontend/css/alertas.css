@@ -1,68 +1,143 @@
 .swal2-popup {
+    width: 500px !important;
+    max-width: calc(100vw - 32px) !important;
+
     border-radius: 16px !important;
     padding: 32px 30px !important;
+
     font-family: "DM Sans", sans-serif !important;
-    box-shadow: 0 20px 60px rgba(15, 23, 42, 0.18) !important;
+
+    box-shadow:
+        0 20px 60px rgba(15, 23, 42, 0.18) !important;
 }
 
+
+/* TÍTULO */
+
 .swal2-title {
+    margin: 0 !important;
+
     color: #172238 !important;
+
     font-family: "DM Serif Display", serif !important;
     font-size: 30px !important;
     font-weight: 400 !important;
+    line-height: 1.2 !important;
 }
 
+
+/* TEXTO */
+
 .swal2-html-container {
-    margin-top: 12px !important;
+    margin: 12px 0 0 !important;
+
     color: #64748b !important;
+
+    font-family: "DM Sans", sans-serif !important;
     font-size: 15px !important;
     line-height: 1.6 !important;
 }
 
+
+/* ÍCONE */
+
 .swal2-icon {
     margin-top: 8px !important;
+    margin-bottom: 20px !important;
 }
+
+
+/* ÁREA DOS BOTÕES */
+
+.swal2-actions {
+    gap: 10px !important;
+
+    margin-top: 24px !important;
+    margin-bottom: 0 !important;
+}
+
+
+/* BOTÃO CONFIRMAR */
 
 .swal2-confirm {
     min-width: 120px !important;
+
     padding: 11px 22px !important;
 
     border: none !important;
     border-radius: 8px !important;
 
     background-color: #2563eb !important;
+    color: #ffffff !important;
 
+    font-family: "DM Sans", sans-serif !important;
     font-size: 14px !important;
     font-weight: 700 !important;
 
     box-shadow: none !important;
+
+    transition:
+        background-color 0.2s ease,
+        transform 0.2s ease !important;
 }
 
 .swal2-confirm:hover {
     background-color: #1d4ed8 !important;
 }
 
+.swal2-confirm:focus {
+    box-shadow:
+        0 0 0 3px rgba(37, 99, 235, 0.18) !important;
+}
+
+
+/* BOTÃO CANCELAR */
+
 .swal2-cancel {
     min-width: 110px !important;
+
     padding: 11px 22px !important;
 
+    border: 1px solid #cbd5e1 !important;
     border-radius: 8px !important;
 
+    background-color: #ffffff !important;
+    color: #475569 !important;
+
+    font-family: "DM Sans", sans-serif !important;
     font-size: 14px !important;
     font-weight: 600 !important;
+
+    box-shadow: none !important;
+
+    transition:
+        background-color 0.2s ease,
+        border-color 0.2s ease !important;
 }
 
-.swal2-actions {
-    margin-top: 24px !important;
+.swal2-cancel:hover {
+    background-color: #f1f5f9 !important;
+    border-color: #94a3b8 !important;
 }
+
+.swal2-cancel:focus {
+    box-shadow:
+        0 0 0 3px rgba(100, 116, 139, 0.12) !important;
+}
+
+
+/* BARRA DO TIMER */
 
 .swal2-timer-progress-bar {
     background-color: #2563eb !important;
 }
 
+
+/* INPUT */
+
 .swal2-input {
     width: 100% !important;
-    max-width: 480px !important;
+    max-width: 440px !important;
 
     min-height: 52px !important;
 
@@ -95,6 +170,9 @@
     color: #94a3b8 !important;
 }
 
+
+/* ALERTAS COM INPUT */
+
 .swal2-popup:has(.swal2-input) {
     width: 540px !important;
 }
@@ -105,4 +183,37 @@
 
 .swal2-popup:has(.swal2-input) .swal2-html-container {
     margin-bottom: 0 !important;
+}
+
+
+/* RESPONSIVO */
+
+@media (max-width: 576px) {
+
+    .swal2-popup {
+        width: calc(100% - 24px) !important;
+
+        padding: 26px 20px !important;
+    }
+
+    .swal2-title {
+        font-size: 26px !important;
+    }
+
+    .swal2-html-container {
+        font-size: 14px !important;
+    }
+
+    .swal2-actions {
+        width: 100% !important;
+
+        flex-direction: column !important;
+    }
+
+    .swal2-confirm,
+    .swal2-cancel {
+        width: 100% !important;
+
+        margin: 0 !important;
+    }
 }

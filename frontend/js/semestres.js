@@ -73,6 +73,7 @@ if (emailUsuario) {
         "";
 }
 
+
 async function obterMensagemErro(
     resposta
 ) {
@@ -102,6 +103,56 @@ async function obterMensagemErro(
         }
     }
 }
+
+
+async function mostrarSucesso(
+    titulo,
+    texto
+) {
+
+    await Swal.fire({
+        icon: "success",
+        title: titulo,
+        text: texto,
+        confirmButtonText: "Continuar"
+    });
+}
+
+
+async function mostrarErro(
+    titulo,
+    texto
+) {
+
+    await Swal.fire({
+        icon: "error",
+        title: titulo,
+        text: texto,
+        confirmButtonText: "Entendi"
+    });
+}
+
+
+async function confirmarAcao(
+    titulo,
+    texto,
+    textoBotao = "Confirmar"
+) {
+
+    const resultado =
+        await Swal.fire({
+            icon: "warning",
+            title: titulo,
+            text: texto,
+            showCancelButton: true,
+            confirmButtonText: textoBotao,
+            cancelButtonText: "Cancelar",
+            reverseButtons: true
+        });
+
+    return resultado.isConfirmed;
+}
+
 
 async function carregarUsuarioTopo() {
 
@@ -215,6 +266,7 @@ async function carregarUsuarioTopo() {
     }
 }
 
+
 function obterPeriodo(
     dataInicio,
     dataFim
@@ -250,6 +302,7 @@ function obterPeriodo(
     return `${anoInicio}-${anoFim}`;
 }
 
+
 function formatarData(
     data
 ) {
@@ -267,6 +320,7 @@ function formatarData(
 
     return `${partes[2]}/${partes[1]}/${partes[0]}`;
 }
+
 
 function limparFormularioSemestre() {
 
@@ -310,6 +364,7 @@ function limparFormularioSemestre() {
         .value = "S";
 }
 
+
 filtroStatusSemestre
     .addEventListener(
         "change",
@@ -319,6 +374,7 @@ filtroStatusSemestre
         }
     );
 
+
 botaoCriarSemestres
     .addEventListener(
         "click",
@@ -327,6 +383,7 @@ botaoCriarSemestres
             limparFormularioSemestre();
         }
     );
+
 
 salvarSemestre
     .addEventListener(
@@ -372,7 +429,8 @@ salvarSemestre
                 !dataFim
             ) {
 
-                alert(
+                await mostrarErro(
+                    "Campos obrigatórios",
                     "Preencha todos os campos."
                 );
 
@@ -381,7 +439,8 @@ salvarSemestre
 
             if (dataFim <= dataInicio) {
 
-                alert(
+                await mostrarErro(
+                    "Período inválido",
                     "A data de fim deve ser maior que a data de início."
                 );
 
@@ -487,7 +546,8 @@ salvarSemestre
                             resposta
                         );
 
-                    alert(
+                    await mostrarErro(
+                        "Não foi possível salvar",
                         mensagem ||
                         "Não foi possível salvar o semestre."
                     );
@@ -503,14 +563,16 @@ salvarSemestre
 
                 if (estavaEditando) {
 
-                    alert(
-                        "Semestre alterado com sucesso!"
+                    await mostrarSucesso(
+                        "Semestre atualizado",
+                        "O semestre foi atualizado com sucesso."
                     );
 
                 } else {
 
-                    alert(
-                        "Semestre criado com sucesso!"
+                    await mostrarSucesso(
+                        "Semestre cadastrado",
+                        "O semestre foi cadastrado com sucesso."
                     );
                 }
 
@@ -534,7 +596,9 @@ salvarSemestre
                     erro
                 );
 
-                alert(
+                await mostrarErro(
+                    "Não foi possível salvar",
+                    erro.message ||
                     "Não foi possível salvar o semestre."
                 );
 
@@ -545,6 +609,7 @@ salvarSemestre
             }
         }
     );
+
 
 async function carregarSemestres() {
 
@@ -577,7 +642,8 @@ async function carregarSemestres() {
                     resposta
                 );
 
-            alert(
+            await mostrarErro(
+                "Não foi possível carregar os semestres",
                 mensagem ||
                 "Não foi possível carregar os semestres."
             );
@@ -744,8 +810,10 @@ async function carregarSemestres() {
                         async () => {
 
                             const confirmar =
-                                confirm(
-                                    `Deseja realmente excluir o semestre "${semestre.nome}"?`
+                                await confirmarAcao(
+                                    "Excluir semestre?",
+                                    `Você está prestes a excluir "${semestre.nome}". Os dados relacionados ao semestre também poderão ser excluídos.`,
+                                    "Excluir"
                                 );
 
                             if (!confirmar) {
@@ -777,7 +845,8 @@ async function carregarSemestres() {
                                             resposta
                                         );
 
-                                    alert(
+                                    await mostrarErro(
+                                        "Não foi possível excluir",
                                         mensagem ||
                                         "Não foi possível excluir o semestre."
                                     );
@@ -785,8 +854,9 @@ async function carregarSemestres() {
                                     return;
                                 }
 
-                                alert(
-                                    "Semestre excluído com sucesso!"
+                                await mostrarSucesso(
+                                    "Semestre excluído",
+                                    "O semestre foi excluído com sucesso."
                                 );
 
                                 await carregarSemestres();
@@ -798,7 +868,9 @@ async function carregarSemestres() {
                                     erro
                                 );
 
-                                alert(
+                                await mostrarErro(
+                                    "Não foi possível excluir",
+                                    erro.message ||
                                     "Não foi possível excluir o semestre."
                                 );
                             }
@@ -819,11 +891,14 @@ async function carregarSemestres() {
             erro
         );
 
-        alert(
+        await mostrarErro(
+            "Não foi possível carregar os semestres",
+            erro.message ||
             "Não foi possível carregar os semestres."
         );
     }
 }
+
 
 async function iniciarPagina() {
 
@@ -869,7 +944,12 @@ async function iniciarPagina() {
             erro
         );
 
-        alert(erro.message);
+        await mostrarErro(
+            "Não foi possível identificar o curso",
+            erro.message ||
+            "Ocorreu um erro ao identificar o curso."
+        );
+
         return;
     }
 
@@ -877,5 +957,6 @@ async function iniciarPagina() {
 
     await carregarSemestres();
 }
+
 
 iniciarPagina();

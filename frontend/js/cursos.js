@@ -137,6 +137,55 @@ async function obterMensagemErro(
 }
 
 
+async function mostrarSucesso(
+    titulo,
+    texto
+) {
+
+    await Swal.fire({
+        icon: "success",
+        title: titulo,
+        text: texto,
+        confirmButtonText: "Continuar"
+    });
+}
+
+
+async function mostrarErro(
+    titulo,
+    texto
+) {
+
+    await Swal.fire({
+        icon: "error",
+        title: titulo,
+        text: texto,
+        confirmButtonText: "Entendi"
+    });
+}
+
+
+async function confirmarAcao(
+    titulo,
+    texto,
+    textoBotao = "Confirmar"
+) {
+
+    const resultado =
+        await Swal.fire({
+            icon: "warning",
+            title: titulo,
+            text: texto,
+            showCancelButton: true,
+            confirmButtonText: textoBotao,
+            cancelButtonText: "Cancelar",
+            reverseButtons: true
+        });
+
+    return resultado.isConfirmed;
+}
+
+
 async function carregarUsuarioTopo() {
 
     try {
@@ -384,13 +433,15 @@ async function atualizarStatusCurso(
 
         if (statusAnterior === "TRANCADO") {
 
-            alert(
+            await mostrarErro(
+                "Alteração não permitida",
                 "Reative o curso antes de marcá-lo como concluído."
             );
 
         } else {
 
-            alert(
+            await mostrarErro(
+                "Alteração não permitida",
                 "Reabra o curso antes de marcá-lo como trancado."
             );
         }
@@ -407,10 +458,48 @@ async function atualizarStatusCurso(
         );
 
 
-    if (mensagem &&
-            !confirm(mensagem)) {
+    if (mensagem) {
 
-        return;
+        let titulo =
+            "Alterar status do curso";
+
+        let textoBotao =
+            "Confirmar";
+
+        if (novoStatus === "TRANCADO") {
+            titulo = "Trancar curso?";
+            textoBotao = "Trancar";
+        }
+
+        if (novoStatus === "CONCLUIDO") {
+            titulo = "Concluir curso?";
+            textoBotao = "Concluir";
+        }
+
+        if (novoStatus === "ATIVO"
+                && statusAnterior === "TRANCADO") {
+
+            titulo = "Reativar curso?";
+            textoBotao = "Reativar";
+        }
+
+        if (novoStatus === "ATIVO"
+                && statusAnterior === "CONCLUIDO") {
+
+            titulo = "Reabrir curso?";
+            textoBotao = "Reabrir";
+        }
+
+        const confirmado =
+            await confirmarAcao(
+                titulo,
+                mensagem,
+                textoBotao
+            );
+
+        if (!confirmado) {
+            return;
+        }
     }
 
 
@@ -458,9 +547,9 @@ async function atualizarStatusCurso(
         if (novoStatus === "ATIVO"
                 && statusAnterior === "TRANCADO") {
 
-            alert(
-                "Curso reativado com sucesso! " +
-                "Nenhum semestre foi ativado automaticamente."
+            await mostrarSucesso(
+                "Curso reativado",
+                "O curso foi reativado com sucesso. Nenhum semestre foi ativado automaticamente."
             );
 
         } else if (
@@ -468,25 +557,27 @@ async function atualizarStatusCurso(
             && statusAnterior === "CONCLUIDO"
         ) {
 
-            alert(
-                "Curso reaberto com sucesso! " +
-                "Nenhum semestre foi ativado automaticamente."
+            await mostrarSucesso(
+                "Curso reaberto",
+                "O curso foi reaberto com sucesso. Nenhum semestre foi ativado automaticamente."
             );
 
         } else if (
             novoStatus === "TRANCADO"
         ) {
 
-            alert(
-                "Curso trancado com sucesso!"
+            await mostrarSucesso(
+                "Curso trancado",
+                "O curso foi trancado com sucesso."
             );
 
         } else if (
             novoStatus === "CONCLUIDO"
         ) {
 
-            alert(
-                "Curso concluído com sucesso!"
+            await mostrarSucesso(
+                "Curso concluído",
+                "O curso foi concluído com sucesso."
             );
         }
 
@@ -500,7 +591,8 @@ async function atualizarStatusCurso(
             erro
         );
 
-        alert(
+        await mostrarErro(
+            "Não foi possível alterar o curso",
             erro.message
         );
     }
@@ -729,13 +821,6 @@ async function carregarCursos() {
                     );
 
 
-                /*
-                 * Curso trancado ou concluído fica
-                 * somente para consulta.
-                 *
-                 * Para voltar a editar, primeiro
-                 * deve ser reativado/reaberto.
-                 */
                 if (curso.status !== "ATIVO") {
 
                     botaoEditar.disabled =
@@ -818,9 +903,10 @@ async function carregarCursos() {
                     async () => {
 
                         const confirmar =
-                            confirm(
-                                `Deseja realmente excluir o curso "${curso.nome}"?\n\n` +
-                                "Esta ação pode remover os dados relacionados ao curso."
+                            await confirmarAcao(
+                                "Excluir curso?",
+                                `Você está prestes a excluir "${curso.nome}". Os dados relacionados ao curso também poderão ser excluídos.`,
+                                "Excluir"
                             );
 
 
@@ -862,8 +948,9 @@ async function carregarCursos() {
                             }
 
 
-                            alert(
-                                "Curso excluído com sucesso!"
+                            await mostrarSucesso(
+                                "Curso excluído",
+                                "O curso foi excluído com sucesso."
                             );
 
 
@@ -889,7 +976,8 @@ async function carregarCursos() {
                             );
 
 
-                            alert(
+                            await mostrarErro(
+                                "Não foi possível excluir",
                                 erro.message
                             );
                         }
@@ -911,9 +999,10 @@ async function carregarCursos() {
         );
 
 
-        alert(
+        await mostrarErro(
+            "Não foi possível carregar os cursos",
             erro.message ||
-            "Não foi possível carregar os cursos."
+            "Ocorreu um erro ao carregar os cursos."
         );
     }
 }
@@ -945,7 +1034,8 @@ salvarCurso.addEventListener(
 
         if (!nome) {
 
-            alert(
+            await mostrarErro(
+                "Nome obrigatório",
                 "Informe o nome do curso."
             );
 
@@ -953,12 +1043,6 @@ salvarCurso.addEventListener(
         }
 
 
-        /*
-         * Impede transição direta:
-         *
-         * TRANCADO -> CONCLUIDO
-         * CONCLUIDO -> TRANCADO
-         */
         if (cursoEmEdicao
                 && !transicaoStatusPermitida(
                     statusCursoAnterior,
@@ -967,13 +1051,15 @@ salvarCurso.addEventListener(
 
             if (statusCursoAnterior === "TRANCADO") {
 
-                alert(
+                await mostrarErro(
+                    "Alteração não permitida",
                     "Reative o curso antes de marcá-lo como concluído."
                 );
 
             } else {
 
-                alert(
+                await mostrarErro(
+                    "Alteração não permitida",
                     "Reabra o curso antes de marcá-lo como trancado."
                 );
             }
@@ -982,9 +1068,6 @@ salvarCurso.addEventListener(
         }
 
 
-        /*
-         * Confirma mudanças importantes de status.
-         */
         if (cursoEmEdicao
                 && statusCursoAnterior !== status) {
 
@@ -996,12 +1079,18 @@ salvarCurso.addEventListener(
                 );
 
 
-            if (mensagem
-                    && !confirm(
-                        mensagem
-                    )) {
+            if (mensagem) {
 
-                return;
+                const confirmado =
+                    await confirmarAcao(
+                        "Confirmar alteração?",
+                        mensagem,
+                        "Confirmar"
+                    );
+
+                if (!confirmado) {
+                    return;
+                }
             }
         }
 
@@ -1123,8 +1212,9 @@ salvarCurso.addEventListener(
 
             if (!estavaEditando) {
 
-                alert(
-                    "Curso cadastrado com sucesso!"
+                await mostrarSucesso(
+                    "Curso cadastrado",
+                    "O curso foi cadastrado com sucesso."
                 );
 
             } else if (
@@ -1132,9 +1222,9 @@ salvarCurso.addEventListener(
                 && status === "TRANCADO"
             ) {
 
-                alert(
-                    "Curso trancado com sucesso! " +
-                    "O semestre ativo foi desativado."
+                await mostrarSucesso(
+                    "Curso trancado",
+                    "O curso foi trancado com sucesso. O semestre ativo foi desativado."
                 );
 
             } else if (
@@ -1142,15 +1232,16 @@ salvarCurso.addEventListener(
                 && status === "CONCLUIDO"
             ) {
 
-                alert(
-                    "Curso concluído com sucesso! " +
-                    "O semestre ativo foi desativado."
+                await mostrarSucesso(
+                    "Curso concluído",
+                    "O curso foi concluído com sucesso. O semestre ativo foi desativado."
                 );
 
             } else {
 
-                alert(
-                    "Curso atualizado com sucesso!"
+                await mostrarSucesso(
+                    "Curso atualizado",
+                    "O curso foi atualizado com sucesso."
                 );
             }
 
@@ -1168,7 +1259,8 @@ salvarCurso.addEventListener(
             );
 
 
-            alert(
+            await mostrarErro(
+                "Não foi possível salvar",
                 erro.message
             );
 
